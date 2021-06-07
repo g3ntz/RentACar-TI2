@@ -1,0 +1,73 @@
+﻿@model RentACarTI2.ViewModels.RegisterViewModel
+@using RentACarTI2.BLL; 
+@{ 
+
+}
+    <div class="login-details box-shadow col-4 p-0">
+        <div class="profile-header col-12">
+            <p class="login-header-text">Login Details</p>
+        </div>
+        <form method="post" action="/account/profile" class="login-form mt-4">
+            @Html.HiddenFor(x => x.UserID)
+            <div class="form-group row">
+                <label for="username" class="col-4">Username:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @maxLength = "15" })
+                    @Html.ValidationMessageFor(x => x.Username)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-4">Email:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @maxLength = "50" })
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
+            </div>
+            <p class="mt-4" style="margin-left: 32px;">Last Login Date: @Model.LastLoginDate <!--21-05-2021--></p>
+            <h5 class="text-center mt-4" style="color: #435C69;">Personal Details</h5>
+            <hr class="login-details-seperate">
+            <div class="form-group row mt-4">
+                <label for="name" class="col-4">Name:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @maxLength = "15" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="surname" class="col-4">Surname:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.Surname, new { @class = "form-control", @maxLength = "15" })
+                    @Html.ValidationMessageFor(x => x.Surname)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="birthdate" class="col-4">Birthdate:</label>
+                <div class="col-7">
+                    <input type="date" name="Birthdate" value="@string.Format("{0:yyyy-MM-dd}",Model.Birthdate)" class="form-control" />
+                    @Html.ValidationMessageFor(x => x.Birthdate)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="phoneNr" class="col-4">Phone Nr:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.PhoneNr, new { @type = "tel", @class = "form-control", @maxLength = "11" })
+                    @Html.ValidationMessageFor(x => x.PhoneNr)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="drivingLicense" class="col-4">Driving License:</label>
+                <div class="col-7">
+                    @Html.TextBoxFor(x => x.DrivingLicense, new { @class = "form-control", @maxLength = "10" })
+                    @Html.ValidationMessageFor(x => x.DrivingLicense)
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="address" class="col-4">Address:</label>
+                <div class="col-7">
+                    @Html.TextAreaFor(x => x.Address, new { @class = "form-control", @maxLength = "100", @style = "height:70px;max-height:70px;" })
+                    @Html.ValidationMessageFor(x => x.Address)
+                </div>
+            </div>
+            <button type="submit" class="login-details-btn mt-5">Save Changes</button>
+        </form>
+    </div>

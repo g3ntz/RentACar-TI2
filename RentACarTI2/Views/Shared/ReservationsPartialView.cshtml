@@ -1,0 +1,69 @@
+﻿
+@using RentACarTI2.BLL
+@{ 
+    var reservations = BookingsBLL.dal.GetAll().Where(x => x.ClientID == int.Parse(ViewBag.ClientID)).ToList();
+}
+
+<div class="reservation box-shadow" style="margin-top: 30px;">
+    <div class="row" style="padding: 0; --bs-gutter-x: 0rem;">
+        <div class="col-12">
+            <div class="profile-header">
+                <p class="dashboard-header-text">Reservations</p>
+            </div>
+        </div>
+        <div class="scrollable">
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th width="3%" style="white-space: nowrap; padding:0;"></th>
+                        <th>Date</th>
+                        <th>Vehicle</th>
+                        <th>Price</th>
+                        <th>Rental Date</th>
+                        <th>Return Date</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (reservations.Any() == false)
+                        {
+                            <caption style="color:#6F6868; font-size:33px; text-align:center; margin-top:9%;">No Reservations</caption>
+                        }
+                        else
+                        {
+                            foreach (var reservation in reservations)
+                            {
+                                <tr>
+                                    @{ 
+                                        if(reservation.BookingStatusID == 1)
+                                        {
+                                            <td class="p-0 text-center"><img src="~/assets/img/greenCircle.png" /></td>
+                                        }
+                                        else if(reservation.BookingStatusID == 2) 
+                                        {
+                                            <td class="p-0 text-center"><img src="~/assets/img/orangeCircle.png" /></td>
+                                        }
+                                        else 
+                                        {
+                                            <td class="p-0 text-center"><img src="~/assets/img/redCircle.png" /></td>
+                                        }
+                                    }
+                                    <td>@reservation.BookingDate.ToString("dd-MM-yyyy")</td>
+                                    <td style="overflow:hidden;">@reservation.Vehicle.VehicleBrand.Make @reservation.Vehicle.VehicleBrand.Model</td>
+                                    <td>@reservation.TotalPrice$</td>
+                                    <td>@reservation.RentalDate.ToString("dd-MM-yyyy")</td>
+                                    <td>@reservation.ReturnDate.ToString("dd-MM-yyyy")</td>
+                                    <td style="width:10%;"><a id="@reservation.BookingID" class="button detail-button" href="#details-modal" onclick="showDetails(this)">Details</a></td>
+                                    @{ var vehicleDailyPrice = VehicleBLL.dal.Get(reservation.VehicleID).DailyPrice; }
+                                    <td><a id="@reservation.BookingID" data-dailyPrice="@vehicleDailyPrice" href="#edit-modal" onclick="editReservation(this)"><img src="../assets/img/edit.png"></a></td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

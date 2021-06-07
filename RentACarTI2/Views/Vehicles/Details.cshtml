@@ -1,0 +1,254 @@
+﻿@model RentACarTI2.Models.Vehicle
+@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <!-- Main -->
+    <main class="mt-5" style="margin-bottom:100px;">
+        <div class="container-fluid details-main">
+            <div class="row justify-content-between">
+                <div class="car-details-wrapper col-11 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+                    <div class="row">
+                        <div class="details-header col-12">
+                            <h5 class="mb-0">Vehicle Information</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="car-details col-12 mt-4">
+                            <div class="row">
+                                <div class="car-img col-12 col-sm-12 col-md-6 col-lg-7 col-xl-7 p-0">
+                                    <img src="~/assets/vehicleImages/@Model.vehicleImages.Where(x => x.IsThumbnail).FirstOrDefault().Path" class="car-details-image w-100" height="100%">
+                                </div>
+                                <div class="car-infos col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                                    <div class="row">
+                                        <div class="col-12 text-center mt-3 ">
+                                            <h5 class="fw-bold" style="color: gray;">@Model.StringVehicleMake @Model.StringVehicleModel</h5>
+                                        </div>
+                                        <div class="car-checkmarks row col-12 ml-5">
+                                            <div class="col-12 col-sm-4 col-md-12 col-lg-12 col-xl-12 mt-4">
+                                                <img src="~/assets/img/checkmark-yellow.png">
+                                                <span>@Model.Transmission</span>
+                                            </div>
+                                            <div class="col-12 col-sm-4 col-md-12 col-lg-12 col-xl-12 mt-3">
+                                                <img src="~/assets/img/checkmark-yellow.png">
+                                                <span>@Model.FuelType</span>
+                                            </div>
+                                            <div class="col-12 col-sm-4 col-md-12 col-lg-12 col-xl-12 mt-3">
+                                                <img src="~/assets/img/checkmark-yellow.png">
+                                                <span>@Model.SeatsNr</span>
+                                            </div>
+                                        </div>
+                                        <hr class="mt-4 mb-4 mx-auto" style="width: 85%; color: gray;">
+                                        <div class="car-second-infos row">
+                                            <div class="col-6 col-sm-4 col-md-6 col-lg-6 col-xl-6" style="padding-left: 30px;">
+                                                <p>Year:<span style="color: var(--primary-color);"> @Model.ProductionYear</span></p>
+                                            </div>
+                                            <div class="col-6 col-sm-4 col-md-6 col-lg-6 col-xl-6">
+                                                <p class="car-details-mileage text-end">Mileage:<span style="color: var(--primary-color);"> @Model.Mileage</span></p>
+                                            </div>
+                                            <div class="col-12 col-sm-4 col-md-12 col-lg-12 col-xl-12" style="padding-left: 30px;">
+                                                <p>
+                                                    Available:
+                                                    @{
+                                                        if (Model.IsAvailable)
+                                                        {
+                                                            <span class="fw-bold" style="color: #0EC01F;">Yes</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="fw-bold" style="color: red;">No</span>
+                                                        }
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="price-per-day col-12">
+                                            <p class="text-center p-3 fw-bold text-success" style="margin:0;">@Model.DailyPrice$ <span class=" fw-normal text-muted">/ Day</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="car-description col-12">
+                            <h5 style="color: var(--primary-color);">Other Infos</h5>
+                            <p style="font-size: 0.9em;">@Model.OtherInfos</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="reserve-car-wrapper col-11 col-sm-9 col-md-7 col-lg-6 col-xl-3">
+                    <div class="reserve-car">
+                        <form method="POST" action="/reservations/reserve">
+                            <div class="reserve-car-header">
+                                <h5 class="text-center p-4 fw-bold" style="color: #6F6F6F;">RESERVE YOUR CAR TODAY</h5>
+                            </div>
+                            <div class="p-4">
+                                <div class="col-12">
+                                    <label for="from">From:</label>
+                                    <input type="date" id="from" name="RentalDate" class="form-control mt-2 mb-4" onchange="updateTo(this)">
+                                </div>
+                                <div class="col-12">
+                                    <label for="to">To:</label>
+                                    <input type="date" id="to" name="ReturnDate" class="form-control mt-2 mb-5" onchange="updatePriceFromDate(this)">
+                                </div>
+                                <div class="col-12">
+                                    <p style="font-size: 1.2em;" class="text-muted">Total: <span id="price" style="color:#0EC01F">@Model.DailyPrice$</span></p>
+                                </div>
+                                <input type="hidden" name="VehicleID" value="@Model.VehicleID" />
+                                <input type="hidden" name="DailyPrice" value="@Model.DailyPrice" />
+                            </div>
+                            @{
+                                if (Context.Session.GetString("ClientID") == null)
+                                {
+                                    <p class="text-center mb-0" style="font-size: 0.8em; color:red;">Login to reserve this vehicle</p>
+                                    <button disabled class="reserve-btn btn w-75 p-2 mt-2">Reserve</button>
+                                }
+                                else if (Model.IsAvailable == false)
+                                {
+                                    <p class="text-center mb-0" style="font-size: 0.8em; color:red;">This vehicle is not available for Rent</p>
+                                    <button disabled class="reserve-btn btn w-75 p-2 mt-2">Reserve</button>
+                                }
+                                else
+                                {
+                                    <button class="reserve-btn btn w-75 p-2 mt-4">Reserve</button>
+                                }
+                            }
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="exampleModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="color:red;" class="modal-title" id="exampleModalLabel">Reservation is Canceled</h5>
+                    <a class="close" href="#" data-dismiss="modal">×</a>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-content-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        var from = document.getElementById('from');
+        from.valueAsDate = today;
+        var to = document.getElementById('to');
+        to.valueAsDate = tomorrow;
+
+        var fromMinDate = (today.getFullYear()) + '-'
+            + ('0' + (today.getMonth() + 1)).slice(-2) + '-'
+            + ('0' + today.getDate()).slice(-2);
+
+        from.setAttribute("min", fromMinDate);
+
+        var toMinDate = (tomorrow.getFullYear()) + '-'
+            + ('0' + (tomorrow.getMonth() + 1)).slice(-2) + '-'
+            + ('0' + tomorrow.getDate()).slice(-2);
+
+        to.setAttribute("min", toMinDate);
+
+        function updateTo(item) {
+            today = new Date(item.value);
+            tomorrow = new Date($('#to').val());
+            if (today >= tomorrow) {
+                tomorrow = new Date(item.value);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                to.valueAsDate = tomorrow;
+
+                toMinDate = (tomorrow.getFullYear()) + '-'
+                    + ('0' + (tomorrow.getMonth() + 1)).slice(-2) + '-'
+                    + ('0' + tomorrow.getDate()).slice(-2);
+
+                to.setAttribute("min", toMinDate);
+            }
+            else {
+                tomorrow = new Date(item.value);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+
+                toMinDate = (tomorrow.getFullYear()) + '-'
+                    + ('0' + (tomorrow.getMonth() + 1)).slice(-2) + '-'
+                    + ('0' + tomorrow.getDate()).slice(-2);
+
+                to.setAttribute("min", toMinDate);
+            }
+
+
+            today = new Date(item.value);
+            tomorrow = new Date($('#to').val());
+
+            var difference = tomorrow.getTime() - today.getTime();
+            var Difference_In_Days = difference / (1000 * 3600 * 24);
+            calculatePrice(Difference_In_Days);
+        }
+
+        function updatePriceFromDate(item) {
+            today = new Date($('#from').val());
+            tomorrow = new Date(item.value);
+            console.log(today);
+            console.log(tomorrow);
+
+            var difference = tomorrow.getTime() - today.getTime();
+            var Difference_In_Days = difference / (1000 * 3600 * 24);
+            calculatePrice(Difference_In_Days);
+        }
+
+        function calculatePrice(days) {
+            var vehicleDailyPrice = '@Model.DailyPrice';
+            var price = vehicleDailyPrice * days;
+            console.log(price);
+            $('#price').text(price + ".00$");
+        }
+
+        var action = '@ViewBag.action'
+        if (action == "just reserved") {
+            $('.modal-header h5').text("Successfully Reserved");
+            $('.modal-header h5').addClass("text-success");
+            $('#modal-content-text').text("Successfully reserved this vehicle");
+            $('.modal-footer button').removeClass("btn-danger");
+            $('.modal-footer button').addClass("btn-success");
+            $('#exampleModal').modal();
+        }
+        else if (action == "not available") {
+            $('.modal-header h5').text("Not Available");
+            $('.modal-header h5').addClass("text-danger");
+            $('#modal-content-text').text("Sorry, This vehicle is not available at this time");
+            $('#exampleModal').modal();
+        }
+        else if (action == "rental date error") {
+            $('.modal-header h5').text("Date error");
+            $('.modal-header h5').addClass("text-danger");
+            $('#modal-content-text').text("An error happened with dates, rental date cannot be earlier than current date, return date cannot be earlier then rental date");
+            $('#exampleModal').modal();
+        }
+        else if (action == "active reservation") {
+            $('.modal-header h5').text("You have an active reservation");
+            $('.modal-header h5').addClass("text-danger");
+            $('#modal-content-text').text("Sorry, if you want to reserve another vehicle you have to cancel your current reservation");
+            $('#exampleModal').modal();
+        }
+
+    </script>
+</body>
+</html>

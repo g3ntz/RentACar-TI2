@@ -1,0 +1,77 @@
+﻿
+
+<div id="details-modal" class="overlay">
+    <div class="popup">
+        <a class="close" href="#">×</a>
+        <p class="full-details">Full Details</p><p>
+        </p><p class="rental-return">Rental</p>
+        <table id="rental-table" style="margin-top: -10px;" class="content-table-details">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Fuel Amount</th>
+                    <th>Mileage</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <caption class="caption-fix-rental" style="text-align: center">No Rental</caption>
+        </table>
+        <p style="margin-top: 20px;" class="rental-return">Return</p>
+        <table id="return-table" style="margin-top: -10px;" class="content-table-details">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Fuel Amount</th>
+                    <th>Mileage</th>
+                    <th>Is Late</th>
+                    <th>Is Damaged</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <caption class="caption-fix-rental" style="text-align: center">No Return</caption>
+        </table>
+
+        <div class="row">
+            <div class="col-6">
+                <p style="margin-top: 20px;" class="rental-return">Damage Details</p>
+                <textarea type="textarea" id="damage-details" name="damage-details"></textarea>
+            </div>
+            <div class="col-6">
+                <div class="row mt-4">
+                    <div class="col-8">
+                        <p style="margin-left: 20px;" class="rental-return">Normal Price:</p>
+                    </div>
+                    <div class="col-4">
+                        <p id="normal-price" style="text-align: right; color: #0EC01F;" class="rental-return">0.00</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p style="margin-left: 20px;" class="rental-return">Late Costs:</p>
+                    </div>
+                    <div class="col-4">
+                        <p id="late-costs" style="text-align: right; color: #FF0A18;" class="rental-return"><span>0.00</span>$</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p style="margin-left: 20px;" class="rental-return">Damage Costs:</p>
+                    </div>
+                    <div class="col-4">
+                        <p id="damage-costs" style="text-align: right; color: #FF0A18;" class="rental-return"><span>0.00</span>$</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align: right;  font-size: 1.5rem;" class="rental-return mt-2">Total Price:</p>
+                    </div>
+                    <div class="col-6">
+                        <p id="total-price" style="text-align: right; color: #435C69; font-size: 2rem;" class="rental-return mt-2"><span>23.50</span>$</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

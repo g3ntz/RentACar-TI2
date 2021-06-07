@@ -1,0 +1,92 @@
+﻿
+@using RentACarTI2.BLL
+@{ 
+    int clientID = int.Parse(ViewBag.ClientID);
+    var reservations = BookingsBLL.dal.GetAll().Where(x => x.ClientID == clientID).ToList();
+
+    int totalReservations = reservations.Count;
+    int successReservations = reservations.Where(x => x.BookingStatus.StatusName != "Canceled").ToList().Count;
+    int canceledReservations = reservations.Where(x => x.BookingStatus.StatusName == "Canceled").ToList().Count;
+
+    int damagedVehicles = FeeBLL.dal.GetAll().Where(x => x.Return.ClientID == clientID).Where(x => x.IsLate == false).ToList().Count;
+    int lateReturns = FeeBLL.dal.GetAll().Where(x => x.Return.ClientID == clientID).Where(x => x.IsLate == true).ToList().Count;
+
+    DateTime currentReservation = BookingsBLL.dal.GetAll().Where(x => x.ClientID == clientID && x.BookingStatusID != 3).Select(x => x.RentalDate).FirstOrDefault();
+
+    decimal feesPaid = FeeBLL.dal.GetAll().Where(x => x.Return.ClientID == clientID).Where(x => x.IsPaid == true).Select(x => x.Costs).ToList().Sum();
+    decimal feesToPay = FeeBLL.dal.GetAll().Where(x => x.Return.ClientID == clientID).Where(x => x.IsPaid == false).Select(x => x.Costs).ToList().Sum();
+}
+
+<div class="dashboard box-shadow p-0">
+    <div class="row h-100">
+        <div class="col-12" style="height:fit-content;">
+            <div class="profile-header">
+                <p class="dashboard-header-text">Dashboard</p>
+            </div>
+        </div>
+        <div class="col-4 mt-3" style="color: #6F6868;">
+            <div class="total-reservations px-0 pt-2 pb-4 float-end" style="width: 86%;">
+                <img class="d-block m-auto" src="../assets/img/Reservation-icon.png">
+                <p class="text-center mt-3 mb-2">Total Reservations</p>
+                <p class="text-center">@totalReservations</p>
+                <div class="success-progress w-75 mx-auto mb-2">
+                    <p class="mb-1">Success<span class="float-end">@successReservations</span></p>
+                    <progress class="progress-green d-block w-100" value="@successReservations" max="@totalReservations"></progress>
+                </div>
+                <div class="canceled-progress w-75 mx-auto">
+                    <p class="mb-1">Canceled<span class="float-end">@canceledReservations</span></p>
+                    <progress class="progress-red d-block w-100" value="@canceledReservations" max="@totalReservations"></progress>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 mt-3" style="color: #6F6868;">
+            <div class="row">
+                <div class="col-5">
+                    <div class="damaged-vehicles total-reservations pt-2">
+                        <img class="d-block mx-auto" src="../assets/img/Damaged-vehicle.png">
+                        <p class="text-center mt-2 mb-2">Damaged Vehicles</p>
+                        <p class="text-center pb-2">@damagedVehicles</p>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="current-reservation total-reservations pt-2" style="width: 88%;">
+                        <img class="d-block mx-auto" src="../assets/img/car-yellow.png">
+                        <p class="text-center mt-2 mb-2">Current Reservation</p>
+                        @if (currentReservation != DateTime.MinValue)
+                        {
+                            <p class="text-center pb-2" style="color: #01a29a;">@currentReservation.Date.ToString("dd ddd, MMM, yyyy") <!--11 Sat, Jan, 2020--></p>
+                        }
+                        else
+                        {
+                            <p class="text-center pb-2" style="color: #01a29a;">No Reservation<!--11 Sat, Jan, 2020--></p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="late-returns total-reservations pt-2" style="margin-top: 2px;">
+                        <img class="d-block mx-auto" src="../assets/img/Late-return.png">
+                        <p class="text-center mt-2 mb-2">Late Returns</p>
+                        <p class="text-center pb-2">@lateReturns</p>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="fees total-reservations pt-2" style="margin-top: 2px; width: 88%;">
+                        <img class="d-block mx-auto" src="../assets/img/Fees.png">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="text-center mb-2">Feed Paid</p>
+                                <p class="text-center" style="font-weight: 600; color: #0eaf1d; margin-bottom: 12px !important;">@feesPaid$</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-center mb-2">Feed To Pay</p>
+                                <p class="text-center" style="font-weight: 600; color: red; margin-bottom: 12px !important;">@feesToPay$</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

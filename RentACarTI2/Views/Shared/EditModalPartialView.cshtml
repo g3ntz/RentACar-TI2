@@ -1,0 +1,140 @@
+﻿
+
+<div id="edit-modal" class="overlay">
+    <form method="post" action="/reservations/editreservation" class="popup2">
+        <div class="popup-content">
+            <a class="close" href="#">×</a>
+            <p class="full-details">Edit Reservation</p><p></p>
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="rental-return">Rental Date</p>
+                            <input type="date" id="edit-rental-date" name="RentalDate" class="mb-3" style="border: 2px solid #FEB21E; border-radius: 5px; height: 35px; margin-top: -10px;" onchange="updateTo(this)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="rental-return" style="margin-top: 12px;">Return Date</p>
+                            <input type="date" id="edit-return-date" name="ReturnDate" style="border: 2px solid #FEB21E; border-radius: 5px; height: 35px; margin-top: -10px;" onchange="updatePriceFromDate(this)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a id="cancel-reservation" href="" class="btn btn-danger mt-4">Cancel Reservation</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="rental-return" style="margin-bottom: 6px;">Reserved Car</p>
+                            <img src="../assets/img/car-yellow.png" width="25" height="19">
+                            <p class="car-model">Mercedes GLa</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="margin-top: 55px;" class="price">Price<span id="price-val" style="margin-left: 80px; position: relative; top: 1px; color: #0EC01F;">35.00$</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="vehicleDailyPrice" name="Vehicle.DailyPrice" />
+        <input type="hidden" id="inputBookingID" name="BookingID" />
+        <button type="submit" class="save-button" style="text-decoration: none; color: black; text-align: center;" href="#">Save</button>
+    </form>
+</div>
+
+<script>
+
+    var today = new Date();
+
+    var rentalDate = document.getElementById('edit-rental-date');
+    var fromMinDate = (today.getFullYear()) + '-'
+        + ('0' + (today.getMonth() + 1)).slice(-2) + '-'
+        + ('0' + today.getDate()).slice(-2);
+    rentalDate.setAttribute("min", fromMinDate);
+
+    var returnDate = document.getElementById('edit-return-date');
+    var returnDate2 = new Date();
+    returnDate2.setDate(returnDate2.getDate());
+
+    var toMinDate = (returnDate2.getFullYear()) + '-'
+        + ('0' + (returnDate2.getMonth() + 1)).slice(-2) + '-'
+        + ('0' + returnDate2.getDate()).slice(-2);
+    returnDate.setAttribute("min", toMinDate);
+
+    //var to = document.getElementById('to');
+    //to.valueAsDate = tomorrow;
+
+    //var fromMinDate = (today.getFullYear()) + '-'
+    //    + ('0' + (today.getMonth() + 1)).slice(-2) + '-'
+    //    + ('0' + today.getDate()).slice(-2);
+
+    //from.setAttribute("min", fromMinDate);
+
+    //var toMinDate = (tomorrow.getFullYear()) + '-'
+    //    + ('0' + (tomorrow.getMonth() + 1)).slice(-2) + '-'
+    //    + ('0' + tomorrow.getDate()).slice(-2);
+
+    //to.setAttribute("min", toMinDate);
+
+    function updateTo(item) {
+        var rentalDate = new Date(item.value);
+        var returnDate = new Date(document.getElementById("edit-return-date").value);
+        console.log(rentalDate)
+        console.log(returnDate)
+        var returnDateElement = document.getElementById("edit-return-date");
+ 
+        if (rentalDate >= returnDate) {
+            returnDate = new Date(item.value);
+            returnDate.setDate(returnDate.getDate() + 1);
+            returnDateElement.valueAsDate = returnDate;
+
+            var toMinDate = (returnDate.getFullYear()) + '-'
+                + ('0' + (returnDate.getMonth() + 1)).slice(-2) + '-'
+                + ('0' + returnDate.getDate()).slice(-2);
+
+            returnDateElement.setAttribute("min", toMinDate);
+        }
+        else {
+            returnDate = new Date(item.value);
+            returnDate.setDate(returnDate.getDate() + 1);
+
+            var toMinDate = (returnDate.getFullYear()) + '-'
+                + ('0' + (returnDate.getMonth() + 1)).slice(-2) + '-'
+                + ('0' + returnDate.getDate()).slice(-2);
+
+            returnDateElement.setAttribute("min", toMinDate);
+        }
+
+
+        rentalDate = new Date(item.value);
+        returnDate = new Date($('#edit-return-date').val());
+
+        var difference = returnDate.getTime() - rentalDate.getTime();
+        var Difference_In_Days = difference / (1000 * 3600 * 24);
+        calculatePrice(Difference_In_Days);
+    }
+
+    function updatePriceFromDate(item) {
+        var rentalDate = new Date($('#edit-rental-date').val());
+        var returnDate = new Date(item.value);
+        console.log(rentalDate);
+        console.log(returnDate);
+
+        var difference = returnDate.getTime() - rentalDate.getTime();
+        var Difference_In_Days = difference / (1000 * 3600 * 24);
+        calculatePrice(Difference_In_Days);
+    }
+
+    function calculatePrice(days) {
+        var vehicleDailyPrice = $('#vehicleDailyPrice').val();
+        var price = vehicleDailyPrice * days;
+        $('#price-val').text(price.toFixed(2) + "$");
+        console.log(price);
+    }
+
+</script>

@@ -1,0 +1,199 @@
+﻿@model RentACarTI2.ViewModels.RegisterViewModel
+@using RentACarTI2.BLL 
+@using RentACarTI2.Models; 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .form-group {
+            margin-left: 20px;
+            color: #6F6868;
+        }
+    </style>
+</head>
+<body style="background-color: white;">
+    @{
+        int clientID = int.Parse(ViewBag.ClientID);
+        Client client = ClientBLL.dal.Get(clientID);
+        var rvm = new RentACarTI2.ViewModels.RegisterViewModel()
+        {
+            UserID = client.UserID,
+            Username = client.user.Username,
+            Email = client.user.Email,
+            LastLoginDate = client.user.LastLoginDate,
+            Name = client.Name,
+            Surname = client.Surname,
+            Birthdate = client.Birthdate,
+            DrivingLicense = client.DrivingLicense,
+            PhoneNr = client.PhoneNr,
+            Address = client.Address
+        };
+
+    }
+    <!-- Main -->
+    <main>
+        <div class="container profile-container mt-5" style="margin-bottom:70px;">
+            <div class="row justify-content-between">
+                @{
+                    await Html.RenderPartialAsync("UserDetailsPartialView", rvm);
+                }
+                <div class="right-side col-7">
+                    @{
+                        await Html.RenderPartialAsync("DashboardPartialView");
+                    }
+
+                    @{
+                        await Html.RenderPartialAsync("ReservationsPartialView");
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+
+    @{
+        await Html.RenderPartialAsync("DetailsModalPartialView");
+    }
+    @{
+        await Html.RenderPartialAsync("EditModalPartialView");
+    }
+
+    <div id="exampleModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="color:red;" class="modal-title" id="exampleModalLabel">Reservation is Canceled</h5>
+                    <a class="close" href="#" data-dismiss="modal">×</a>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-content-text">Sorry, this reservation has been automatically canceled and it's not valid anymore.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        function showDetails(item) {
+            var reservationID = item.getAttribute("id");
+            $.ajax({
+                url: "/reservations/GetReservationDetails/" + reservationID,
+                type: 'GET',
+                success: function (data) {
+                    const dataJson = JSON.parse(data);
+                    $('#normal-price').text(dataJson.normalPrice.toFixed(2) + "$");
+                    $('#late-costs').html(dataJson.lateCosts.toFixed(2) + "$");
+                    $('#damage-costs').html(dataJson.damageCosts.toFixed(2) + "$");
+                    $('#total-price').html(dataJson.totalPrice.toFixed(2) + "$");
+                    if (dataJson.damageFees != null) {
+                        $('#damage-details').html(dataJson.damageFees.Reason);
+                    }
+
+
+                    // fill rental table
+                    if (dataJson.rental != null) {
+                        $('#rental-table caption').remove();
+                        $('#rental-table tbody').empty();
+                        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+                        $('#rental-table').append("<tr>" +
+                            "<td>" + new Date(dataJson.rental.Date).toLocaleDateString("en-US", options) + "</td>" +
+                            "<td>" + dataJson.rental.StringFuelAmount + "</td>" +
+                            "<td>" + dataJson.rental.Mileage + "</td>" +
+                            "</tr > ");
+                    }
+
+                    // fill return table
+                    if (dataJson._return != null) {
+                        $('#return-table caption').remove();
+                        $('#return-table tbody').empty();
+
+                        console.log(dataJson.damageFees);
+                        if (dataJson.damageFees != null) {
+                            var appendLate = '<td style="color:#FF0A18">Yes</td>'
+                        }
+                        else {
+                            var appendLate = '<td style="color:#0EC01F">No</td>'
+                        }
+
+                        if (dataJson.lateFees != nuViewBagl) {
+                            var appeViewBagiewBagiewBagdDamage = '<td style="color:#FF0A18">Yes</td>'
+                        }
+                        else {
+                            var appendDamage = '<td style="color:#0EC01F">No</td>'
+                        }
+
+                        $('#return-table').append("<tr>" +
+                            "<td>" + new Date(dataJson._return.Date).toLocaleDateString("en-US", options) + "</td>" +
+                            "<td>" + dataJson._return.StringFuelAmount + "</td>" +
+                            "<td>" + dataJson._return.Mileage + "</td>" +
+                            appendLate +
+                            appendDamage +
+                            "</tr > ");
+
+                    }
+                }
+            });
+        }
+
+        function editReservation(item) {
+            var reservationID = item.getAttribute("id");
+            console.log(reservationID)
+            $.ajax({
+                url: "/reservations/EditReservationInfos/" + reservationID,
+                type: 'GET',
+                success: function (data) {
+                    const dataJson = JSON.parse(data);
+
+                    if (dataJson.status != 3) {
+                        var rentalDate = document.getElementById('edit-rental-date');
+                        var rentalDateJson = new Date(dataJson.rentalDate);
+                        rentalDateJson.setDate(rentalDateJson.getDate() + 1);
+                        rentalDate.valueAsDate = rentalDateJson;
+
+                        var returnDate = document.getElementById('edit-return-date');
+                        var returnDateJson = new Date(dataJson.returnDate);
+                        returnDateJson.setDate(returnDateJson.getDate() + 1);
+                        returnDate.valueAsDate = returnDateJson;
+
+                        $('.car-model').html(dataJson.vehicleInfos);
+                        $('#price-val').text(dataJson.totalPrice.toFixed(2) + "$");
+                        $('#vehicleDailyPrice').val(item.getAttribute("data-dailyPrice"));
+                        $('#inputBookingID').val(item.getAttribute("id"));
+                        $('#cancel-reservation').attr('href', "/reservations/cancelreservation/" + item.getAttribute("id"));
+                    }
+                    else {
+                        var rentalDate = document.getElementById('edit-rental-date');
+                        rentalDate.disabled = true;
+                        var returnDate = document.getElementById('edit-return-date');
+                        returnDate.disabled = true;
+                        var cancel = document.getElementById('cancel-reservation');
+                        cancel.disabled = true;
+                        $('.full-details').append("<span class='text-danger' style='font-size:0.6em;'> - This reservation is canceled</span>");
+                    }
+                    
+                }
+            });
+
+        }
+
+    </script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        var action = '@ViewBag.action'
+        if (action == "already canceled") {
+            $('#modal-content-text').text("Sorry, this reservation has been automatically canceled and it's not valid anymore.");
+            $('#exampleModal').modal();
+        }
+        else if (action == "just canceled") {
+            $('#modal-content-text').text("You just canceled this Reservation");
+            $('#exampleModal').modal();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+﻿@model List<RentACarTI2.Models.Vehicle>
+@using RentACarTI2.BLL
+@{
+    VehicleBrandBLL bll = new VehicleBrandBLL();
+    var vehicleBrands = bll.GetAll();
+    var makesUnique = vehicleBrands.Select(x => x.Make).Distinct().ToList();
+    var categoriesUnique = vehicleBrands.Select(x => x.Category).Distinct().ToList();
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home</title>
+    <style>
+        .car-card > img {
+            height: 240px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main -->
+    <main class="home-main">
+        <div class="home-page">
+            <div class="search-vehicle-container container-fluid">
+                <form class="search-vehicle-row row" action="/vehicles/index" method="get">
+                    <h3 class="search-vehicle-header">Vehicle Details</h3>
+
+                    <div class="col-12">
+                        <label for="make" class="mt-2">Make:</label>
+                        <select id="vehicleMake" class="search-vehicle-transmission form-control mt-2 mb-2" name="make" onchange="addModelsByMake(this)">
+                            <option value="" selected>Make:</option>
+                            @foreach (var make in makesUnique)
+                            {
+                                <option>@make</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="model" class="mt-2">Model:</label>
+                        <select id="vehicleModel" class="search-vehicle-transmission form-control mt-2 mb-2" name="model">
+                            <option value="" selected>Model:</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <label for="category" class="mt-2">Category:</label>
+                        <select class="search-vehicle-category form-control mt-2 mb-2" name="category">
+                            <option value="" selected>Category:</option>
+                            @foreach (var category in categoriesUnique)
+                            {
+                                <option>@category</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <label for="tranmission" class="mt-2">Transmission:</label>
+                        <select class="search-vehicle-transmission form-control mt-2 mb-2" name="transmission">
+                            <option value="" selected>Transmission:</option>
+                            <option>Automatic</option>
+                            <option>Manual</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-4 mb-3">
+                        <button type="submit" class="btn search-vehicle-btn">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="next-paragraph">
+                <p class="next-first">Where will your next road trip take you?</p>
+                <p class="next-second">Pick a Car and find out. 😉</p>
+            </div>
+        </div>
+
+        <div class="home-cars container-fluid pt-5 pb-5">
+            <div class="container-fluid">
+                <div id="carouselExampleControls" class="container carousel slide" data-ride="carousel">
+                    <h2 style="color: white; margin-left: 70px;">Latest Cars</h2>
+                    <div class="carousel-inner pt-4">
+                        <!--#######  FIRST PAGE  ########-->
+                        <div class="carousel-item active">
+                            <div class="item row justify-content-around">
+                                @foreach (var vehicle in Model.Take(3))
+                                {
+                                    <div class="car-card col-3">
+                                        @foreach (var vehicleImage in vehicle.vehicleImages)
+                                        {
+                                            if (vehicleImage.IsThumbnail)
+                                            {
+                                                <img src="~/assets/vehicleImages/@vehicleImage.Path" class="w-100" style="padding: 0;">
+                                            }
+                                        }
+                                        
+                                        <h5 class="card-car-name">@vehicle.StringVehicleMake @vehicle.StringVehicleModel</h5>
+                                        <p class="card-car-price">@vehicle.DailyPrice$ / Day</p>
+                                        <div class="row car-info-items">
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/car-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.Transmission</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/fuel-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.FuelType</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/seats-icon.png" width="22px" height="22px">
+                                                <p>@vehicle.SeatsNr</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/car-category-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.StringVehicleCategory</p>
+                                            </div>
+
+                                            <div class="car-info-btn">
+                                                <a href="/vehicles/details/@vehicle.VehicleID" class="btn">Reserve</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--#######  SECOND PAGE  ########-->
+                        <div class="carousel-item">
+                            <div class="item row justify-content-around">
+                                @foreach (var vehicle in Model.Skip(3).Take(3))
+                                {
+                                    <div class="car-card col-3">
+                                        @foreach (var vehicleImage in vehicle.vehicleImages)
+                                        {
+                                            if (vehicleImage.IsThumbnail)
+                                            {
+                                                <img src="~/assets/vehicleImages/@vehicleImage.Path" class="w-100" style="padding: 0;">
+                                            }
+                                        }
+
+                                        <h5 class="card-car-name">@vehicle.StringVehicleMake @vehicle.StringVehicleModel</h5>
+                                        <p class="card-car-price">@vehicle.DailyPrice$ / Day</p>
+                                        <div class="row car-info-items">
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/car-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.Transmission</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/fuel-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.FuelType</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/seats-icon.png" width="22px" height="22px">
+                                                <p>@vehicle.SeatsNr</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img src="../assets/img/car-category-icon.png" width="24px" height="20px">
+                                                <p>@vehicle.StringVehicleCategory</p>
+                                            </div>
+
+                                            <div class="car-info-btn">
+                                                <a href="/vehicles/details/@vehicle.VehicleID" class="btn">Reserve</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev custom-carousel-button" style="width:70px;" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon change-carousel-custom" aria-hidden="true">
+                        </span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <a class="carousel-control-next custom-carousel-button" style="width:70px;" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon change-carousel-custom" aria-hidden="true">
+                        </span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <div class="show-container">
+                        <a href="/vehicles/index" class="btn btn-default">Show All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // CAROUSEL
+        $('.carousel').carousel({
+            interval: false
+        })
+
+        $(document).ready(function() {
+            jQuery.fn.carousel.Constructor.TRANSITION_DURATION = 500  // 2 seconds
+        });
+
+        // ADD MODELS BY SELECTED MAKE
+        var vehicleBrands = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(vehicleBrands));
+        const uniqueMakeSet = [new Set(vehicleBrands.map(obj => obj.Make))];
+        var uniqueMakeArray = Array.from(uniqueMakeSet[0]);    
+
+        function addModelsByMake(item) {
+            var modelsSelect = document.getElementById('vehicleModel');
+            modelsSelect.innerHTML = "";
+            modelsSelect.innerHTML = "<option value=\"\" selected>Model:</option>";
+            var make = item.value;
+            var makesAndModels = vehicleBrands.filter(x => x.Make == make);
+            var models = [];
+            makesAndModels.forEach(x => models.push(x.Model));
+
+            models.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                modelsSelect.add(option);
+            })
+        }
+    </script>
+</body>
+</html>

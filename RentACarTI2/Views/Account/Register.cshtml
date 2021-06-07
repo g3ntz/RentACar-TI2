@@ -1,0 +1,88 @@
+﻿@model RentACarTI2.ViewModels.RegisterViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            
+        }
+        label{
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div class="row m-0">
+        <form style="border-radius: 15px;background-color: currentcolor;" class="col-11 col-lg-7 register-page mx-auto mt-5 mb-5" action="/Account/Register" method="POST">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.UserID);
+            <h3 style="color:var(--primary-color);" class="text-center">Register</h3>
+            <div class="form-row">
+                <div class="register-personal-infos row mt-3 px-0 mx-auto">
+                    <h5 style="color: var(--primary-color);">Personal Infos</h5>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Name)
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @maxLength = "15" })
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Surname)
+                        @Html.TextBoxFor(x => x.Surname, new { @class = "form-control", @maxLength = "15" })
+                        @Html.ValidationMessageFor(x => x.Surname)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Birthdate)
+                        @Html.TextBoxFor(x => x.Birthdate, new { @type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Birthdate)
+                    </div>
+                    <div class="form-group col-12">
+                        @Html.LabelFor(x => x.DrivingLicense)
+                        @Html.TextBoxFor(x => x.DrivingLicense, new { @class = "form-control", @maxLength = "10" })
+                        @Html.ValidationMessageFor(x => x.DrivingLicense)
+                    </div>
+                </div>
+
+                <div class="register-contact-infos row mt-4 px-0 mx-auto">
+                    <h5 style="color: var(--primary-color);">Contact Infos</h5>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Address)
+                        @Html.TextAreaFor(x => x.Address, new { @class = "form-control", @maxLength = "100", @style = "height:70px;max-height:70px;" })
+                        @Html.ValidationMessageFor(x => x.Address)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.PhoneNr)
+                        @Html.TextBoxFor(x => x.PhoneNr, new { @class = "form-control", @maxLength = "11" })
+                        @Html.ValidationMessageFor(x => x.PhoneNr)
+                    </div>
+                </div>
+
+                <div class="register-login-infos row mb-4 mt-4 px-0 mx-auto">
+                    <h5 style="color: var(--primary-color);">Login Infos</h5>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Username)
+                        @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @maxLength = "15" })
+                        @Html.ValidationMessageFor(x => x.Username)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Email)
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @maxLength = "50" })
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.Password)
+                        @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control", @maxLength = "100" })
+                        @Html.ValidationMessageFor(x => x.Password)
+                    </div>
+                    <div class="form-group col-12 col-sm-6">
+                        @Html.LabelFor(x => x.ConfirmPassword)
+                        @Html.TextBoxFor(x => x.ConfirmPassword, new { @type = "password", @class = "form-control", @maxLength = "100" })
+                        @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                    </div>
+                </div>
+                <button type="submit" class="btn login-btn col-12 mb-3" style="">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

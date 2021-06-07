@@ -1,0 +1,331 @@
+﻿@model List<RentACarTI2.Models.Vehicle>
+@using RentACarTI2.BLL
+@{ 
+    var vehicleBrands = VehicleBrandBLL.vehicleBrandDAL.GetAll();
+    var makesUnique = vehicleBrands.Select(x => x.Make).Distinct().ToList();
+    var categoriesUnique = vehicleBrands.Select(x => x.Category).Distinct().ToList();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        .car-card {
+            background-color: rgb(35, 38, 40, 80%);
+            background-image: url("../assets/img/pattern_search_08.png");
+            background-size: 200px 100px;
+            margin-bottom: 30px;
+        }
+
+        .car-info-items {
+            margin-top: 20px;
+            color: white;
+        }
+
+        .card-car-name {
+            color: white;
+        }
+
+        label {
+            font-size: 0.9vw;
+        }
+
+        .form-control {
+            font-size: 0.9vw;
+        }
+
+        .nav-menu ul li:nth-of-type(2) a {
+            color: #FEB21E;
+        }
+        .nav-menu ul li:nth-of-type(1) a {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main -->
+    <main class="mt-4 mb-5">
+        <div class="container-fluid cars-main">
+            <div class="row mx-auto" style="width: 99%;">
+                <div class="cars-header">
+                    <h5 class="mb-0">Find your Vehicle</h5>
+                </div>
+                <div class="row mt-3 justify-content-between" style="padding-right: 0;">
+                    <div class="col-12 col-sm-12 col-md-5 col-lg-3">
+                        <form method="get" action="/vehicles/index" class="left-menu row px-0" style="width: 85%;">
+                            <div class="col-12 col-sm-6 col-md-12">
+                                <label for="make">Make:</label>
+                                <select id="make" class="form-control" name="make" onchange="addModelsByMake(this)">
+                                    <option value="" selected>Make</option>
+                                    @foreach (var make in makesUnique)
+                                    {
+                                        if (ViewBag.selectedMake == make)
+                                        {
+                                            <option selected>@make</option>
+                                        }
+                                        else
+                                        {
+                                            <option>@make</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-12">
+                                <label for="model">Model:</label>
+                                <select id="vehicleModel" name="model" class="form-control">
+                                    <option value="" selected>Model</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-12">
+                                <label for="category">Category:</label>
+                                <select id="category" name="category" class="form-control">
+                                    <option value="" selected>Category</option>
+                                    @foreach (var category in categoriesUnique)
+                                    {
+                                        if (ViewBag.selectedCategory == category)
+                                        {
+                                            <option selected>@category</option>
+                                        }
+                                        else
+                                        {
+                                            <option>@category</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-12 mt-4">
+                                <label for="tranmission">Transmission:</label>
+                                <select id="tranmission" name="transmission" class="form-control">
+                                    <option value="" selected>Transmission</option>
+                                    @if (ViewBag.selectedTransmission == "Automatic")
+                                    {
+                                        <option selected>Automatic</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Automatic</option>
+                                    }
+                                    @if (ViewBag.selectedTransmission == "Manual")
+                                    {
+                                        <option selected>Manual</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Manual</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-12">
+                                <label for="fuelType">Fuel Type:</label>
+                                <select id="fuelType" name="fuelType" class="form-control">
+                                    <option value="" selected>Fuel Type</option>
+                                    @if (ViewBag.selectedFuelType == "Diesel")
+                                    {
+                                        <option selected>Diesel</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Diesel</option>
+                                    }
+                                    @if (ViewBag.selectedFuelType == "Gasoline")
+                                    {
+                                        <option selected>Gasoline</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Gasoline</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-12">
+                                <label for="seatsNr">Seats Nr:</label>
+                                <select id="seatsNr" name="seatsNr" class="form-control">
+                                    <option value="" selected>Seats Nr</option>
+                                    @for (int i = 2; i <= 8; i++)
+                                    {
+                                        if (ViewBag.selectedSeatsNr == i.ToString())
+                                        {
+                                            <option selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option>@i</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 mb-2" style="margin-left: 0;">
+                                <label for="isAvailable">Available:</label>
+                                <select id="isAvailable" name="isAvailable" class="form-control">
+                                    <option value="" selected>Available</option>
+                                    @if (ViewBag.selectedIsAvailable == "Yes")
+                                    {
+                                        <option selected>Yes</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Yes</option>
+                                    }
+
+                                    @if (ViewBag.selectedIsAvailable == "No")
+                                    {
+                                        <option selected>No</option>
+                                    }
+                                    else
+                                    {
+                                        <option>No</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 row justify-content-between" style="margin-left: 0;">
+                                <div class="col-6 p-0" style="height: 20px;">
+                                    <p>Price:</p>
+                                </div>
+                                <div class="col-6 p-0" style="height: 20px;text-align: end;">
+                                    <p id="updatedPrice">@ViewBag.selectedPrice.00$</p>
+                                </div>
+                                <div class="col-12 row mt-1" style="margin-left: 0; padding: 0;">
+                                    <input type="range" id="price" name="price" min="0" max="300" value="@ViewBag.selectedPrice" class="slider w-100" onchange="updatePrice(this.value)">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn cars-search">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="cars-list col-12 col-sm-12 col-md-7 col-lg-9" style="padding-right: 0;">
+                        <div class="row">
+                            @foreach (var vehicle in Model)
+                            {
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                    <div class="car-card">
+                                        @{
+                                            if (vehicle.vehicleImages.Any())
+                                            {
+                                                <img src="~/assets/vehicleImages/@vehicle.vehicleImages.Where(x => x.IsThumbnail).FirstOrDefault().Path" class="w-100" style="padding: 0;">
+                                            }
+                                            else
+                                            {
+                                                <img src="" class="w-100" height="100px" />
+                                            }
+                                        }
+                                        <h5 class="card-car-name">@vehicle.StringVehicleMake @vehicle.StringVehicleModel</h5>
+                                        <p class="card-car-price">
+                                            @vehicle.DailyPrice$ / Day
+                                            @if (vehicle.IsAvailable)
+                                            {
+                                                <span style="font-size: 0.7em; color:greenyellow;"> - Available</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="font-size: 0.7em; color:red;"> - Busy</span>
+                                            }
+                                        </p>
+                                        <div class="row car-info-items">
+                                            <div class="car-info-item col-3">
+                                                <img class="card-img" src="~/assets/img/car-icon-white.png">
+                                                <p class="mt-1">@vehicle.Transmission</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img class="card-img" src="~/assets/img/fuel-icon-white.png">
+                                                <p class="mt-1">@vehicle.FuelType</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img class="card-img" src="~/assets/img/seats-icon-white.png">
+                                                <p class="mt-1">@vehicle.SeatsNr</p>
+                                            </div>
+
+                                            <div class="car-info-item col-3">
+                                                <img class="card-img" src="~/assets/img/car-category-icon-white.png">
+                                                <p class="mt-1" style="margin-left:-5px;">@vehicle.StringVehicleCategory</p>
+                                            </div>
+
+                                            <div class="car-info-btn">
+                                                <a href="/vehicles/details/@vehicle.VehicleID" class="btn">Reserve</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // UPDATE PRICE
+        function updatePrice(sliderValue) {
+            document.getElementById("updatedPrice").innerHTML = sliderValue + ".00$";
+        }
+
+        // ADD MODELS BY SELECTED MAKE
+        var vehicleBrands = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(vehicleBrands));
+        const uniqueMakeSet = [new Set(vehicleBrands.map(obj => obj.Make))];
+        var uniqueMakeArray = Array.from(uniqueMakeSet[0]);
+
+        function addModelsByMake(item) {
+            var modelsSelect = document.getElementById('vehicleModel');
+            modelsSelect.innerHTML = "";
+            modelsSelect.innerHTML = "<option value=\"\" selected>Model:</option>";
+            var make = item.value;
+            var makesAndModels = vehicleBrands.filter(x => x.Make == make);
+            var models = [];
+            makesAndModels.forEach(x => models.push(x.Model));
+
+            models.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                modelsSelect.add(option);
+            })
+        }
+
+        function addModelsByMakeString(item) {
+            var modelsSelect = document.getElementById('vehicleModel');
+            modelsSelect.innerHTML = "";
+            modelsSelect.innerHTML = "<option value=\"\" selected>Model:</option>";
+            var makesAndModels = vehicleBrands.filter(x => x.Make == item);
+            var models = [];
+            makesAndModels.forEach(x => models.push(x.Model));
+
+            models.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                if ('@ViewBag.selectedModel' == option.text) {
+                    option.selected = true;
+                }
+                modelsSelect.add(option);
+            })
+        }
+
+        Array.from(document.querySelector("#make").options).forEach(function (option_element) {
+            if (option_element.selected == true) {
+                if (option_element.text != "Make") {
+                    addModelsByMakeString(option_element.text);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

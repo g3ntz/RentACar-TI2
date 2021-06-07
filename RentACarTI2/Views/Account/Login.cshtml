@@ -1,0 +1,40 @@
+﻿@model RentACarTI2.ViewModels.LoginViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        label {
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div class="row m-0">
+        <form action="/Account/Login" method="POST" class="col-11 col-lg-4 login-page mx-auto mt-5" style="margin-bottom:142px; border-radius: 15px; background-color: currentcolor;">
+            @Html.AntiForgeryToken()
+            <h3 class="text-center pt-3" style="color:var(--primary-color);">Login</h3>
+            <div class="form-row ">
+                <div class="form-group px-3">
+                    @Html.LabelFor(x => x.UsernameOrEmail)
+                    @Html.TextBoxFor(x => x.UsernameOrEmail, new { @class = "form-control", @maxLength = "50" })
+                    @Html.ValidationMessageFor(x => x.UsernameOrEmail)
+                </div>
+                <div class="form-group px-3 pb-3">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control", @maxLength = "100" })
+                    @Html.ValidationMessageFor(x => x.Password)
+                </div>
+
+                @if (ViewBag.InvalidData == true)
+                {
+                    <p class="field-validation-error text-center" style="margin: 10px auto;">Invalid Username/Email or Password</p>
+                }
+
+                <button type="submit" class="btn login-btn col-12 mb-3 mt-2">Sign In</button>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

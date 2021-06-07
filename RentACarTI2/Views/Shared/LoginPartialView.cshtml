@@ -1,0 +1,25 @@
+﻿@model RentACarTI2.Models.User
+
+<div id="login-modal" class="modal fade" tabindex="-1">
+    <Form method="post" action="/account/login" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <a class="close" href="#" data-dismiss="modal">×</a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group px-3">
+                    <label for="username">Username or Email Address:</label>
+                    <input id="username" name="user.email" class="form-control" type="text" style="display: inline;">
+                </div>
+                <div class="form-group px-3 pb-3">
+                    <label for="password">Password:</label>
+                    <input id="password" name="user.password" class="form-control" type="password" style="display: inline;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn login-btn col-2">Sign In</button>
+            </div>
+        </div>
+    </Form>
+</div>

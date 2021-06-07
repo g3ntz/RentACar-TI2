@@ -1,0 +1,76 @@
+﻿@model RentACarTI2.ViewModels.RegisterViewModel
+
+<div id="register-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" style="max-width: 700px;">
+        <form method="post" action="/account/register" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                <a class="close" href="#" data-dismiss="modal">×</a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="register-personal-infos row mt-3 px-0 mx-auto">
+                        <h5 style="color: var(--primary-color);">Personal Infos</h5>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="name">Name:</label>
+                            <input id="name" class="form-control" type="text" name="client.Name">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="surname">Surname:</label>
+                            <input id="surname" class="form-control" type="text" name="client.Surname">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="age">Age:</label>
+                            <input id="age" class="form-control" type="text" name="client.Age">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="birthdate">Birthdate:</label>
+                            <input id="birthdate" class="form-control" type="date" name="client.Birthdate">
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="drivingLicense">Driving License:</label>
+                            <input id="drivingLicense" class="form-control" type="text" name="client.DrivingLicense">
+                        </div>
+                    </div>
+
+                    <div class="register-contact-infos row mt-4 px-0 mx-auto">
+                        <h5 style="color: var(--primary-color);">Contact Infos</h5>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="address">Address:</label>
+                            <textarea id="address" class="form-control" name="client.Address" type="text" style="height: 63px; max-height: 63px;"></textarea>
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="phoneNr">Phone Nr:</label>
+                            <input id="phoneNr" class="form-control" type="tel" name="client.PhoneNr">
+                        </div>
+                    </div>
+
+                    <div class="register-login-infos row mb-4 mt-4 px-0 mx-auto">
+                        <h5 style="color: var(--primary-color);">Login Infos</h5>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="username">Username:</label>
+                            <input id="username" class="form-control" type="text" name="user.Username">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="email">Email Address:</label>
+                            <input id="email" class="form-control" type="email" name="user.Email">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="password">Password:</label>
+                            <input id="password" class="form-control" type="password" name="user.Password">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="confirmPassword">Confirm Password:</label>
+                            <input id="confirmPassword" class="form-control" type="password">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn login-btn col-11 col-sm-11 col-md-3 col-lg-2 col-xl-2">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
+
