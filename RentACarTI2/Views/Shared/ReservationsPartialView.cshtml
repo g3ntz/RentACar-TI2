@@ -51,7 +51,7 @@
                                         }
                                     }
                                     <td>@reservation.BookingDate.ToString("dd-MM-yyyy")</td>
-                                    <td style="overflow:hidden;">@reservation.Vehicle.VehicleBrand.Make @reservation.Vehicle.VehicleBrand.Model</td>
+                                    <td style="max-width:160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="@reservation.Vehicle.VehicleBrand.Make @reservation.Vehicle.VehicleBrand.Model">@reservation.Vehicle.VehicleBrand.Make @reservation.Vehicle.VehicleBrand.Model</td>
                                     <td>@reservation.TotalPrice$</td>
                                     <td>@reservation.RentalDate.ToString("dd-MM-yyyy")</td>
                                     <td>@reservation.ReturnDate.ToString("dd-MM-yyyy")</td>
