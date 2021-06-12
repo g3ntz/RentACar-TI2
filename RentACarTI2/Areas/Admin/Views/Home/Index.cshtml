@@ -1,0 +1,592 @@
+﻿
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-4 col-lg-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success">
+                        <div class="ct-chart" id="dailySalesChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <h4 class="col-4 card-title">Vehicle Sales</h4>
+                            <div class="col-6 text-right">
+                                <a id="dailySalesDaily" class="mr-3 p-1 daily-monthly dark-edition purple-background"
+                                   href="#">Daily</a>
+                                <a id="dailySalesMonthly" class="p-1 dark-edition daily-monthly" href="#">Monthly</a>
+                            </div>
+                        </div>
+                        <p class="card-category">
+                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in vehicle
+                            sales.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> just updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-warning">
+                        <div class="ct-chart" id="maintenanceCostsChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <h4 class="col-5 card-title">Maintenance Costs</h4>
+                            <div class="col-6 text-right">
+                                <a id="maintenanceCostsDaily" class="mr-3 p-1 daily-monthly dark-edition" href="#">Daily</a>
+                                <a id="maintenanceCostsMonthly" class="p-1 dark-edition daily-monthly purple-background"
+                                   href="#">Monthly</a>
+                            </div>
+                        </div>
+                        <p class="card-category">
+                            <span class="text-warning"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in maintenance
+                            costs.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> just updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-danger">
+                        <div class="ct-chart" id="repairCostsChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <h4 class="col-5 card-title">Repair Costs</h4>
+                            <div class="col-6 text-right">
+                                <a id="repairCostsDaily" class="mr-3 p-1 daily-monthly dark-edition purple-background"
+                                   href="#">Daily</a>
+                                <a id="repairCostsMonthly" class="p-1 dark-edition daily-monthly" href="#">Monthly</a>
+                            </div>
+                        </div>
+                        <p class="card-category">
+                            <span class="text-danger"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in repair costs.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> just updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">attach_money</i>
+                        </div>
+                        <p class="card-category">Revenue</p>
+                        <h3 class="card-title">$34,245</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">money_off</i>
+                        </div>
+                        <p class="card-category">Expenses</p>
+                        <h3 class="card-title">$12,055</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info  card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">event</i>
+                        </div>
+                        <p class="card-category">Reservations</p>
+                        <h3 class="card-title">15</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning  card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">event_busy</i>
+                        </div>
+                        <p class="card-category">Canceled Reservations</p>
+                        <h3 class="card-title">2</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Reservations</h4>
+                        <p class="card-category">New reservations on 6th June, 2021</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Vehicle</th>
+                            <th>Price</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Dafina Hajdini</td>
+                                    <td>BMW Z4</td>
+                                    <td class="text-primary">$36,504</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Egzon Sejdiu</td>
+                                    <td>Audi A4</td>
+                                    <td class="text-primary">$23,00</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Armend Emini</td>
+                                    <td>Fiat Punto</td>
+                                    <td class="text-primary">$56,00</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Arber Rrahmani</td>
+                                    <td>Volkswagen Golf 6</td>
+                                    <td class="text-primary">$38,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-warning">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title">Tasks:</span>
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#returns" data-toggle="tab">
+                                            <i class="material-icons">assignment_return</i> Returns
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#repairs" data-toggle="tab">
+                                            <i class="material-icons">build</i> Repairs
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#maintenances" data-toggle="tab">
+                                            <i class="material-icons">home_repair_service</i> Maintenances
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="returns">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-warning">
+                                        <td>ID</td>
+                                        <td>Date</td>
+                                        <td>Client</td>
+                                        <td>Vehicle</td>
+                                        <td>Status</td>
+                                        <td></td>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>15-05-2021</td>
+                                                <td>Arber Berisha</td>
+                                                <td>Mercedes AMG</td>
+                                                <td class="text-danger">Open</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Full Details" data-toggle="modal"
+                                                            data-target="#fullDetailsModal">
+                                                        <i class="material-icons">list_alt</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                       data-original-title="Create Repair">
+                                                        <i class="material-icons">build</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>15-05-2021</td>
+                                                <td>Arber Berisha</td>
+                                                <td>Mercedes AMG</td>
+                                                <td class="text-danger">Open</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Full Details" data-toggle="modal"
+                                                            data-target="#fullDetailsModal">
+                                                        <i class="material-icons">list_alt</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                       data-original-title="Create Repair">
+                                                        <i class="material-icons">build</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>15-05-2021</td>
+                                                <td>Arber Berisha</td>
+                                                <td>Mercedes AMG</td>
+                                                <td class="text-danger">Open</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Full Details" data-toggle="modal"
+                                                            data-target="#fullDetailsModal">
+                                                        <i class="material-icons">list_alt</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                       data-original-title="Create Repair">
+                                                        <i class="material-icons">build</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>15-05-2021</td>
+                                                <td>Arber Berisha</td>
+                                                <td>Mercedes AMG</td>
+                                                <td class="text-danger">Open</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Full Details" data-toggle="modal"
+                                                            data-target="#fullDetailsModal">
+                                                        <i class="material-icons">list_alt</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                       data-original-title="Create Repair">
+                                                        <i class="material-icons">build</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="repairs">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-warning">
+                                        <td>ID</td>
+                                        <td>Company Name</td>
+                                        <td>Vehicle</td>
+                                        <td>Start Date</td>
+                                        <td>Return Date</td>
+                                        <td>Status</td>
+                                        <td></td>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="maintenances">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-warning">
+                                        <td>ID</td>
+                                        <td>Company Name</td>
+                                        <td>Vehicle</td>
+                                        <td>Start Date</td>
+                                        <td>Return Date</td>
+                                        <td>Status</td>
+                                        <td></td>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Auto Service</td>
+                                                <td>Golf 6 GTI</td>
+                                                <td>15-06-2021</td>
+                                                <td>18-06-2021</td>
+                                                <td class="text-danger">Repairing</td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                            data-original-title="Close Transaction" data-toggle="modal"
+                                                            data-target="#closeTransactionModal">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ---- RENDER THIS SECTION AT LAYOUT (DASHBOARD CHART SCRIPTS) *@
+@section DashboardChartScripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        $(document).ready(function () {
+            $().ready(function () {
+
+                // CUSTOM CODE
+
+                // INIT VEHICLE SALES DAILY/MONTHLY
+                $('#dailySalesDaily').click(function () {
+                    var item = document.getElementById('dailySalesDaily');
+                    item.classList.add("purple-background");
+                    $('#dailySalesMonthly').removeClass("purple-background")
+                    md.initDailySalesChart();
+                });
+                $('#dailySalesMonthly').click(function () {
+                    var item = document.getElementById('dailySalesMonthly');
+                    item.classList.add("purple-background");
+                    $('#dailySalesDaily').removeClass("purple-background")
+                    md.initDailySalesMonthly();
+                });
+
+                // INIT MAINTENANCE COSTS DAILY/MONTHLY
+                $('#maintenanceCostsDaily').click(function () {
+                    var item = document.getElementById('maintenanceCostsDaily');
+                    item.classList.add("purple-background");
+                    $('#maintenanceCostsMonthly').removeClass("purple-background")
+                    md.initMaintenancesCostsDaily();
+                });
+                $('#maintenanceCostsMonthly').click(function () {
+                    var item = document.getElementById('maintenanceCostsMonthly');
+                    item.classList.add("purple-background");
+                    $('#maintenanceCostsDaily').removeClass("purple-background")
+                    md.initMaintenanceCostsMonthly();
+                });
+
+                // INIT REPAIR COSTS DAILY/MONTHLY
+                $('#repairCostsDaily').click(function () {
+                    var item = document.getElementById('repairCostsDaily');
+                    item.classList.add("purple-background");
+                    $('#repairCostsMonthly').removeClass("purple-background")
+                    md.initRepairCostsDaily();
+                });
+                $('#repairCostsMonthly').click(function () {
+                    var item = document.getElementById('repairCostsMonthly');
+                    item.classList.add("purple-background");
+                    $('#repairCostsDaily').removeClass("purple-background")
+                    md.initRepairCostsMonthly();
+                });
+                //
+
+
+                $('.switch-sidebar-mini input').change(function () {
+                    $body = $('body');
+
+                    $input = $(this);
+
+                    if (md.misc.sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        md.misc.sidebar_mini_active = false;
+
+                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+                    } else {
+
+                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+                        setTimeout(function () {
+                            $('body').addClass('sidebar-mini');
+
+                            md.misc.sidebar_mini_active = true;
+                        }, 300);
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Javascript method's body can be found in assets/js/demos.js
+            md.initDashboardPageCharts();
+
+        });
+    </script>
+}

@@ -36,7 +36,7 @@
                         @Html.TextBoxFor(x => x.Birthdate, new { @type = "date", @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Birthdate)
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12 col-sm-6">
                         @Html.LabelFor(x => x.DrivingLicense)
                         @Html.TextBoxFor(x => x.DrivingLicense, new { @class = "form-control", @maxLength = "10" })
                         @Html.ValidationMessageFor(x => x.DrivingLicense)
