@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace RentACarTI2.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Route("Admin/[controller]/[action]")]
     public class RoleController : Controller
     {
         public IActionResult Index()

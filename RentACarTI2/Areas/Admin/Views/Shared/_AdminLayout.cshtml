@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -12,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
-    @*<link href="~/Areas/ assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />*@
-    @*<link href="@Url.Content("~/Areas/Admin/Content/css/material-dashboard?v=2.1.0")" rel="stylesheet" type="text/css" />*@
     <link href="/Admin/Content/css/material-dashboard.css" rel="stylesheet" type="text/css" />
+    <!-- Render Style Section From Views -->
+    @RenderSection("Style", required: false)
 </head>
 <body class="dark-edition">
     <div class="wrapper ">
@@ -26,62 +25,62 @@
             </div>
             <div class="sidebar-wrapper ps-container ps-theme-default" data-ps-id="c729caed-7794-3702-f29c-1ef7047abdfc">
                 <ul class="nav">
-                    <li class="nav-item active  ">
+                    <li class="nav-item @ViewBag.DashboardActive">
                         <a class="nav-link" href="/Admin">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item @ViewBag.UserActive">
                         <a class="nav-link" href="/Admin/User/Index">
                             <i class="material-icons">person</i>
                             <p>Users</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./roles.html">
+                    <li class="nav-item @ViewBag.RoleActive">
+                        <a class="nav-link" href="/Admin/Role/Index">
                             <i class="material-icons">lock</i>
                             <p>Roles</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./vehicles.html">
+                    <li class="nav-item @ViewBag.VehicleActive">
+                        <a class="nav-link" href="/Admin/Vehicle/Index">
                             <i class="material-icons">directions_car</i>
                             <p>Vehicles</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./clients.html">
+                    <li class="nav-item @ViewBag.ClientActive">
+                        <a class="nav-link" href="/Admin/Client/Index">
                             <i class="material-icons">groups</i>
                             <p>Clients</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./reservations.html">
+                    <li class="nav-item @ViewBag.BookingActive">
+                        <a class="nav-link" href="/Admin/Reservation/Index">
                             <i class="material-icons">edit_note</i>
                             <p>Reservations</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./rentals.html">
+                    <li class="nav-item @ViewBag.RentalActive">
+                        <a class="nav-link" href="/Admin/Rental/Index">
                             <i class="material-icons">car_rental</i>
                             <p>Rentals</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./returns.html">
+                    <li class="nav-item @ViewBag.ReturnActive">
+                        <a class="nav-link" href="/Admin/Return/Index">
                             <i class="material-icons">assignment_return</i>
                             <p>Returns</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./repairs.html">
+                    <li class="nav-item @ViewBag.RepairActive">
+                        <a class="nav-link" href="/Admin/Repair/Index">
                             <i class="material-icons">build</i>
                             <p>Repairs</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./maintenances.html">
+                    <li class="nav-item @ViewBag.MaintenanceActive">
+                        <a class="nav-link" href="/Admin/Maintenance/Index">
                             <i class="material-icons">engineering</i>
                             <p>Maintenances</p>
                         </a>
@@ -143,38 +142,6 @@
             </nav>
             <!-- End Navbar -->
             @RenderBody()
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="float-left">
-                        <ul>
-                            <li>
-                                <a href="https://www.creative-tim.com">
-                                    Creative Tim
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://creative-tim.com/presentation">
-                                    About Us
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://blog.creative-tim.com">
-                                    Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.creative-tim.com/license">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="copyright float-right" id="date">
-                        , made with <i class="material-icons">favorite</i> by
-                        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
     <!--   Core JS Files   -->
@@ -318,6 +285,6 @@
             });
         });
     </script>
-    @RenderSection("DashboardChartScripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

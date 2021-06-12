@@ -1,18 +1,13 @@
-﻿@{ 
-    ViewBag.UserActive = "active";
+﻿@{
+    ViewBag.MaintenanceActive = "active";
 }
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="ml-4">
-                <a class="table-add-btn" href="user-crud.html">
-                    <i class="material-icons primary-color" style="font-size: 40px;">add_box</i>
-                </a>
-            </div>
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search User...">
+                    <input type="text" value="" class="form-control" placeholder="Search Maintenance...">
                 </div>
             </div>
         </div>
@@ -20,8 +15,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Users Table</h4>
-                        <p class="card-category"> Users Informations</p>
+                        <h4 class="card-title ">Maintenances Table</h4>
+                        <p class="card-category"> Maintenances Informations</p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,16 +26,22 @@
                                     ID
                                 </th>
                                 <th>
-                                    Username
+                                    Company Name
                                 </th>
                                 <th>
-                                    Role
+                                    Description
                                 </th>
                                 <th>
-                                    Email
+                                    Costs
                                 </th>
                                 <th>
-                                    Last Login
+                                    Vehicle
+                                </th>
+                                <th>
+                                    Start Date
+                                </th>
+                                <th>
+                                    Return Date
                                 </th>
                                 <th></th>
                                 </thead>
@@ -50,18 +51,29 @@
                                             1
                                         </td>
                                         <td>
-                                            Admin123
+                                            Auto Service
                                         </td>
                                         <td>
-                                            Admin
+                                            Demtim i motorrit
                                         </td>
                                         <td>
-                                            Admin@gmail.com
+                                            $98.00
                                         </td>
                                         <td>
-                                            20 Fri, June, 2021
+                                            Mercedes G-CLASS
+                                        </td>
+                                        <td>
+                                            21 Nov
+                                        </td>
+                                        <td>
+                                            23 Nov
                                         </td>
                                         <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                    data-original-title="Close Transaction" data-toggle="modal"
+                                                    data-target="#closeTransactionModal">
+                                                <i class="material-icons">done</i>
+                                            </button>
                                             <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
                                                 <i class="material-icons">edit</i>
                                             </button>
@@ -79,3 +91,5 @@
         </div>
     </div>
 </div>
+
+@{ await Html.RenderPartialAsync("CloseTransactionPartialView"); }

@@ -1,18 +1,13 @@
-﻿@{ 
-    ViewBag.UserActive = "active";
+﻿@{
+    ViewBag.BookingActive = "active";
 }
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="ml-4">
-                <a class="table-add-btn" href="user-crud.html">
-                    <i class="material-icons primary-color" style="font-size: 40px;">add_box</i>
-                </a>
-            </div>
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search User...">
+                    <input type="text" value="" class="form-control" placeholder="Search Reservation...">
                 </div>
             </div>
         </div>
@@ -20,8 +15,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Users Table</h4>
-                        <p class="card-category"> Users Informations</p>
+                        <h4 class="card-title ">Reservations Table</h4>
+                        <p class="card-category"> Reservations Informations</p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,16 +26,22 @@
                                     ID
                                 </th>
                                 <th>
-                                    Username
+                                    Date
                                 </th>
                                 <th>
-                                    Role
+                                    Client
                                 </th>
                                 <th>
-                                    Email
+                                    Vehicle
                                 </th>
                                 <th>
-                                    Last Login
+                                    Price
+                                </th>
+                                <th>
+                                    Rental Date
+                                </th>
+                                <th>
+                                    Return Date
                                 </th>
                                 <th></th>
                                 </thead>
@@ -50,22 +51,32 @@
                                             1
                                         </td>
                                         <td>
-                                            Admin123
+                                            18 May
                                         </td>
                                         <td>
-                                            Admin
+                                            Armend Emini
                                         </td>
                                         <td>
-                                            Admin@gmail.com
+                                            Mercedes G-CLASS
                                         </td>
                                         <td>
-                                            20 Fri, June, 2021
+                                            $35.00
+                                        </td>
+                                        <td>
+                                            19 May
+                                        </td>
+                                        <td>
+                                            21 May
                                         </td>
                                         <td class="td-actions text-right">
+                                            <a href="rental-create.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Create Rental">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </a>
                                             <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
                                                 <i class="material-icons">edit</i>
                                             </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
+                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove" data-toggle="modal"
+                                                    data-target="#deleteModal">
                                                 <i class="material-icons">close</i>
                                             </button>
                                         </td>

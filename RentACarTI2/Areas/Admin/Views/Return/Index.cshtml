@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.ReturnActive = "active";
+}
+
+@section Style
+{
+    <style>
+        hr {
+            border: 0;
+            clear: both;
+            display: block;
+            width: 100%;
+            background-color: #9c27b0;
+            height: 1px;
+            margin: 0;
+        }
+
+        h5 {
+            color: #d9e0e0;
+            font-size: 1.1em;
+        }
+
+        h4 {
+            color: #d9e0e0;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group no-border">
+                    <input type="text" value="" class="form-control" placeholder="Search Return...">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Returns Table</h4>
+                        <p class="card-category"> Returns Informations</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class=" text-primary">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Client
+                                </th>
+                                <th>
+                                    Vehicle
+                                </th>
+                                <th>
+                                    Fuel Amount
+                                </th>
+                                <th>
+                                    Mileage
+                                </th>
+                                <th>
+                                    Has Damage
+                                </th>
+                                <th>
+                                    Is Late
+                                </th>
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>
+                                            18 May
+                                        </td>
+                                        <td>
+                                            Armend Emini
+                                        </td>
+                                        <td>
+                                            Mercedes G-CLASS
+                                        </td>
+                                        <td>
+                                            15.0L
+                                        </td>
+                                        <td>
+                                            94823
+                                        </td>
+                                        <td>
+                                            No
+                                        </td>
+                                        <td>
+                                            No
+                                        </td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                    data-original-title="Full Details" data-toggle="modal" data-target="#fullDetailsModal">
+                                                <i class="material-icons">list_alt</i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                    data-original-title="Close Transaction" data-toggle="modal"
+                                                    data-target="#closeTransactionModal">
+                                                <i class="material-icons">done</i>
+                                            </button>
+                                            <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                               data-original-title="Create Repair">
+                                                <i class="material-icons">build</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{ await Html.RenderPartialAsync("CloseTransactionPartialView"); }
+@{ await Html.RenderPartialAsync("FullDetailsPartialView"); }
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+}

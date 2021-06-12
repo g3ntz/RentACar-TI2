@@ -379,3 +379,11 @@ C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\User\Vi
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Shared\_AdminLayout.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\_ViewStart.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\User\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Role\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Vehicle\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Client\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Booking\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Rental\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Return\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Repair\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Maintenance\Index.cshtml.g.cs

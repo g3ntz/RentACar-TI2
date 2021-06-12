@@ -1,18 +1,13 @@
-﻿@{ 
-    ViewBag.UserActive = "active";
+﻿@{
+    ViewBag.ClientActive = "active";
 }
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="ml-4">
-                <a class="table-add-btn" href="user-crud.html">
-                    <i class="material-icons primary-color" style="font-size: 40px;">add_box</i>
-                </a>
-            </div>
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search User...">
+                    <input type="text" value="" class="form-control" placeholder="Search Client...">
                 </div>
             </div>
         </div>
@@ -20,8 +15,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Users Table</h4>
-                        <p class="card-category"> Users Informations</p>
+                        <h4 class="card-title ">Clients Table</h4>
+                        <p class="card-category"> Clients Informations</p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,16 +26,25 @@
                                     ID
                                 </th>
                                 <th>
-                                    Username
+                                    Name
                                 </th>
                                 <th>
-                                    Role
+                                    Surname
+                                </th>
+                                <th>
+                                    Age
+                                </th>
+                                <th>
+                                    Address
                                 </th>
                                 <th>
                                     Email
                                 </th>
                                 <th>
-                                    Last Login
+                                    Phone Nr
+                                </th>
+                                <th>
+                                    Driving License
                                 </th>
                                 <th></th>
                                 </thead>
@@ -50,16 +54,25 @@
                                             1
                                         </td>
                                         <td>
-                                            Admin123
+                                            Armend
                                         </td>
                                         <td>
-                                            Admin
+                                            Emini
                                         </td>
                                         <td>
-                                            Admin@gmail.com
+                                            25
                                         </td>
                                         <td>
-                                            20 Fri, June, 2021
+                                            Rruga arberia 291
+                                        </td>
+                                        <td>
+                                            Armend@gmail.com
+                                        </td>
+                                        <td>
+                                            044914771
+                                        </td>
+                                        <td>
+                                            1203190387
                                         </td>
                                         <td class="td-actions text-right">
                                             <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
