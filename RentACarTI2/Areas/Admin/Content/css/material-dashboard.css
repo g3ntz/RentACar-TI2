@@ -13572,7 +13572,7 @@ label {
 select,
 select.form-control {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  /*-webkit-appearance: none;*/
 }
 
 @media (min-width: 576px) {
@@ -20789,7 +20789,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .form-control:read-only {
-  background-image: linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+  /*background-image: linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);*/
 }
 
 fieldset[disabled][disabled] .dark-edition .form-control,

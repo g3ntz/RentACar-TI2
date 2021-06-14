@@ -1,26 +1,25 @@
-﻿<!-- Close Transaction Modal -->
-<div class="modal fade" id="closeTransactionModal" tabindex="-1" role="dialog" aria-labelledby="closeTransactionModal"
+﻿<!-- Delete Record Modal -->
+<div class="modal fade" id="deleteRecordModal" tabindex="-1" role="dialog" aria-labelledby="deleteRecordModal"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="modal-content form-row card">
+        <form id="deleteTransaction" class="modal-content form-row card" method="POST">
             <div class="modal-header card-header card-header-primary">
-                <h5>Close Transaction</h5>
+                <h5>Delete Record</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body card-body">
                 <div class="col-12 py-3">
-                    <i class="material-icons text-warning">warning</i>
+                    <i class="material-icons text-danger">error</i>
                     <p class="" style="font-size: 1.1em;">
-                        Closing this transaction means that all late fees or damage fees are
-                        paid by client, are you sure?
+                        Deleted records cannot be restored, are you sure you wanna delete this?
                     </p>
                 </div>
 
                 <div class="row input-group form-group no-border justify-content-between">
-                    <button type="button" class="btn col-4" data-dismiss="modal">Shit.. Go back</button>
-                    <button type="submit" class="btn btn-primary col-4">Yes, close it</button>
+                    <button type="button" class="btn col-4" data-dismiss="modal">Exit</button>
+                    <button type="submit" class="btn btn-primary col-4" style="background-color:#982245">Delete</button>
                 </div>
             </div>
         </form>

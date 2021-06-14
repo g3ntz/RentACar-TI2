@@ -1,0 +1,64 @@
+﻿@model RentACarTI2.Models.User
+@{
+    ViewBag.UserActive = "active";
+    ViewBag.Page = "Users";
+    ViewBag.Title = "Rent a Car - Edit User";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/User/Edit/@Model.UserID">
+            @Html.HiddenFor(x => x.UserID)
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Edit User</h4>
+                <p class="card-category">Edit an existing user</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" value="@Model.Username" name="Username" class="form-control" placeholder="Username...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="password" disabled name="Password" class="form-control" placeholder="Password (disabled)">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="email" value="@Model.Email" name="Email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <select name="RoleID" class="form-control">
+                        @foreach (var role in (List<RentACarTI2.Models.Role>)ViewBag.Roles)
+                        {
+                            if (Model.RoleID == role.RoleID)
+                            {
+                                <option selected value="@role.RoleID">@role.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@role.RoleID">@role.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/User/Index" class="btn mt-3">Back to Users</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Edit User</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        var response = '@ViewBag.response';
+        if (response == "edited") {
+            md.showNotification('top', 'center', 'User edited successfully', 2, 0);
+        }
+    </script>
+}
+

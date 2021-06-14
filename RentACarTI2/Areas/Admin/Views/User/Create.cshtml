@@ -1,0 +1,44 @@
+﻿@model RentACarTI2.Models.User
+@{
+    ViewBag.UserActive = "active";
+    ViewBag.Page = "Users";
+    ViewBag.Title = "Rent a Car - Create User";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/User/Create">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Create User</h4>
+                <p class="card-category">Create a new user</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="Username" class="form-control" placeholder="Username...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="password" name="Password" class="form-control" placeholder="Password...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="email" name="Email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <select name="RoleID" class="form-control">
+                        @foreach (var role in (List<RentACarTI2.Models.Role>)ViewBag.Roles)
+                        {
+                            <option value="@role.RoleID">@role.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/User/Index" class="btn mt-3">Back to Users</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Create User</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

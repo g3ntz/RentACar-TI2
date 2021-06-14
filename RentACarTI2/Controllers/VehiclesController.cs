@@ -68,7 +68,6 @@ namespace RentACarTI2.Controllers
         }
 
         // GET: VehicleController/Details/5
-        [Route("Vehicles/Details/{id}")]
         public ActionResult Details(int id)
         {
             if (id == 0)

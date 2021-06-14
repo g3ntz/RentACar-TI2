@@ -45,7 +45,7 @@ namespace RentACarTI2
             app.UseSession();
             app.UseMvc(routes =>
             {
-                routes.MapRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("areaRoute", "{area:exists}/{controller}/{action}/{id?}");
 
                 routes.MapRoute(
                     name: "default",

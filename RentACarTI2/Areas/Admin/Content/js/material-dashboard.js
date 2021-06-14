@@ -198,18 +198,17 @@ md = {
     }
   },
 
-  showNotification: function(from, align) {
-    type = ['', 'info', 'danger', 'success', 'warning', 'primary'];
-
-    color = Math.floor((Math.random() * 5) + 1);
+  showNotification: function(from, align, text, color, icon) {
+    colors = ['info', 'danger', 'success', 'warning', 'primary'];
+    icons = ['check_circle', 'warning', 'error', 'add_alert','sentiment_dissatisfied']
 
     $.notify({
-      icon: "add_alert",
-      message: "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer."
+      icon: icons[icon],
+      message: text
 
     }, {
-      type: type[color],
-      timer: 3000,
+      type: colors[color],
+      timer: 200,
       placement: {
         from: from,
         align: align
