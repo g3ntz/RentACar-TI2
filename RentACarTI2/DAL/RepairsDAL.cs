@@ -169,7 +169,7 @@ namespace RentACarTI2.DAL
             repair.IsRepaired = bool.Parse(reader["IsRepaired"].ToString());
             repair.Description = reader["Description"].ToString();
             if (reader["Costs"] != DBNull.Value)
-                repair.Costs = Convert.ToDecimal(reader["Costs"].ToString());
+                repair.Costs = decimal.Parse(reader["Costs"].ToString());
 
             repair.InsertDate = DateTime.Parse(reader["InsertDate"].ToString());
             repair.LUD = DateTime.Parse(reader["LUD"].ToString());

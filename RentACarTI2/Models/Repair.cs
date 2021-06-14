@@ -12,7 +12,7 @@ namespace RentACarTI2.Models
         public string ResponsibleCompany { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime ReturnDate { get; set; }
-        public decimal Costs { get; set; } = 0.00M;
+        public decimal Costs { get; set; }
         public string Description { get; set; }
         public bool IsRepaired { get; set; }
 

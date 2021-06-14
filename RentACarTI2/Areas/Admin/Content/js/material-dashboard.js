@@ -142,9 +142,10 @@ $(window).resize(function() {
   // reset the seq for charts drawing animations
   seq = seq2 = 0;
 
-  setTimeout(function() {
+  setTimeout(function () {
     md.initDashboardPageCharts();
-  }, 500);
+      
+  }, 100);
 });
 
 
@@ -174,102 +175,26 @@ md = {
     }
   },
 
-  initDashboardPageCharts: function() {
-
-    if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
-      /* ----------==========     Daily Sales Chart initialization    ==========---------- */
-
-      dataDailySalesChart = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-          [12, 17, 7, 17, 23, 18, 38]
-        ]
-      };
-
-      optionsDailySalesChart = {
-        lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 0
-        }),
-        low: 0,
-        high: 500, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        chartPadding: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0
-        },
-      }
-
-      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-      md.startAnimationForLineChart(dailySalesChart);
-
-
-      /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-      dataCompletedTasksChart = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-          [12, 17, 7, 17, 23, 18, 38]
-        ]
-      };
-
-      optionsCompletedTasksChart = {
-        lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 0
-        }),
-        low: 0,
-        high: 500, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        chartPadding: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0
+    initDashboardPageCharts: function (chartData) {
+      if ($('#dailySalesChart').length != 0 || $('#maintenanceCostsChart').length != 0 || $('#websiteViewsChart').length != 0) {
+        if ($('#dailySalesDaily').hasClass("purple-background") == true) {
+            md.initDailySalesChart(chartData.vehicleSales.daily);
         }
-      }
-
-      var completedTasksChart = new Chartist.Line('#repairCostsChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-      // start animation for the Completed Tasks Chart - Line Chart
-      md.startAnimationForLineChart(completedTasksChart);
-
-
-      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-      var dataWebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-        ]
-      };
-      var optionsWebsiteViewsChart = {
-        axisX: {
-          showGrid: false
-        },
-        low: 0,
-        high: 2000,
-        chartPadding: {
-          top: 0,
-          right: 5,
-          bottom: 0,
-          left: 0
+        else {
+            md.initDailySalesMonthly(chartData.vehicleSales.monthly);
         }
-      };
-      var responsiveOptions = [
-        ['screen and (max-width: 640px)', {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function(value) {
-              return value[0];
-            }
-          }
-        }]
-      ];
-      var websiteViewsChart = Chartist.Bar('#maintenanceCostsChart', dataWebsiteViewsChart, optionsWebsiteViewsChart, responsiveOptions);
-
-      //start animation for the Emails Subscription Chart
-      md.startAnimationForBarChart(websiteViewsChart);
+        if ($('#maintenanceCostsDaily').hasClass("purple-background") == true) {
+            md.initMaintenancesCostsDaily(chartData.maintenanceCosts.daily);
+        }
+        else {
+            md.initMaintenanceCostsMonthly(chartData.maintenanceCosts.monthly);
+        }
+        if ($('#repairCostsDaily').hasClass("purple-background") == true) {
+            md.initRepairCostsDaily(chartData.repairCosts.daily);
+        }
+        else {
+            md.initRepairCostsMonthly(chartData.repairCosts.monthly);
+        }
     }
   },
 
@@ -400,21 +325,19 @@ md = {
     seq2 = 0;
 
   },
-  initDailySalesChart: function(){
+    initDailySalesChart: function (dailySales) {
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
       dataDailySalesChart = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-          [12, 17, 7, 17, 23, 18, 38]
-        ]
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          series: [dailySales]
       };
 
       optionsDailySalesChart = {
         lineSmooth: Chartist.Interpolation.cardinal({
           tension: 0
         }),
-        low: 0,
-        high: 500, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          low: 0,
+          high: Math.max(dailySales), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -428,14 +351,11 @@ md = {
       md.startAnimationForLineChart(dailySalesChart);
     }
   },
-  initDailySalesMonthly: function(){
+    initDailySalesMonthly: function (monthlySales) {
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
       dataDailySalesChartMonthly = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-  
-        ]
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          series: [monthlySales]
       };
   
       optionsDailySalesChartMonthly = {
@@ -443,7 +363,7 @@ md = {
           showGrid: false
         },
         low: 0,
-        high: 5000,
+        high: Math.max.apply(Math, monthlySales),
         chartPadding: {
           top: 0,
           right: 5,
@@ -468,13 +388,11 @@ md = {
       md.startAnimationForBarChart(dailySalesChartMonthly);
     }
   },
-  initMaintenancesCostsDaily: function(){
-    if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
+  initMaintenancesCostsDaily: function(dailyCosts){
+      if ($('#dailySalesChart').length != 0 || $('#maintenanceCostsChart').length != 0 || $('#websiteViewsChart').length != 0) {
       dataMaintenanceCostsChart = {
         labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-          [25, 20, 7, 2, 23, 18, 38]
-        ]
+        series: [dailyCosts]
       };
 
       optionsMaintenanceCostsChart = {
@@ -482,7 +400,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 500, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: Math.max.apply(Math, dailyCosts), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -496,21 +414,18 @@ md = {
       md.startAnimationForLineChart(maintenanceCostsChart);
     }
   },
-  initMaintenanceCostsMonthly: function(){
+  initMaintenanceCostsMonthly: function(monthlyCosts){
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
       var dataMaintenanceCostsChartMonthly = {
         labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-        ]
+        series: [monthlyCosts]
       };
       var optionsMaintenanceCostsChartMonthly = {
         axisX: {
           showGrid: false
         },
         low: 0,
-        high: 2000,
+        high: Math.max.apply(Math, monthlyCosts),
         chartPadding: {
           top: 0,
           right: 5,
@@ -534,13 +449,11 @@ md = {
       md.startAnimationForBarChart(maintenanceCostsChart);
     }
   },
-  initRepairCostsDaily: function(){
+  initRepairCostsDaily: function(dailyCosts){
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
       dataRepairCostsChart = {
         labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-          [25, 20, 7, 2, 23, 18, 38]
-        ]
+        series: [dailyCosts]
       };
 
       optionsRepairCostsChart = {
@@ -548,7 +461,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 500, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: Math.max.apply(Math, dailyCosts), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -562,21 +475,18 @@ md = {
       md.startAnimationForLineChart(repairCostsChart);
     }
   },
-  initRepairCostsMonthly: function(){
+  initRepairCostsMonthly: function(monthlyCosts){
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
       var dataRepairCostsChartMonthly = {
         labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-        ]
+        series: [monthlyCosts]
       };
       var optionsRepairCostsChartMonthly = {
         axisX: {
           showGrid: false
         },
         low: 0,
-        high: 3000,
+        high: Math.max.apply(Math, monthlyCosts),
         chartPadding: {
           top: 0,
           right: 5,

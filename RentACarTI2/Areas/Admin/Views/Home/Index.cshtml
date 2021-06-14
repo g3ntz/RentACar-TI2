@@ -1,7 +1,9 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@{
     ViewBag.DashboardActive = "active";
 }
 
+@* ----- STYLE ------ *@
 @section Style
 {
     <style>
@@ -15,18 +17,19 @@
             margin: 0;
         }
 
-        h5 {
+        .tab-pane h5 {
             color: #d9e0e0;
             font-size: 1.1em;
         }
 
-        h4 {
+        .tab-pane h4 {
             color: #d9e0e0;
             font-size: 1.5em;
         }
     </style>
 }
 
+@* ----- CONTENT ----- *@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -116,7 +119,7 @@
                             <i class="material-icons">attach_money</i>
                         </div>
                         <p class="card-category">Revenue</p>
-                        <h3 class="card-title">$34,245</h3>
+                        <h3 class="card-title text-success">$@JsonConvert.DeserializeObject(ViewBag.Statistics).revenue</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -132,7 +135,7 @@
                             <i class="material-icons">money_off</i>
                         </div>
                         <p class="card-category">Expenses</p>
-                        <h3 class="card-title">$12,055</h3>
+                        <h3 class="card-title text-danger">$@JsonConvert.DeserializeObject(ViewBag.Statistics).expenses</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -148,7 +151,7 @@
                             <i class="material-icons">event</i>
                         </div>
                         <p class="card-category">Reservations</p>
-                        <h3 class="card-title">15</h3>
+                        <h3 class="card-title text-info">@JsonConvert.DeserializeObject(ViewBag.Statistics).reservations</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -164,7 +167,7 @@
                             <i class="material-icons">event_busy</i>
                         </div>
                         <p class="card-category">Canceled Reservations</p>
-                        <h3 class="card-title">2</h3>
+                        <h3 class="card-title text-warning">@JsonConvert.DeserializeObject(ViewBag.Statistics).canceledReservations</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -179,7 +182,7 @@
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Reservations</h4>
-                        <p class="card-category">New reservations on 6th June, 2021</p>
+                        <p class="card-category">New reservations on @DateTime.Today.ToString("dd")th @DateTime.Today.ToString(" MMM, yyyy")</p>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
@@ -190,30 +193,15 @@
                             <th>Price</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Dafina Hajdini</td>
-                                    <td>BMW Z4</td>
-                                    <td class="text-primary">$36,504</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Egzon Sejdiu</td>
-                                    <td>Audi A4</td>
-                                    <td class="text-primary">$23,00</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Armend Emini</td>
-                                    <td>Fiat Punto</td>
-                                    <td class="text-primary">$56,00</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Arber Rrahmani</td>
-                                    <td>Volkswagen Golf 6</td>
-                                    <td class="text-primary">$38,00</td>
-                                </tr>
+                                @foreach (var booking in (List<RentACarTI2.Models.Booking>)ViewBag.Bookings)
+                                {
+                                    <tr>
+                                        <td>@booking.BookingID</td>
+                                        <td>@booking.clientInfos</td>
+                                        <td>@booking.vehicleInfos</td>
+                                        <td class="text-primary">$@booking.TotalPrice</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -254,88 +242,47 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="text-warning">
-                                        <td>ID</td>
-                                        <td>Date</td>
-                                        <td>Client</td>
-                                        <td>Vehicle</td>
-                                        <td>Status</td>
-                                        <td></td>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Date</th>
+                                                <th>Client</th>
+                                                <th>Vehicle</th>
+                                                <th>Status</th>
+                                                <th></th>
+                                            </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach (var Return in (List<RentACarTI2.Models.Rental_Return>)ViewBag.Returns)
+                                            {
+                                                <tr>
+                                                    <td>@Return.Rental_ReturnID</td>
+                                                    <td>@Return.Date</td>
+                                                    <td>@Return.clientInfos</td>
+                                                    <td>@Return.vehicleInfos</td>
+                                                    <td class="text-danger">Open</td>
+                                                    <td class="td-actions text-right">
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Full Details" data-toggle="modal"
+                                                                data-target="#fullDetailsModal">
+                                                            <i class="material-icons">list_alt</i>
+                                                        </button>
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Close Transaction" data-toggle="modal"
+                                                                data-target="#closeTransactionModal">
+                                                            <i class="material-icons">done</i>
+                                                        </button>
+                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                           data-original-title="Create Repair">
+                                                            <i class="material-icons">build</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
                                             <tr>
                                                 <td>1</td>
-                                                <td>15-05-2021</td>
-                                                <td>Arber Berisha</td>
-                                                <td>Mercedes AMG</td>
-                                                <td class="text-danger">Open</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Full Details" data-toggle="modal"
-                                                            data-target="#fullDetailsModal">
-                                                        <i class="material-icons">list_alt</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                       data-original-title="Create Repair">
-                                                        <i class="material-icons">build</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>15-05-2021</td>
-                                                <td>Arber Berisha</td>
-                                                <td>Mercedes AMG</td>
-                                                <td class="text-danger">Open</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Full Details" data-toggle="modal"
-                                                            data-target="#fullDetailsModal">
-                                                        <i class="material-icons">list_alt</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                       data-original-title="Create Repair">
-                                                        <i class="material-icons">build</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>15-05-2021</td>
-                                                <td>Arber Berisha</td>
-                                                <td>Mercedes AMG</td>
-                                                <td class="text-danger">Open</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Full Details" data-toggle="modal"
-                                                            data-target="#fullDetailsModal">
-                                                        <i class="material-icons">list_alt</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                       data-original-title="Create Repair">
-                                                        <i class="material-icons">build</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>15-05-2021</td>
-                                                <td>Arber Berisha</td>
-                                                <td>Mercedes AMG</td>
+                                                <td>15-09-2021</td>
+                                                <td>Ermal Berisha</td>
+                                                <td>Audi A4 Avant</td>
                                                 <td class="text-danger">Open</td>
                                                 <td class="td-actions text-right">
                                                     <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
@@ -362,60 +309,44 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="text-warning">
-                                        <td>ID</td>
-                                        <td>Company Name</td>
-                                        <td>Vehicle</td>
-                                        <td>Start Date</td>
-                                        <td>Return Date</td>
-                                        <td>Status</td>
-                                        <td></td>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Company Name</th>
+                                                <th>Vehicle</th>
+                                                <th>Start Date</th>
+                                                <th>Return Date</th>
+                                                <th>Status</th>
+                                                <th></th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @foreach (var Repair in (List<RentACarTI2.Models.Repair>)ViewBag.Repairs)
+                                            {
+                                                <tr>
+                                                    <td>@Repair.RepairID</td>
+                                                    <td>@Repair.ResponsibleCompany</td>
+                                                    <td>@Repair.VehicleInfos</td>
+                                                    <td>@Repair.StartDate</td>
+                                                    <td>@Repair.ReturnDate</td>
+                                                    <td class="text-danger">Open</td>
+                                                    <td class="td-actions text-right">
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Full Details" data-toggle="modal"
+                                                                data-target="#fullDetailsModal">
+                                                            <i class="material-icons">list_alt</i>
+                                                        </button>
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Close Transaction" data-toggle="modal"
+                                                                data-target="#closeTransactionModal">
+                                                            <i class="material-icons">done</i>
+                                                        </button>
+                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                           data-original-title="Create Repair">
+                                                            <i class="material-icons">build</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
                                             <tr>
                                                 <td>1</td>
                                                 <td>Auto Service</td>
@@ -439,60 +370,44 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="text-warning">
-                                        <td>ID</td>
-                                        <td>Company Name</td>
-                                        <td>Vehicle</td>
-                                        <td>Start Date</td>
-                                        <td>Return Date</td>
-                                        <td>Status</td>
-                                        <td></td>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Company Name</th>
+                                                <th>Vehicle</th>
+                                                <th>Start Date</th>
+                                                <th>Return Date</th>
+                                                <th>Status</th>
+                                                <th></th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @foreach (var Maintenance in (List<RentACarTI2.Models.Maintenance>)ViewBag.Maintenances)
+                                            {
+                                                <tr>
+                                                    <td>@Maintenance.MaintenanceID</td>
+                                                    <td>@Maintenance.ResponsibleCompany</td>
+                                                    <td>@Maintenance.VehicleInfos</td>
+                                                    <td>@Maintenance.StartDate</td>
+                                                    <td>@Maintenance.ReturnDate</td>
+                                                    <td class="text-danger">Open</td>
+                                                    <td class="td-actions text-right">
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Full Details" data-toggle="modal"
+                                                                data-target="#fullDetailsModal">
+                                                            <i class="material-icons">list_alt</i>
+                                                        </button>
+                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                                data-original-title="Close Transaction" data-toggle="modal"
+                                                                data-target="#closeTransactionModal">
+                                                            <i class="material-icons">done</i>
+                                                        </button>
+                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                           data-original-title="Create Repair">
+                                                            <i class="material-icons">build</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
                                             <tr>
                                                 <td>1</td>
                                                 <td>Auto Service</td>
@@ -520,6 +435,7 @@
     </div>
 </div>
 
+@* ----- RENDER PARTIAL VIEWS ----- *@
 @{ await Html.RenderPartialAsync("CloseTransactionPartialView"); }
 @{ await Html.RenderPartialAsync("FullDetailsPartialView"); }
 
@@ -531,20 +447,25 @@
         $(document).ready(function () {
             $().ready(function () {
 
-                // CUSTOM CODE
+                // CHARTS DATA FROM C#
+                var Json = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartsData));
+                var chartsDataJson = Json.Value.dashboardCharts
+
+                // LOAD DASHBOARD CHARTS
+                md.initDashboardPageCharts(chartsDataJson);
 
                 // INIT VEHICLE SALES DAILY/MONTHLY
                 $('#dailySalesDaily').click(function () {
                     var item = document.getElementById('dailySalesDaily');
                     item.classList.add("purple-background");
                     $('#dailySalesMonthly').removeClass("purple-background")
-                    md.initDailySalesChart();
+                    md.initDailySalesChart(chartsDataJson.vehicleSales.daily);
                 });
                 $('#dailySalesMonthly').click(function () {
                     var item = document.getElementById('dailySalesMonthly');
                     item.classList.add("purple-background");
                     $('#dailySalesDaily').removeClass("purple-background")
-                    md.initDailySalesMonthly();
+                    md.initDailySalesMonthly(chartsDataJson.vehicleSales.monthly);
                 });
 
                 // INIT MAINTENANCE COSTS DAILY/MONTHLY
@@ -552,13 +473,13 @@
                     var item = document.getElementById('maintenanceCostsDaily');
                     item.classList.add("purple-background");
                     $('#maintenanceCostsMonthly').removeClass("purple-background")
-                    md.initMaintenancesCostsDaily();
+                    md.initMaintenancesCostsDaily(chartsDataJson.maintenanceCosts.daily);
                 });
                 $('#maintenanceCostsMonthly').click(function () {
                     var item = document.getElementById('maintenanceCostsMonthly');
                     item.classList.add("purple-background");
                     $('#maintenanceCostsDaily').removeClass("purple-background")
-                    md.initMaintenanceCostsMonthly();
+                    md.initMaintenanceCostsMonthly(chartsDataJson.maintenanceCosts.monthly);
                 });
 
                 // INIT REPAIR COSTS DAILY/MONTHLY
@@ -566,13 +487,13 @@
                     var item = document.getElementById('repairCostsDaily');
                     item.classList.add("purple-background");
                     $('#repairCostsMonthly').removeClass("purple-background")
-                    md.initRepairCostsDaily();
+                    md.initRepairCostsDaily(chartsDataJson.repairCosts.daily);
                 });
                 $('#repairCostsMonthly').click(function () {
                     var item = document.getElementById('repairCostsMonthly');
                     item.classList.add("purple-background");
                     $('#repairCostsDaily').removeClass("purple-background")
-                    md.initRepairCostsMonthly();
+                    md.initRepairCostsMonthly(chartsDataJson.repairCosts.monthly);
                 });
                 //
 
@@ -608,16 +529,8 @@
                     setTimeout(function () {
                         clearInterval(simulateWindowResize);
                     }, 1000);
-
                 });
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Javascript method's body can be found in assets/js/demos.js
-            md.initDashboardPageCharts();
-
         });
     </script>
 }

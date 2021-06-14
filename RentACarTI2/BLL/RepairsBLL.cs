@@ -4,6 +4,7 @@ using System.Text;
 using RentACarTI2.Interfaces;
 using RentACarTI2.Models;
 using RentACarTI2.DAL;
+using System.Linq;
 
 namespace RentACarTI2.BLL
 {
@@ -44,6 +45,49 @@ namespace RentACarTI2.BLL
         public bool Remove(Repair model)
         {
             return dal.Remove(model);
+        }
+
+        public List<int> GetRepairCostsDaily()
+        {
+            var repairCosts = new List<int>();
+
+            DateTime currentDate;
+            int dayOfWeek = (int)DateTime.Today.DayOfWeek;
+            int dayOfWeekFinal = dayOfWeek == 0 ? 7 : dayOfWeek;
+
+            for (int startDate = 1; startDate <= dayOfWeekFinal; startDate++)
+            {
+                //currentDate = DateTime.Today.Date.AddDays(-dayOfWeekFinal + startDate);
+                currentDate = new DateTime(2020, 2, 19);
+                int costsThisDay = (int)new RepairsBLL().GetAll().Where(x => x.LUD.Date == currentDate.Date && x.IsRepaired).Select(x => x.Costs).Sum();
+                repairCosts.Add(costsThisDay);
+            }
+            return repairCosts;
+        }
+
+        public List<int> GetRepairCostsMonthly()
+        {
+            var repairCosts = new List<int>();
+
+            DateTime currentDate;
+            int currentMonth = DateTime.Today.Month;
+
+            var rentals = new RentalBLL().GetAll();
+            for (int firstMonth = 1; firstMonth <= currentMonth; firstMonth++)
+            {
+                currentDate = DateTime.Today.Date.AddMonths(-currentMonth + firstMonth);
+                //currentDate = new DateTime(2020, 9, 20);
+                int costsThisMonth = (int)new RepairsBLL().GetAll().Where(x => x.LUD.Month == currentDate.Month && x.IsRepaired).Select(x => x.Costs).Sum();
+                repairCosts.Add(costsThisMonth);
+            }
+            if (repairCosts.Count < 12)
+            {
+                for (int i = repairCosts.Count; i < 12; i++)
+                {
+                    repairCosts.Add(0);
+                }
+            }
+            return repairCosts;
         }
     }
 }

@@ -387,3 +387,6 @@ C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\V
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Return\Index.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Repair\Index.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Maintenance\Index.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Shared\CloseTransactionPartialView.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Shared\FullDetailsPartialView.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Account\Index.cshtml.g.cs

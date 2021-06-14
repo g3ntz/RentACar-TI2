@@ -152,6 +152,7 @@ namespace RentACarTI2.DAL
             Return.Booking.clientInfos = reader["Name"].ToString() + " " + reader["Surname"].ToString();
             Return.Booking.VehicleID = int.Parse(reader["VehicleID"].ToString());
             Return.Booking.ClientID = int.Parse(reader["ClientID"].ToString());
+            Return.Booking.TotalPrice = decimal.Parse(reader["TotalPrice"].ToString());
 
             Return.init();
 
