@@ -393,3 +393,5 @@ C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\V
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\User\Create.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\User\Edit.cshtml.g.cs
 C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Shared\DeleteRecordPartialView.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Role\Create.cshtml.g.cs
+C:\Users\OS\Desktop\RentACarTI2\RentACarTI2\obj\Debug\net461\Razor\Areas\Admin\Views\Role\Edit.cshtml.g.cs

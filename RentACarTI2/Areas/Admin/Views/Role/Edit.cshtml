@@ -1,0 +1,45 @@
+﻿@model RentACarTI2.Models.Role
+@{
+    ViewBag.RoleActive = "active";
+    ViewBag.Page = "Roles";
+    ViewBag.Title = "Rent a Car - Edit Role";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/Role/Edit/@Model.RoleID">
+            @Html.HiddenFor(x => x.RoleID)
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Create Role</h4>
+                <p class="card-category">Create a new role</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 input-group form-group no-border">
+                    <input type="text" name="Name" value="@Model.Name" class="form-control" placeholder="Name...">
+                </div>
+                <div class="col-12 input-group form-group no-border">
+                    <textarea name="Description" class="form-control" placeholder="Description...">@Model.Description</textarea>
+                </div>
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Role/Index" class="btn mt-3">Back to Roles</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Edit Role</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        var response = '@ViewBag.response';
+        if (response == "edited") {
+            md.showNotification('top', 'center', 'Role edited successfully', 2, 0);
+        }
+    </script>
+}

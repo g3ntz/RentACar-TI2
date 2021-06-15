@@ -1,18 +1,21 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Role>
+@{
     ViewBag.RoleActive = "active";
+    ViewBag.Page = "Roles";
+    ViewBag.Title = "Rent a Car - Roles Page";
 }
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="ml-4">
-                <a class="table-add-btn" href="role-crud.html">
+                <a class="table-add-btn" href="/Admin/Role/Create">
                     <i class="material-icons primary-color" style="font-size: 40px;">add_box</i>
                 </a>
             </div>
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Role...">
+                    <input id="searchRole" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Role...">
                 </div>
             </div>
         </div>
@@ -25,77 +28,45 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="rolesTable" class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Description
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            Admin
-                                        </td>
-                                        <td>
-                                            The Admin Role has access to all application data
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2
-                                        </td>
-                                        <td>
-                                            User
-                                        </td>
-                                        <td>
-                                            The User Role has access to all application data except Users and Admins management
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td>
-                                            Client
-                                        </td>
-                                        <td>
-                                            The Client Role has access only in his Reservations,Rentals and Returns
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach (var role in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @role.RoleID
+                                            </td>
+                                            <td>
+                                                @role.Name
+                                            </td>
+                                            <td>
+                                                @role.Description
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <a href="/Admin/Role/Edit/@role.RoleID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" id="@role.RoleID" onclick="deleteRole(this)" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                data-original-title="Remove" data-toggle="modal" data-target="#deleteRecordModal">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -105,3 +76,52 @@
         </div>
     </div>
 </div>
+
+@{ await Html.RenderPartialAsync("DeleteRecordPartialView"); }
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        var response = '@ViewBag.response';
+        if (response == "created") {
+            md.showNotification('top', 'center', 'Role created successfully', 2, 0);
+        }
+        else if (response == "deleted") {
+            md.showNotification('top', 'center', 'Role deleted successfully', 2, 0);
+        }
+
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchRole");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("rolesTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        function deleteRole(item) {
+            console.log("asd");
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Role/Delete/" + id);
+            console.log(id);
+        }
+    </script>
+}
