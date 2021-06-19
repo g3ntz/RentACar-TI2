@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Client>
+@{
     ViewBag.ClientActive = "active";
 }
 
@@ -7,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Client...">
+                    <input id="searchClient" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Client...">
                 </div>
             </div>
         </div>
@@ -20,69 +21,75 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="clientsTable" class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Surname
-                                </th>
-                                <th>
-                                    Age
-                                </th>
-                                <th>
-                                    Address
-                                </th>
-                                <th>
-                                    Email
-                                </th>
-                                <th>
-                                    Phone Nr
-                                </th>
-                                <th>
-                                    Driving License
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Surname
+                                        </th>
+                                        <th>
+                                            Age
+                                        </th>
+                                        <th>
+                                            Address
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Phone Nr
+                                        </th>
+                                        <th>
+                                            Driving License
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            Armend
-                                        </td>
-                                        <td>
-                                            Emini
-                                        </td>
-                                        <td>
-                                            25
-                                        </td>
-                                        <td>
-                                            Rruga arberia 291
-                                        </td>
-                                        <td>
-                                            Armend@gmail.com
-                                        </td>
-                                        <td>
-                                            044914771
-                                        </td>
-                                        <td>
-                                            1203190387
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach (var client in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @client.ClientID
+                                            </td>
+                                            <td>
+                                                @client.Name
+                                            </td>
+                                            <td>
+                                                @client.Surname
+                                            </td>
+                                            <td>
+                                                @client.Age
+                                            </td>
+                                            <td>
+                                                @client.Address
+                                            </td>
+                                            <td>
+                                                @client.Email
+                                            </td>
+                                            <td>
+                                                @client.PhoneNr
+                                            </td>
+                                            <td>
+                                                @client.DrivingLicense
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <a href="/Admin/Client/Edit/@client.ClientID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" id="@client.ClientID" onclick="deleteClient(this)" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove"
+                                                        data-toggle="modal" data-target="#deleteRecordModal">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -92,3 +99,43 @@
         </div>
     </div>
 </div>
+
+@{ await Html.RenderPartialAsync("DeleteRecordPartialView"); }
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchClient");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("clientsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        function deleteClient(item) {
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Client/Delete/" + id);
+            console.log(id);
+        }
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@model RentACarTI2.Models.Client
+@{
+    ViewBag.ClientActive = "active";
+    ViewBag.Page = "Clients";
+    ViewBag.Title = "Rent a Car - Edit Client";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/Client/Edit">
+            @Html.HiddenFor(x => x.ClientID)
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Edit Client</h4>
+                <p class="card-category">Edit existing client</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="Name" value="@Model.Name" class="form-control" placeholder="Name...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="Surname" value="@Model.Surname" class="form-control" placeholder="Surname...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="text" name="Email" value="@Model.Email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="tel" name="PhoneNr" value="@Model.PhoneNr" class="form-control" placeholder="Phone Nr...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="date" name="Birthdate" value="@string.Format("{0:yyyy-MM-dd}",Model.Birthdate)" class="form-control" placeholder="Birthdate...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <input type="tel" name="DrivingLicense" value="@Model.DrivingLicense" class="form-control" placeholder="Driving License...">
+                </div>
+                <div class="col-12 input-group form-group no-border mt-3">
+                    <textarea class="form-control" name="Address" placeholder="Address...">@Model.Address</textarea>
+                </div>
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Client/Index" class="btn mt-3">Back to Clients</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Edit Client</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+}
