@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,6 +26,7 @@ namespace RentACarTI2.Models
         public VehicleBrand VehicleBrand { get; set; }
         public VehicleRegistration VehicleRegistration { get; set; }
         public List<VehicleImages> vehicleImages { get; set; }
+        public List<IFormFile> files { get; set; }
 
 
         // String Concatination

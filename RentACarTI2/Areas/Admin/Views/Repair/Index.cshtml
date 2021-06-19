@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Repair>
+@{
     ViewBag.RepairActive = "active";
 }
 
@@ -22,66 +23,72 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Company Name
-                                </th>
-                                <th>
-                                    Description
-                                </th>
-                                <th>
-                                    Costs
-                                </th>
-                                <th>
-                                    Vehicle
-                                </th>
-                                <th>
-                                    Start Date
-                                </th>
-                                <th>
-                                    Return Date
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Company Name
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Costs
+                                        </th>
+                                        <th>
+                                            Vehicle
+                                        </th>
+                                        <th>
+                                            Start Date
+                                        </th>
+                                        <th>
+                                            Return Date
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            Auto Service
-                                        </td>
-                                        <td>
-                                            Demtim i motorrit
-                                        </td>
-                                        <td>
-                                            $98.00
-                                        </td>
-                                        <td>
-                                            Mercedes G-CLASS
-                                        </td>
-                                        <td>
-                                            21 Nov
-                                        </td>
-                                        <td>
-                                            23 Nov
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                    data-original-title="Close Transaction" data-toggle="modal"
-                                                    data-target="#closeTransactionModal">
-                                                <i class="material-icons">done</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach (var repair in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @repair.RepairID
+                                            </td>
+                                            <td>
+                                                @repair.ResponsibleCompany
+                                            </td>
+                                            <td>
+                                                @repair.Description
+                                            </td>
+                                            <td>
+                                                $@repair.Costs
+                                            </td>
+                                            <td>
+                                                @repair.VehicleInfos
+                                            </td>
+                                            <td>
+                                                @repair.StartDate
+                                            </td>
+                                            <td>
+                                                @repair.ReturnDate
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <button id="@repair.RepairID" onclick="closeTransaction(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        data-original-title="Close Transaction" data-toggle="modal"
+                                                        data-target="#closeTransactionModal">
+                                                    <i class="material-icons">done</i>
+                                                </button>
+                                                <a href="/Admin/Repair/Edit/@repair.RepairID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button id="@repair.RepairID" onclick="deleteRepair(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove"
+                                                        data-toggle="modal" data-target="#deleteRecordModal">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -93,3 +100,21 @@
 </div>
 
 @{ await Html.RenderPartialAsync("CloseTransactionPartialView"); }
+@{ await Html.RenderPartialAsync("DeleteRecordPartialView"); }
+
+@section Scripts
+{
+    <script>
+        function deleteRepair(item) {
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Repair/Delete/" + id);
+            console.log(id);
+        }
+
+        function closeTransaction(item) {
+            let id = item.getAttribute("id");
+            $('#closeTransaction').attr("action", "/Admin/Repair/CloseTransaction/" + id);
+            console.log(id);
+        }
+    </script>
+}

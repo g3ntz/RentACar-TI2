@@ -47,6 +47,11 @@ namespace RentACarTI2.BLL
             return dal.Remove(maintenance);
         }
 
+        public bool CloseTransaction(int id)
+        {
+            return dal.CloseTransaction(id);
+        }
+
         public List<int> GetMaintenanceCostsDaily()
         {
             var maintenanceCosts = new List<int>();

@@ -1,0 +1,53 @@
+﻿@model RentACarTI2.Models.Repair
+@{
+    ViewBag.RepairActive = "active";
+    ViewBag.Page = "Repairs";
+    ViewBag.Title = "Rent a Car - Edit Repair";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/Repair/Edit">
+            @Html.HiddenFor(x => x.RepairID)
+            @Html.HiddenFor(x => x.VehicleID)
+            <input type="hidden" name="VehicleID" value="@ViewBag.VehicleID" />
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Edit Repair</h4>
+                <p class="card-category">Edit existing repair</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="ResponsibleCompany" value="@Model.ResponsibleCompany" class="form-control" placeholder="Responsible Company...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="Costs" class="form-control" value="@Model.Costs" placeholder="Costs (if known)...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <label class="ml-3" for="start-date">Start Date</label>
+                    <input id="start-date" name="StartDate" type="date" value="@string.Format("{0:yyyy-MM-dd}",Model.StartDate)" class="form-control">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <label class="ml-3" for="return-date">Return Date (if known)</label>
+                    <input id="return-date" name="ReturnDate" type="date" value="@string.Format("{0:yyyy-MM-dd}",Model.ReturnDate)" class="form-control">
+                </div>
+                <div class="col-12 input-group form-group no-border mt-3">
+                    <textarea class="form-control" name="Description" placeholder="Description...">@Model.Description</textarea>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Repair/Index" class="btn mt-3">Back to Repairs</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Edit Repair</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+}

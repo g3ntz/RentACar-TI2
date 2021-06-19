@@ -1,0 +1,352 @@
+﻿@model RentACarTI2.Areas.Admin.ViewModels.VehicleViewModel
+@using RentACarTI2.BLL
+@{
+    ViewBag.VehicleActive = "active";
+    ViewBag.Page = "Vehicles";
+    ViewBag.Title = "Rent a Car - Edit Vehicle";
+
+    var vehicleBrands = VehicleBrandBLL.vehicleBrandDAL.GetAll();
+    var makesUnique = vehicleBrands.Select(x => x.Make).Distinct().ToList();
+    var categoriesUnique = vehicleBrands.Select(x => x.Category).Distinct().ToList();
+}
+
+@section Style
+{
+    <style>
+        .gallery {
+            white-space: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            border: 2px solid purple;
+            background-color: #1a2035;
+            border-radius: 20px;
+            height: 240px;
+            width: 1550px;
+            margin: 0 auto;
+        }
+
+        .gallery::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        .gallery::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+
+        .gallery::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+            background-color: #887490;
+            margin: 10px 10px;
+        }
+
+        .gallery img {
+            height: 92%;
+            width: 307px;
+            margin: 0 15px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .added-img {
+            opacity: 1;
+            transition: 0.3s;
+        }
+
+        .added-img:hover {
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        .clicked-img {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+    </style>
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/Vehicle/Edit/@Model.VehicleID" enctype="multipart/form-data">
+            @Html.HiddenFor(x => x.VehicleID)
+            @Html.HiddenFor(x => x.imageThumbnailName, new { @id = "thumbnailName", @value = Model.imageThumbnailName })
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Edit Vehicle</h4>
+                <p class="card-category">Edit existing vehicle</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
+                    <a href="#" type="button" class="new-brand" data-toggle="modal" data-target="#exampleModal">+New Brand</a>
+                    <select id="make" name="VehicleBrand.Make" onchange="addModelsByMake(this)" class="form-control">
+                        <option>Make</option>
+                        @foreach (var make in makesUnique)
+                        {
+                            if (make == Model.VehicleBrand.Make)
+                            {
+                                <option selected value="@make">@make</option>
+                            }
+                            else
+                            {
+                                <option value="@make">@make</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
+                    <select name="VehicleBrand.Model" id="vehicleModel" class="form-control">
+                        <option>Model</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
+                    <select name="VehicleBrand.Category" class="form-control">
+                        <option>Category</option>
+                        @foreach (var category in categoriesUnique)
+                        {
+                            if (category == Model.VehicleBrand.Category)
+                            {
+                                <option selected value="@category">@category</option>
+                            }
+                            else
+                            {
+                                <option value="@category">@category</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <select name="Transmission" class="form-control">
+                        <option>Transmission</option>
+                        @if (Model.Transmission == "Automatic")
+                        {
+                            <option selected value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                        }
+                        else
+                        {
+                            <option value="Automatic">Automatic</option>
+                            <option selected value="Manual">Manual</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <select name="FuelType" class="form-control">
+                        <option>Fuel Type</option>
+                        @if (Model.FuelType == "Diesel")
+                        {
+                            <option selected value="Diesel">Diesel</option>
+                            <option value="Gas">Gas</option>
+                        }
+                        else
+                        {
+                            <option value="Diesel">Diesel</option>
+                            <option selected value="Gas">Gas</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="text" value="@Model.DailyPrice" name="DailyPrice" class="form-control" placeholder="Daily Price...">
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="text" value="@Model.FuelAmount" name="FuelAmount" class="form-control" placeholder="Fuel Amount...">
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="number" name="ProductionYear" class="form-control" min="1990" max="2021" value="@Model.ProductionYear" placeholder="Production Year...">
+                </div>
+
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="text" name="PlateNr" value="@Model.PlateNr" class="form-control" placeholder="Plate Nr...">
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="text" name="Mileage" value="@Model.Mileage" class="form-control" placeholder="Mileage...">
+                </div>
+                <div class="col-12 col-sm-4 input-group form-group no-border">
+                    <input type="number" name="SeatsNr" class="form-control" min="2" max="7" value="@Model.SeatsNr" placeholder="Seats Nr...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <textarea class="form-control" name="OtherInfos" placeholder="Other Infos">@Model.OtherInfos</textarea>
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <textarea class="form-control" name="VehicleActualCondition" placeholder="Vehicle Actual Condition">@Model.VehicleActualCondition</textarea>
+                </div>
+
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-4">
+                    <label class="ml-3" for="registration-date">Registration Date</label>
+                    <input id="registration-date" type="date" name="VehicleRegistration.RegistrationDate" value="@string.Format("{0:yyyy-MM-dd}",Model.VehicleRegistration.RegistrationDate)" 
+                           class="form-control" placeholder="Registration Date...">
+                </div>
+
+                <div class="col-6 form-group no-border">
+                    <div class="custom-file mt-2">
+                        <input multiple type="file" name="photos" class="custom-file-input" id="gallery-photo-add">
+                        @if (Model.vehicleImages.Count == 0)
+                        {
+                            <label class="custom-file-label" for="gallery-photo-add"
+                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">Choose file</label>
+                        }
+                        else if (Model.vehicleImages.Count == 1)
+                        {
+                            <label class="custom-file-label" for="gallery-photo-add"
+                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">@Model.vehicleImages[0].Path</label>
+                        }
+                        else 
+                        {
+                            <label class="custom-file-label" for="gallery-photo-add"
+                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">@Model.vehicleImages.Count Files Selected</label>
+                        }
+                    </div>
+                </div>
+
+                <h4 id="vehicleImagesText" class="col-3 ml-4 mt-4">Vehicle Images<span style="visibility:hidden;"> - Select thumbnail image</span></h4>
+                <div class="gallery-container" style="width:98%; margin:0 auto;">
+                    <div id="gallery" class="gallery">
+                        @foreach (var image in Model.vehicleImages)
+                        {
+                            if (image.IsThumbnail)
+                            {
+                                <img data-filename="@image.Path" onclick="addThumbnail(this)" class="added-img clicked-img" src="/assets/vehicleImages/@image.Path" />
+                            }
+                            else
+                            {
+                                <img data-filename="@image.Path" onclick="addThumbnail(this)" class="added-img" src="/assets/vehicleImages/@image.Path" />
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Vehicle/Index" class="btn mt-3">Back to Vehicles</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Edit Vehicle</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        // SELECT IMAGE THUMBMNAIL
+        $('#gallery').on("click", "img", function () {
+            $('#gallery img').removeClass("clicked-img");
+            $(this).toggleClass("clicked-img");
+
+            let selectedThumbnail = $(this).attr("data-filename");
+            $('#thumbnailName').val(selectedThumbnail);
+
+        })
+
+        // SHOW SELECTED IMAGES FROM INPUT FILE IN THE GALLERY DIV
+        $(function () {
+            // Multiple images preview in browser
+            var imagesPreview = (function (input, placeToInsertImagePreview) {
+
+                if (input.files) {
+                    var filesAmount = input.files.length;
+
+                    for (i = 0; i < filesAmount; i++) {
+                        var reader = new FileReader();
+
+                        let fileName = input.files[i].name;
+
+
+                        reader.onload = function (event) {
+
+                            $($.parseHTML('<img onclick="addThumbnail(this)" class="added-img">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview)
+                                .attr("data-filename", fileName);
+                            console.log(fileName);
+                        }
+
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+
+            });
+
+            $('#gallery-photo-add').on('change', function () {
+                imagesPreview(this, 'div.gallery');
+                showNameOfSelectedFiles(this);
+                /*$('#vehicleImagesText span').css("visibility", "visible");*/
+            });
+
+            function showNameOfSelectedFiles(input) {
+                let galleryImagesNr = $('#gallery img').length;
+                let addedFilesNr = input.files.length;
+                let allTogether = galleryImagesNr + addedFilesNr;
+                if (allTogether == 0) {
+                    $('.custom-file-label').text("Choose File");
+                }
+                else if (allTogether == 1) {
+                    if (input.files[0] != null) {
+                        $('.custom-file-label').text(input.files[0].name);
+                    }
+                    else {
+                        $('.custom-file-label').text($('#gallery img').attr("data-filename"));
+                    }
+                }
+                else {
+                    $('.custom-file-label').text(allTogether + " Files Selected");
+                }
+            }
+        });
+
+        // ADD MODELS BY SELECTED MAKE
+        var vehicleBrands = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(vehicleBrands));
+        const uniqueMakeSet = [new Set(vehicleBrands.map(obj => obj.Make))];
+        var uniqueMakeArray = Array.from(uniqueMakeSet[0]);
+
+        function addModelsByMake(item) {
+            var modelsSelect = document.getElementById('vehicleModel');
+            modelsSelect.innerHTML = "";
+            modelsSelect.innerHTML = "<option value=\"\" selected>Model:</option>";
+            var make = item.value;
+            var makesAndModels = vehicleBrands.filter(x => x.Make == make);
+            var models = [];
+            makesAndModels.forEach(x => models.push(x.Model));
+
+            models.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                option.value = item;
+                modelsSelect.add(option);
+            })
+        }
+
+        function addModelsByMakeString(item) {
+            var modelsSelect = document.getElementById('vehicleModel');
+            modelsSelect.innerHTML = "";
+            modelsSelect.innerHTML = "<option value=\"\" selected>Model:</option>";
+            var makesAndModels = vehicleBrands.filter(x => x.Make == item);
+            var models = [];
+            makesAndModels.forEach(x => models.push(x.Model));
+
+            models.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                if ('@Model.VehicleBrand.Model' == option.text) {
+                    option.selected = true;
+                }
+                modelsSelect.add(option);
+            })
+        }
+
+        Array.from(document.querySelector("#make").options).forEach(function (option_element) {
+            if (option_element.selected == true) {
+                if (option_element.text != "Make") {
+                    addModelsByMakeString(option_element.text);
+                }
+            }
+        });
+    </script>
+}

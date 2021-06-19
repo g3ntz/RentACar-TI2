@@ -1,18 +1,72 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Vehicle>
+@{
     ViewBag.VehicleActive = "active";
+    ViewBag.Page = "Vehicles";
+    ViewBag.Title = "Rent a Car - Vehicles Page";
+}
+
+@section Style
+{
+    <style>
+        .header {
+            text-align: center;
+            padding: 32px;
+        }
+
+        .row {
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE10 */
+            flex-wrap: wrap;
+            padding: 0 4px;
+        }
+
+        /* Create four equal columns that sits next to each other */
+        /*.column {
+          -ms-flex: 33%;*/ /* IE10 */
+        /*flex: 33%;
+          max-width: 33%;
+          padding: 0 4px;
+        }*/
+
+        .column img {
+            margin-top: 8px;
+            vertical-align: middle;
+            width: 100%;
+            max-height: 20%;
+        }
+
+        /* Responsive layout - makes a two column-layout instead of four columns */
+        @@media screen and (max-width: 800px) {
+            .column {
+                -ms-flex: 50%;
+                flex: 50%;
+                max-width: 50%;
+            }
+        }
+
+        /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+        @@media screen and (max-width: 600px) {
+            .column {
+                -ms-flex: 100%;
+                flex: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 }
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="ml-4">
-                <a class="table-add-btn" href="vehicle-crud.html">
+                <a class="table-add-btn" href="/Admin/Vehicle/Create">
                     <i class="material-icons primary-color" style="font-size: 40px;">add_box</i>
                 </a>
             </div>
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Vehicle...">
+                    <input id="searchVehicle" onkeyup="myFunction()" type="text" class="form-control" placeholder="Search Vehicle...">
                 </div>
             </div>
         </div>
@@ -25,105 +79,115 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="vehiclesTable" class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Make
-                                </th>
-                                <th>
-                                    Model
-                                </th>
-                                <th>
-                                    Category
-                                </th>
-                                <th>
-                                    Year
-                                </th>
-                                <th>
-                                    Plate Nr
-                                </th>
-                                <th>
-                                    Transmission
-                                </th>
-                                <th>
-                                    Seats
-                                </th>
-                                <th>
-                                    Price
-                                </th>
-                                <th>
-                                    Mileage
-                                </th>
-                                <th>
-                                    Fuel Type
-                                </th>
-                                <th>
-                                    Fuel Amount
-                                </th>
-                                <th>
-                                    Reg Days Left
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Make
+                                        </th>
+                                        <th>
+                                            Model
+                                        </th>
+                                        <th>
+                                            Category
+                                        </th>
+                                        <th>
+                                            Year
+                                        </th>
+                                        <th>
+                                            Plate Nr
+                                        </th>
+                                        <th>
+                                            Transmission
+                                        </th>
+                                        <th>
+                                            Seats
+                                        </th>
+                                        <th>
+                                            Price
+                                        </th>
+                                        <th>
+                                            Mileage
+                                        </th>
+                                        <th>
+                                            Fuel Type
+                                        </th>
+                                        <th>
+                                            Fuel Amount
+                                        </th>
+                                        <th>
+                                            Reg Days Left
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            Mercedes
-                                        </td>
-                                        <td>
-                                            G-CLASS
-                                        </td>
-                                        <td>
-                                            SUV
-                                        </td>
-                                        <td>
-                                            2013
-                                        </td>
-                                        <td>
-                                            02-A9S-KE
-                                        </td>
-                                        <td>
-                                            Automatic
-                                        </td>
-                                        <td>
-                                            5
-                                        </td>
-                                        <td class="text-primary">
-                                            $27.50
-                                        </td>
-                                        <td>
-                                            92841
-                                        </td>
-                                        <td>
-                                            Diesel
-                                        </td>
-                                        <td>
-                                            15.0L
-                                        </td>
-                                        <td>
-                                            46 Days Left
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <a href="maintenance-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Maintenance">
-                                                <i class="material-icons">engineering</i>
-                                            </a>
-                                            <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Repair">
-                                                <i class="material-icons">build</i>
-                                            </a>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach (var vehicle in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @vehicle.VehicleID
+                                            </td>
+                                            <td>
+                                                @vehicle.VehicleBrand.Make
+                                            </td>
+                                            <td>
+                                                @vehicle.VehicleBrand.Model
+                                            </td>
+                                            <td>
+                                                @vehicle.VehicleBrand.Category
+                                            </td>
+                                            <td>
+                                                @vehicle.ProductionYear
+                                            </td>
+                                            <td>
+                                                @vehicle.PlateNr
+                                            </td>
+                                            <td>
+                                                @vehicle.Transmission
+                                            </td>
+                                            <td>
+                                                @vehicle.SeatsNr
+                                            </td>
+                                            <td class="text-primary">
+                                                $@vehicle.DailyPrice
+                                            </td>
+                                            <td>
+                                                @vehicle.Mileage
+                                            </td>
+                                            <td>
+                                                @vehicle.FuelType
+                                            </td>
+                                            <td>
+                                                @vehicle.FuelAmount<span>L</span>
+                                            </td>
+                                            <td>
+                                                @vehicle.StringRegDaysLeft
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <a href="maintenance-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Images"
+                                                   data-toggle="modal" data-target="#vehicleImagesModal">
+                                                    <i class="material-icons">image</i>
+                                                </a>
+                                                <a href="/Admin/Maintenance/Create/@vehicle.VehicleID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Maintenance">
+                                                    <i class="material-icons">engineering</i>
+                                                </a>
+                                                <a href="/Admin/Repair/Create/@vehicle.VehicleID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Repair">
+                                                    <i class="material-icons">build</i>
+                                                </a>
+                                                <a href="/Admin/Vehicle/Edit/@vehicle.VehicleID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button id="@vehicle.VehicleID" type="button" onclick="deleteVehicle(this)" rel="tooltip" class="btn btn-white btn-link btn-sm" data-original-title="Remove"
+                                                        data-toggle="modal" data-target="#deleteRecordModal">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -133,3 +197,83 @@
         </div>
     </div>
 </div>
+
+@{ await Html.RenderPartialAsync("DeleteRecordPartialView"); }
+
+<!-- Watch Vehicle Images Modal -->
+<div class="modal fade" id="vehicleImagesModal" tabindex="-1" role="dialog" aria-labelledby="vehicleImagesModal"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width:900px;" role="document">
+        <form class="modal-content form-row card">
+            <div class="modal-header card-header card-header-primary">
+                <h5>Vehicle Images</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body card-body">
+                <div class="row" style="height:600px; overflow-x: hidden; overflow-y: auto;">
+                    <div class="col-4 column">
+                        <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/falls2.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
+                    </div>
+                    <div class="col-4 column">
+                        <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/falls2.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
+                    </div>
+                    <div class="col-4 column">
+                        <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/falls2.jpg" style="width:100%">
+                        <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
+                    </div>
+                </div>
+
+                <div class="row input-group form-group no-border justify-content-end">
+                    <button type="button" class="btn col-3" data-dismiss="modal">Exit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts 
+{
+    <script>
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchVehicle");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("vehiclesTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        function deleteVehicle(item) {
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Vehicle/Delete/" + id);
+            console.log(id);
+        }
+    </script>
+}

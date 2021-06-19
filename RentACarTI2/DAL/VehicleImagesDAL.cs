@@ -13,7 +13,28 @@ namespace RentACarTI2.DAL
     {
         public bool Add(VehicleImages model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_VehicleImages_Insert",
+                        CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("Name", model.Name);
+                        command.Parameters.AddWithValue("ContentType", model.ContentType);
+                        command.Parameters.AddWithValue("Path", model.Path);
+                        command.Parameters.AddWithValue("VehicleID", model.VehicleID);
+                        command.Parameters.AddWithValue("IsThumbnail", model.IsThumbnail);
+
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public VehicleImages Get(int id)
@@ -24,32 +45,6 @@ namespace RentACarTI2.DAL
         public VehicleImages Get(VehicleImages model)
         {
             throw new NotImplementedException();
-            //try
-            //{
-            //    List<VehicleImages> result = null;
-
-            //    using (var connection = SqlHelper.GetConnection())
-            //    {
-            //        using (var command = SqlHelper.Command(connection, "dbo.usp_VehicleImages_GetByVehicleID", CommandType.StoredProcedure))
-            //        {
-            //            command.Parameters.AddWithValue("VehicleID", model.VehicleID);
-
-            //            using (SqlDataReader reader = command.ExecuteReader())
-            //            {
-            //                result = new List<VehicleImages>();
-            //                while (reader.Read())
-            //                {
-            //                    result.Add(ToObject(reader));
-            //                }
-            //            }
-            //        }
-            //    }
-            //    return result;
-            //}
-            //catch (Exception)
-            //{
-            //    return null;
-            //}
         }
 
         public List<VehicleImages> GetAll()
@@ -81,7 +76,29 @@ namespace RentACarTI2.DAL
 
         public bool Modify(VehicleImages model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_VehicleImages_Modify",
+                        CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("VehicleImageID", model.VehicleImageID);
+                        command.Parameters.AddWithValue("Name", model.Name);
+                        command.Parameters.AddWithValue("ContentType", model.ContentType);
+                        command.Parameters.AddWithValue("Path", model.Path);
+                        command.Parameters.AddWithValue("VehicleID", model.VehicleID);
+                        command.Parameters.AddWithValue("IsThumbnail", model.IsThumbnail);
+
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool Remove(int id)
@@ -94,9 +111,32 @@ namespace RentACarTI2.DAL
             throw new NotImplementedException();
         }
 
+        public bool ResetThumbnail(VehicleImages model)
+        {
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_VehicleImages_ResetThumbnail",
+                        CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("VehicleID", model.VehicleID);
+
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public VehicleImages ToObject(SqlDataReader reader)
         {
             VehicleImages vehicleImages = new VehicleImages();
+            vehicleImages.VehicleImageID = int.Parse(reader["VehicleImageID"].ToString());
             vehicleImages.ContentType = reader["ContentType"].ToString();
             vehicleImages.Path = reader["Path"].ToString();
             vehicleImages.Name = reader["Name"].ToString();

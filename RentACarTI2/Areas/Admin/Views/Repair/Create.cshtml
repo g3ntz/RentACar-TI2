@@ -1,0 +1,51 @@
+﻿@model RentACarTI2.Models.Repair
+@{
+    ViewBag.RepairActive = "active";
+    ViewBag.Page = "Repairs";
+    ViewBag.Title = "Rent a Car - Create Repair";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form-row card" method="POST" action="/Admin/Repair/Create">
+            <input type="hidden" name="VehicleID" value="@ViewBag.VehicleID" />
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Create Repair</h4>
+                <p class="card-category">Create a new repair</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="ResponsibleCompany" class="form-control" placeholder="Responsible Company...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border">
+                    <input type="text" name="Costs" class="form-control" placeholder="Costs (if known)...">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <label class="ml-3" for="start-date">Start Date</label>
+                    <input id="start-date" name="StartDate" type="date" class="form-control">
+                </div>
+                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                    <label class="ml-3" for="return-date">Return Date (if known)</label>
+                    <input id="return-date" name="ReturnDate" type="date" class="form-control">
+                </div>
+                <div class="col-12 input-group form-group no-border mt-3">
+                    <textarea class="form-control" name="Description" placeholder="Description..."></textarea>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Vehicle/Index" class="btn mt-3">Back to Vehicles</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Create Repair</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+}

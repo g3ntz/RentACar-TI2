@@ -155,6 +155,28 @@ namespace RentACarTI2.DAL
             throw new NotImplementedException();
         }
 
+        public bool CloseTransaction(int id)
+        {
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_Repairs_CloseTransaction",
+                        CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("RepairID", id);
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public Repair ToObject(SqlDataReader reader)
         {
             Repair repair = new Repair();

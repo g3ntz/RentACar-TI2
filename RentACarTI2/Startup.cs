@@ -16,6 +16,7 @@ namespace RentACarTI2
         {
             Configuration = configuration;
             SqlHelper.connectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "RentACar_ConnStr");
+            var contentRoot = configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
         }
 
         public IConfiguration Configuration { get; }
