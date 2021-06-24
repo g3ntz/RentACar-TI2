@@ -82,6 +82,7 @@
                             <table id="vehiclesTable" class="table table-hover">
                                 <thead class=" text-primary">
                                     <tr>
+                                        <th></th>
                                         <th>
                                             ID
                                         </th>
@@ -129,6 +130,16 @@
                                     {
                                         <tr>
                                             <td>
+                                                @if (vehicle.IsAvailable && vehicle.InGoodCondition)
+                                                {
+                                                    <img src="/Admin/Content/assets/img/greenCircle.png" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Admin/Content/assets/img/redCircle.png" />
+                                                }
+                                            </td>
+                                            <td>
                                                 @vehicle.VehicleID
                                             </td>
                                             <td>
@@ -168,10 +179,6 @@
                                                 @vehicle.StringRegDaysLeft
                                             </td>
                                             <td class="td-actions text-right">
-                                                <a href="maintenance-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Images"
-                                                   data-toggle="modal" data-target="#vehicleImagesModal">
-                                                    <i class="material-icons">image</i>
-                                                </a>
                                                 <a href="/Admin/Maintenance/Create/@vehicle.VehicleID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Maintenance">
                                                     <i class="material-icons">engineering</i>
                                                 </a>
@@ -243,7 +250,24 @@
 
 @section Scripts 
 {
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
     <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.response';
+        console.log(response);
+        if (response == "successfully created vehicle") {
+            md.showNotification('top', 'center', "Vehicle created successfully", 2, 0);
+        }
+        else if (response == "deleted successfully") {
+            md.showNotification('top', 'center', "Vehicle deleted successfully", 2, 0);
+        }
+        else if (response == "error deleting") {
+            md.showNotification('top', 'center', "An error happened while deleting vehicle, please try again", 1, 2);
+        }
+        else if (response == "repair exists for vehicle") {
+            md.showNotification('top', 'center', 'Repair already exists for this vehicle, please edit instead', 1, 2);
+        } 
+
         // FILTERING
         function myFunction() {
             var input, filter, table, tr, td, i;

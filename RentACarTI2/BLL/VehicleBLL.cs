@@ -114,8 +114,7 @@ namespace RentACarTI2.BLL
 
             for (int startDate = 1; startDate <= dayOfWeekFinal; startDate++)
             {
-                //currentDate = DateTime.Today.Date.AddDays(-dayOfWeekFinal + startDate);
-                currentDate = new DateTime(2020, 9, 20);
+                currentDate = DateTime.Today.Date.AddDays(-dayOfWeekFinal + startDate);
 
                 int salesThisDay = (int)new RentalBLL().GetAll().Where(x => x.Date.Date == currentDate.Date).Select(x => x.Booking.TotalPrice).Sum();
                 vehicleSales.Add(salesThisDay);
@@ -135,7 +134,6 @@ namespace RentACarTI2.BLL
             for (int firstMonth = 1; firstMonth <= currentMonth; firstMonth++)
             {
                 currentDate = DateTime.Today.Date.AddMonths(-currentMonth + firstMonth);
-                //currentDate = new DateTime(2020, 9, 20);
 
                 var salesThisMonth = (int)rentals.Where(x => x.Date.Month == currentDate.Month).Select(x => x.Booking.TotalPrice).Sum();
 

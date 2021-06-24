@@ -150,7 +150,7 @@
                         <div class="card-icon">
                             <i class="material-icons">event</i>
                         </div>
-                        <p class="card-category">Reservations</p>
+                        <p class="card-category">Active Reservations</p>
                         <h3 class="card-title text-info">@JsonConvert.DeserializeObject(ViewBag.Statistics).reservations</h3>
                     </div>
                     <div class="card-footer">
@@ -187,10 +187,12 @@
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
                             <thead class="text-warning">
-                            <th>ID</th>
-                            <th>Client</th>
-                            <th>Vehicle</th>
-                            <th>Price</th>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Client</th>
+                                    <th>Vehicle</th>
+                                    <th>Price</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach (var booking in (List<RentACarTI2.Models.Booking>)ViewBag.Bookings)
@@ -215,7 +217,7 @@
                                 <span class="nav-tabs-title">Tasks:</span>
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#returns" data-toggle="tab">
+                                        <a class="nav-link active show" href="#returns" data-toggle="tab">
                                             <i class="material-icons">assignment_return</i> Returns
                                             <div class="ripple-container"></div>
                                         </a>
@@ -256,7 +258,7 @@
                                             {
                                                 <tr>
                                                     <td>@Return.Rental_ReturnID</td>
-                                                    <td>@Return.Date</td>
+                                                    <td>@Return.Date.ToString("dd-MM-yyyy")</td>
                                                     <td>@Return.clientInfos</td>
                                                     <td>@Return.vehicleInfos</td>
                                                     <td class="text-danger">Open</td>
@@ -266,41 +268,18 @@
                                                                 data-target="#fullDetailsModal">
                                                             <i class="material-icons">list_alt</i>
                                                         </button>
-                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        <button id="@Return.Rental_ReturnID" onclick="closeTransactionReturn(this)" type="button" rel="tooltip" class="btn btn-white btn-link btn-sm"
                                                                 data-original-title="Close Transaction" data-toggle="modal"
                                                                 data-target="#closeTransactionModal">
                                                             <i class="material-icons">done</i>
                                                         </button>
-                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        <a href="/Admin/Repair/Create/@Return.Rental_ReturnID?fromReturn=true&fromDashboard=true" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
                                                            data-original-title="Create Repair">
                                                             <i class="material-icons">build</i>
                                                         </a>
                                                     </td>
                                                 </tr>
                                             }
-                                            <tr>
-                                                <td>1</td>
-                                                <td>15-09-2021</td>
-                                                <td>Ermal Berisha</td>
-                                                <td>Audi A4 Avant</td>
-                                                <td class="text-danger">Open</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Full Details" data-toggle="modal"
-                                                            data-target="#fullDetailsModal">
-                                                        <i class="material-icons">list_alt</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                    <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                       data-original-title="Create Repair">
-                                                        <i class="material-icons">build</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -326,42 +305,25 @@
                                                     <td>@Repair.RepairID</td>
                                                     <td>@Repair.ResponsibleCompany</td>
                                                     <td>@Repair.VehicleInfos</td>
-                                                    <td>@Repair.StartDate</td>
-                                                    <td>@Repair.ReturnDate</td>
+                                                    <td>@Repair.StartDate.ToString("dd-MM-yyyy")</td>
+                                                    <td>@Repair.ReturnDate.ToString("dd-MM-yyyy")</td>
                                                     <td class="text-danger">Open</td>
                                                     <td class="td-actions text-right">
-                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                                data-original-title="Full Details" data-toggle="modal"
-                                                                data-target="#fullDetailsModal">
-                                                            <i class="material-icons">list_alt</i>
-                                                        </button>
-                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        <button id="@Repair.RepairID" onclick="closeTransactionRepair(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
                                                                 data-original-title="Close Transaction" data-toggle="modal"
                                                                 data-target="#closeTransactionModal">
                                                             <i class="material-icons">done</i>
                                                         </button>
-                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                           data-original-title="Create Repair">
-                                                            <i class="material-icons">build</i>
+                                                        <a href="/Admin/Repair/Edit/@Repair.RepairID?fromDashboard=true" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
+                                                            <i class="material-icons">edit</i>
                                                         </a>
+                                                        <button id="@Repair.RepairID" onclick="deleteRepair(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove"
+                                                                data-toggle="modal" data-target="#deleteRecordModal">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             }
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -387,42 +349,25 @@
                                                     <td>@Maintenance.MaintenanceID</td>
                                                     <td>@Maintenance.ResponsibleCompany</td>
                                                     <td>@Maintenance.VehicleInfos</td>
-                                                    <td>@Maintenance.StartDate</td>
-                                                    <td>@Maintenance.ReturnDate</td>
+                                                    <td>@Maintenance.StartDate.ToString("dd-MM-yyyy")</td>
+                                                    <td>@Maintenance.ReturnDate.ToString("dd-MM-yyyy")</td>
                                                     <td class="text-danger">Open</td>
                                                     <td class="td-actions text-right">
-                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                                data-original-title="Full Details" data-toggle="modal"
-                                                                data-target="#fullDetailsModal">
-                                                            <i class="material-icons">list_alt</i>
-                                                        </button>
-                                                        <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        <button id="@Maintenance.MaintenanceID" onclick="closeTransactionMaintenance(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
                                                                 data-original-title="Close Transaction" data-toggle="modal"
                                                                 data-target="#closeTransactionModal">
                                                             <i class="material-icons">done</i>
                                                         </button>
-                                                        <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                           data-original-title="Create Repair">
-                                                            <i class="material-icons">build</i>
+                                                        <a href="/Admin/Maintenance/Edit/@Maintenance.MaintenanceID?fromDashboard=true" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit Task">
+                                                            <i class="material-icons">edit</i>
                                                         </a>
+                                                        <button id="@Maintenance.MaintenanceID" onclick="deleteMaintenance(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Remove"
+                                                                data-toggle="modal" data-target="#deleteRecordModal">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             }
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Auto Service</td>
-                                                <td>Golf 6 GTI</td>
-                                                <td>15-06-2021</td>
-                                                <td>18-06-2021</td>
-                                                <td class="text-danger">Repairing</td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                            data-original-title="Close Transaction" data-toggle="modal"
-                                                            data-target="#closeTransactionModal">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -438,6 +383,7 @@
 @* ----- RENDER PARTIAL VIEWS ----- *@
 @{ await Html.RenderPartialAsync("CloseTransactionPartialView"); }
 @{ await Html.RenderPartialAsync("FullDetailsPartialView"); }
+@{ await Html.RenderPartialAsync("DeleteRecordPartialView"); }
 
 @* ---- RENDER THIS SECTION AT LAYOUT (DASHBOARD CHART SCRIPTS) *@
 @section Scripts
@@ -446,6 +392,47 @@
     <script>
         $(document).ready(function () {
             $().ready(function () {
+                var response = '@ViewBag.Response';
+                if (response == "successfully closed tran") {
+                    md.showNotification('top', 'center', 'Successfully closed transaction', 2, 0);
+                }
+                else if (response == "error closing tran") {
+                    md.showNotification('top', 'center', 'An error happened while closing transaction, please try again', 1, 2);
+                }
+                else if (response == "repair is not completed") {
+                    md.showNotification('top', 'center', 'The repair for this return is not completed, check if repair is not closed or not created yet', 1, 2);
+                }
+                else if (response == "return is closed") {
+                    md.showNotification('top', 'center', 'You cannot create repair for closed returns', 1, 2);
+                }
+                else if (response == "return doesnt have damage") {
+                    md.showNotification('top', 'center', "This return doesn't have any damage registered so you cannot add repair", 1, 2);
+                }
+                else if (response == "repair exists") {
+                    md.showNotification('top', 'center', "There is an repair for this return, please edit instead", 1, 2);
+                }
+                else if (response == "return is already closed") {
+                    md.showNotification('top', 'center', "Return is already closed", 1, 2);
+                }
+                else if (response == "successfully deleted maintenance") {
+                    md.showNotification('top', 'center', 'Successfully deleted maintenance', 2, 0);
+                }
+                else if (response == "error deleting maintenance") {
+                    md.showNotification('top', 'center', 'An error happened while deleting maintenance, please try again', 1, 2);
+                }
+                else if (response == "error closing tran") {
+                    md.showNotification('top', 'center', 'An error happened while closing transaction, please try again', 1, 2);
+                }
+                else if (response == "maintenance is closed") {
+                    md.showNotification('top', 'center', 'Maintenance is already closed and you cannot edit it anymore', 1, 2);
+                } 
+                else if (response == "successfully deleted repair") {
+                    md.showNotification('top', 'center', 'Successfully deleted repair', 2, 0);
+                }
+                else if (response == "error deleting repair") {
+                    md.showNotification('top', 'center', 'An error happened while deleting repair, please try again', 1, 2);
+                }
+
 
                 // CHARTS DATA FROM C#
                 var Json = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartsData));
@@ -532,5 +519,35 @@
                 });
             });
         });
+
+        function closeTransactionReturn(item) {
+            let id = item.getAttribute("id");
+            $('#closeTransaction').attr("action", "/Admin/Return/CloseTransaction/" + id + "?fromDashboard=true");
+            console.log(id);
+        }
+
+        function deleteMaintenance(item) {
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Maintenance/Delete/" + id + "?fromDashboard=true");
+            console.log(id);
+        }
+
+        function closeTransactionMaintenance(item) {
+            let id = item.getAttribute("id");
+            $('#closeTransaction').attr("action", "/Admin/Maintenance/CloseTransaction/" + id + "?fromDashboard=true");
+            console.log(id);
+        }
+
+        function deleteRepair(item) {
+            let id = item.getAttribute("id");
+            $('#deleteTransaction').attr("action", "/Admin/Repair/Delete/" + id + "?fromDashboard=true");
+            console.log(id);
+        }
+
+        function closeTransactionRepair(item) {
+            let id = item.getAttribute("id");
+            $('#closeTransaction').attr("action", "/Admin/Repair/CloseTransaction/" + id + "?fromDashboard=true");
+            console.log(id);
+        }
     </script>
 }

@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Repair...">
+                    <input id="searchRepair" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Repair...">
                 </div>
             </div>
         </div>
@@ -21,9 +21,10 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="repairsTable" class="table table-hover">
                                 <thead class=" text-primary">
                                     <tr>
+                                        <th></th>
                                         <th>
                                             ID
                                         </th>
@@ -40,6 +41,9 @@
                                             Vehicle
                                         </th>
                                         <th>
+                                            Client
+                                        </th>
+                                        <th>
                                             Start Date
                                         </th>
                                         <th>
@@ -52,6 +56,16 @@
                                     @foreach (var repair in Model)
                                     {
                                         <tr>
+                                            <td>
+                                                @if (repair.IsRepaired == true)
+                                                {
+                                                    <img src="/Admin/Content/assets/img/greenCircle.png" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Admin/Content/assets/img/redCircle.png" />
+                                                }
+                                            </td>
                                             <td>
                                                 @repair.RepairID
                                             </td>
@@ -67,11 +81,19 @@
                                             <td>
                                                 @repair.VehicleInfos
                                             </td>
+                                            @if(repair.Rental_ReturnID != 0) 
+                                            {
+                                                <td>@repair.Rental_Return.clientInfos</td>
+                                            }
+                                            else 
+                                            {
+                                                <td style="color:#913f9e;">No Client</td>
+                                            }
                                             <td>
-                                                @repair.StartDate
+                                                @repair.StartDate.ToString("dd-MM-yyyy")
                                             </td>
                                             <td>
-                                                @repair.ReturnDate
+                                                @repair.ReturnDate.ToString("dd-MM-yyyy")
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button id="@repair.RepairID" onclick="closeTransaction(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
@@ -104,7 +126,36 @@
 
 @section Scripts
 {
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
     <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "successfully created repair") {
+            md.showNotification('top', 'center', 'Successfully created repair', 2, 0);
+        }
+        else if (response == "successfully deleted repair") {
+            md.showNotification('top', 'center', 'Successfully deleted repair', 2, 0);
+        }
+        else if (response == "error creating repair") {
+            md.showNotification('top', 'center', 'An error happened while creating repair, please try again', 1, 2);
+        }
+        else if (response == "error deleting repair") {
+            md.showNotification('top', 'center', 'An error happened while deleting repair, please try again', 1, 2);
+        }
+        else if (response == "successfully closed tran") {
+            md.showNotification('top', 'center', 'Successfully closed transaction', 2, 0);
+        }
+        else if (response == "error closing tran") {
+            md.showNotification('top', 'center', 'An error happened while closing transaction, please try again', 1, 2);
+        }
+        else if (response == "repair exists") {
+            md.showNotification('top', 'center', 'Repair already exists for this return, please edit instead', 1, 2);
+        } 
+        else if (response == "repair is closed") {
+            md.showNotification('top', 'center', "Repair is already closed and you cannot edit it anymore", 1, 2);
+        }
+        
+
         function deleteRepair(item) {
             let id = item.getAttribute("id");
             $('#deleteTransaction').attr("action", "/Admin/Repair/Delete/" + id);
@@ -115,6 +166,32 @@
             let id = item.getAttribute("id");
             $('#closeTransaction').attr("action", "/Admin/Repair/CloseTransaction/" + id);
             console.log(id);
+        }
+
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchRepair");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("repairsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
         }
     </script>
 }

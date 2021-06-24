@@ -35,7 +35,7 @@ namespace RentACarTI2.DAL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -131,6 +131,28 @@ namespace RentACarTI2.DAL
             throw new NotImplementedException();
         }
 
+        public bool CloseTransaction(int id)
+        {
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_Returns_CloseTransaction",
+                        CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("ReturnID", id);
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public Rental_Return ToObject(SqlDataReader reader)
         {
             Rental_Return Return = new Rental_Return();
@@ -153,6 +175,7 @@ namespace RentACarTI2.DAL
             Return.Booking.VehicleID = int.Parse(reader["VehicleID"].ToString());
             Return.Booking.ClientID = int.Parse(reader["ClientID"].ToString());
             Return.Booking.TotalPrice = decimal.Parse(reader["TotalPrice"].ToString());
+            Return.Booking.BookingDate = DateTime.Parse(reader["BookingDate"].ToString());
 
             Return.init();
 

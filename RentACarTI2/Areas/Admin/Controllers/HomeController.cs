@@ -14,6 +14,9 @@ namespace RentACarTI2.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
+            if (TempData["response"] != null)
+                ViewBag.Response = TempData["response"];
+
             // DASHBOARD CHARTS
             var vehicleSalesMonthly = new VehicleBLL().GetVehicleSalesMonthly();
             var vehicleSalesDaily = new VehicleBLL().GetVehicleSalesDaily();
@@ -34,7 +37,7 @@ namespace RentACarTI2.Areas.Admin.Controllers
             ViewBag.Statistics = StatisticsBLL.GetStatistics();
 
             // DASHBOARD TODAY RESERVATIONS ( add x.BookingStatus and date parameters for filtering )
-            ViewBag.Bookings = new BookingsBLL().GetAll().Take(4).ToList();
+            ViewBag.Bookings = new BookingsBLL().GetAll().Where(x => x.BookingStatusID == 1 && x.BookingDate.Date == DateTime.Today.Date) .Take(4).ToList();
 
             // DASHBOARD TASKS
             ViewBag.Returns = new ReturnBLL().GetAll().Where(x => x.IsClosed == false).Take(4).ToList();

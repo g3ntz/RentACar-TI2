@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Rental_Return>
+@{
     ViewBag.RentalActive = "active";
 }
 
@@ -7,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Rental...">
+                    <input id="searchRental" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Rental...">
                 </div>
             </div>
         </div>
@@ -20,54 +21,70 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="rentalsTable" class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Client
-                                </th>
-                                <th>
-                                    Vehicle
-                                </th>
-                                <th>
-                                    Fuel Amount
-                                </th>
-                                <th>
-                                    Mileage
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Client
+                                        </th>
+                                        <th>
+                                            Vehicle
+                                        </th>
+                                        <th>
+                                            Fuel Amount
+                                        </th>
+                                        <th>
+                                            Mileage
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            18 May
-                                        </td>
-                                        <td>
-                                            Armend Emini
-                                        </td>
-                                        <td>
-                                            Mercedes G-CLASS
-                                        </td>
-                                        <td>
-                                            15.0L
-                                        </td>
-                                        <td>
-                                            94823
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <a href="return-create.html" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Create Return">
-                                                <i class="material-icons">assignment_return</i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var rental in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (rental.IsClosed == true)
+                                                {
+                                                    <img src="/Admin/Content/assets/img/greenCircle.png" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Admin/Content/assets/img/redCircle.png" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @rental.Rental_ReturnID
+                                            </td>
+                                            <td>
+                                                @rental.Date.ToString("dd-MM-yyyy")
+                                            </td>
+                                            <td>
+                                                @rental.clientInfos
+                                            </td>
+                                            <td>
+                                                @rental.vehicleInfos
+                                            </td>
+                                            <td>
+                                                @rental.FuelAmount L
+                                            </td>
+                                            <td>
+                                                @rental.Mileage
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <a href="/Admin/Return/Create/@rental.Rental_ReturnID" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Create Return">
+                                                    <i class="material-icons">assignment_return</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -77,3 +94,51 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "successfully created rental") {
+            md.showNotification('top', 'center', 'Successfully created rental', 2, 0);
+        }
+        else if (response == "error creating rental") {
+            md.showNotification('top', 'center', 'An error happened while creating rental, please try again', 2, 0);
+        }
+        else if (response == "rental already created") {
+            md.showNotification('top', 'center', 'Rental for this reservation is already created', 2, 0);
+        }
+        else if (response == "booking canceled") {
+            md.showNotification('top', 'center', "Sorry, this booking is canceled", 2, 4);
+        }
+
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchRental");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("rentalsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+    </script>
+}

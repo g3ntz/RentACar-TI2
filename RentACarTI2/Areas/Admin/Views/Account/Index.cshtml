@@ -1,4 +1,4 @@
-﻿
+﻿@model RentACarTI2.Models.User
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -9,22 +9,24 @@
                         <p class="card-category">Complete your profile</p>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST" action="/Admin/Account/Edit">
+                            @Html.HiddenFor(x => x.UserID)
+                            @Html.HiddenFor(x => x.RoleID)
                             <div class="row justify-content-between">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Username</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="Username" value="@Model.Username">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Email address</label>
-                                        <input type="email" class="form-control">
+                                        <input type="email" class="form-control" name="Email" value="@Model.Email">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <p class="pt-3">Last Login Date: 15-06-2021</p>
+                                    <p class="pt-3">Last Login Date: @Model.LastLoginDate.ToString("dd-MM-yyyy, HH:mm")</p>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">

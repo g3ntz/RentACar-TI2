@@ -7,7 +7,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <form class="form-row card" method="POST" action="/Admin/Repair/Edit">
+        <form class="form-row card" method="POST" action="/Admin/Repair/Edit?fromDashboard=@ViewBag.fromDashboard">
             @Html.HiddenFor(x => x.RepairID)
             @Html.HiddenFor(x => x.VehicleID)
             <input type="hidden" name="VehicleID" value="@ViewBag.VehicleID" />
@@ -36,7 +36,14 @@
 
                 <div class="row col-12">
                     <div class="col-12 col-sm-6">
-                        <a href="/Admin/Repair/Index" class="btn mt-3">Back to Repairs</a>
+                        @if (ViewBag.fromDashboard == true)
+                        {
+                            <a href="/Admin" class="btn mt-3">Back to Dashboard</a>
+                        }
+                        else
+                        {
+                            <a href="/Admin/Repair/Index" class="btn mt-3">Back to Repairs</a>
+                        }
                     </div>
                     <div class="col-12 col-sm-6">
                         <button type="submit" class="btn btn-primary mt-3 float-right">Edit Repair</button>
@@ -50,4 +57,14 @@
 @section Scripts
 {
     <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "edited successfully") {
+            md.showNotification('top', 'center', 'Successfully edited repair', 2, 0);
+        }
+        else if (response == "error editing") {
+            md.showNotification('top', 'center', 'An error happened while editing repair, please try again', 1, 2);
+        }
+    </script>
 }

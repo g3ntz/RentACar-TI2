@@ -13,7 +13,11 @@ namespace RentACarTI2.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-            var clients = new ClientBLL().GetAll(); 
+            var clients = new ClientBLL().GetAll();
+
+            if (TempData["response"] != null)
+                ViewBag.Response = TempData["response"];
+
             return View(clients);
         }
 
@@ -36,9 +40,9 @@ namespace RentACarTI2.Areas.Admin.Controllers
 
             var response = new ClientBLL().Modify(client);
             if (response == true)
-            {
-                ViewBag.response = "edited";
-            }
+                ViewBag.Response = "successfully edited client";
+            else
+                ViewBag.Response = "error editing client";
 
             return View(client);
         }
@@ -48,10 +52,10 @@ namespace RentACarTI2.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             var response = new ClientBLL().Remove(id);
-            if(response == false)
-            {
-                // show error
-            }
+            if (response == true)
+                TempData["response"] = "successfully deleted client";
+            else
+                TempData["response"] = "error deleting client";
 
             return RedirectToAction("Index");
         }

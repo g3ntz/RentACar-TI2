@@ -22,6 +22,7 @@ namespace RentACarTI2.Models
 
         public virtual Booking Booking { get; set; }
         public virtual Fee Fee { get; set; }
+        public virtual List<Fee> Fees { get; set; }
 
 
         // String Concationation

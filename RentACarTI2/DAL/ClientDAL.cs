@@ -164,6 +164,7 @@ namespace RentACarTI2.DAL
             client.Address = reader["Address"].ToString();
             client.PhoneNr = reader["PhoneNr"].ToString();
             client.DrivingLicense = reader["DrivingLicense"].ToString();
+            var tmp = reader["Email"].ToString();
             client.Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : "No Email";
             if (reader["UserID"] != DBNull.Value)
                 client.UserID = int.Parse(reader["UserID"].ToString());

@@ -1,0 +1,113 @@
+﻿@model RentACarTI2.Models.Rental_Return
+@using RentACarTI2.Models
+@{
+    var rental = (Rental_Return)ViewBag.Rental;
+}
+
+@section Style
+{
+    <style>
+        hr {
+            border: 0;
+            clear: both;
+            display: block;
+            width: 100%;
+            background-color: #9c27b0;
+            height: 1px;
+            margin: 0;
+        }
+
+        h5 {
+            color: #d9e0e0;
+            font-size: 1.1em;
+        }
+
+        h4 {
+            color: white;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form card" method="POST" action="/Admin/Return/Create">
+            <input type="hidden" id="Rental_ReturnID" name="Rental_ReturnID" value="@rental.Rental_ReturnID" />
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Create Return</h4>
+                <p class="card-category">Create a new return</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-6">
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Reservation ID:</h5>
+                        <h5>@rental.BookingID</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Client:</h5>
+                        <h5>@rental.clientInfos</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Vehicle:</h5>
+                        <h5>@rental.vehicleInfos</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <textarea class="form-control" name="VehicleActualConditionRental_Return" placeholder="Vehicle Actual Condition...">@rental.VehicleActualConditionRental_Return</textarea>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <input type="text" name="FuelAmount" class="form-control" placeholder="Fuel Amount...">
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3 mb-4">
+                        <input type="text" name="Mileage" class="form-control" placeholder="Mileage...">
+                    </div>
+
+                    <div class="col-12 input-group form-group justify-content-between" style="margin-top: 80px;">
+                        <textarea class="form-control" name="Fee.Reason" placeholder="Damages... (If any)"></textarea>
+                    </div>
+                    <div class="col-12 input-group form-group mt-4">
+                        @if (ViewBag.DaysLate > 0)
+                        {
+                            <i class="material-icons text-info">info</i>
+                            <p class="text-info">hmm... it seems that this vehicle is returned @ViewBag.DaysLate days late</p>
+                            <p class="col-12 text-warning">
+                                Late fee will be calculated automatically and this return transaction will stay open.<br>
+                                You have to manually close this transaction when late fee is paid by client.
+                            </p>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="isReturnedInTime" value="true">No, this vehicle is returned in time... We're late.
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <a href="#" rel="tooltip" title="" data-original-title="Print Invoice">
+                            <i class="material-icons primary-color" style="font-size: 40px;">print</i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Rental/Index" class="btn mt-3">Back to Rentals</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Create Return</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -62,8 +62,8 @@ namespace RentACarTI2.BLL
 
             for (int startDate = 1; startDate <= dayOfWeekFinal; startDate++)
             {
-                //currentDate = DateTime.Today.Date.AddDays(-dayOfWeekFinal + startDate);
-                currentDate = new DateTime(2020, 2, 5);
+                currentDate = DateTime.Today.Date.AddDays(-dayOfWeekFinal + startDate);
+
                 int costsThisDay = (int)new MaintenancesBLL().GetAll().Where(x => x.LUD.Date == currentDate.Date && x.IsReturned).Select(x => x.Costs).Sum();
                 maintenanceCosts.Add(costsThisDay);
             }
@@ -81,7 +81,7 @@ namespace RentACarTI2.BLL
             for (int firstMonth = 1; firstMonth <= currentMonth; firstMonth++)
             {
                 currentDate = DateTime.Today.Date.AddMonths(-currentMonth + firstMonth);
-                //currentDate = new DateTime(2020, 9, 20);
+
                 int costsThisMonth = (int)new MaintenancesBLL().GetAll().Where(x => x.LUD.Month == currentDate.Month && x.IsReturned).Select(x => x.Costs).Sum();
                 maintenanceCosts.Add(costsThisMonth);
             }

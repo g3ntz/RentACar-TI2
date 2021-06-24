@@ -45,5 +45,10 @@ namespace RentACarTI2.BLL
         {
             return dal.Remove(model);
         }
+
+        public bool Cancel(int id)
+        {
+            return dal.Cancel(id);
+        }
     }
 }

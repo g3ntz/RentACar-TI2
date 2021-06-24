@@ -221,7 +221,7 @@ namespace RentACarTI2.DAL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -242,7 +242,7 @@ namespace RentACarTI2.DAL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Maintenance...">
+                    <input id="searchMaintenance" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Maintenance...">
                 </div>
             </div>
         </div>
@@ -21,9 +21,10 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="maintenancesTable" class="table table-hover">
                                 <thead class=" text-primary">
                                     <tr>
+                                        <th></th>
                                         <th>
                                             ID
                                         </th>
@@ -53,6 +54,16 @@
                                     {
                                         <tr>
                                             <td>
+                                                @if (maintenance.IsReturned == true)
+                                                {
+                                                    <img src="/Admin/Content/assets/img/greenCircle.png" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Admin/Content/assets/img/redCircle.png" />
+                                                }
+                                            </td>
+                                            <td>
                                                 @maintenance.MaintenanceID
                                             </td>
                                             <td>
@@ -68,10 +79,10 @@
                                                 @maintenance.VehicleInfos
                                             </td>
                                             <td>
-                                                @maintenance.StartDate
+                                                @maintenance.StartDate.ToString("dd-MM-yyyy")
                                             </td>
                                             <td>
-                                                @maintenance.ReturnDate
+                                                @maintenance.ReturnDate.ToString("dd-MM-yyyy")
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button id="@maintenance.MaintenanceID" onclick="closeTransaction(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
@@ -104,7 +115,32 @@
 
 @section Scripts
 {
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
     <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "successfully created maintenance") {
+            md.showNotification('top', 'center', 'Successfully created maintenance', 2, 0);
+        }
+        else if (response == "successfully deleted maintenance") {
+            md.showNotification('top', 'center', 'Successfully deleted maintenance', 2, 0);
+        }
+        else if (response == "error creating maintenance") {
+            md.showNotification('top', 'center', 'An error happened while creating maintenance, please try again', 1, 2);
+        }
+        else if (response == "error deleting maintenance") {
+            md.showNotification('top', 'center', 'An error happened while deleting maintenance, please try again', 1, 2);
+        }
+        else if (response == "successfully closed tran") {
+            md.showNotification('top', 'center', 'Successfully closed transaction', 2, 0);
+        } 
+        else if (response == "error closing tran") {
+            md.showNotification('top', 'center', 'An error happened while closing transaction, please try again', 1, 2);
+        }
+        else if (response == "maintenance is closed") {
+            md.showNotification('top', 'center', 'Maintenance is already closed and you cannot edit it anymore', 1, 2);
+        }
+
         function deleteMaintenance(item) {
             let id = item.getAttribute("id");
             $('#deleteTransaction').attr("action", "/Admin/Maintenance/Delete/" + id);
@@ -115,6 +151,32 @@
             let id = item.getAttribute("id");
             $('#closeTransaction').attr("action", "/Admin/Maintenance/CloseTransaction/" + id);
             console.log(id);
+        }
+
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchMaintenance");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("maintenancesTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
         }
     </script>
 }

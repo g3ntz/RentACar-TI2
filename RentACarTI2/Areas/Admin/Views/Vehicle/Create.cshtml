@@ -181,6 +181,16 @@
 {
     <script src="/Admin/Content/js/material-dashboard.js"></script>
     <script>
+        // SHOW RESPONSE
+        var response = '@ViewBag.response';
+        if (response == "error creating vehicle") {
+            md.showNotification('top', 'center', 'An error happened while creating vehicle', 1, 2);
+        }
+        else if (response == "error creating images") {
+            md.showNotification('top', 'center', "Couldn't add one or more vehicle images", 1, 2);
+        }
+        
+
         // SELECT IMAGE THUMBMNAIL
         $('#gallery').on("click", "img", function () {
             $('#gallery img').removeClass("clicked-img");
@@ -188,7 +198,7 @@
 
             let selectedThumbnail = $(this).attr("data-filename");
             $('#thumbnailName').val(selectedThumbnail);
-            
+
         })
 
         // CLEAR IMAGE GALLERY
@@ -209,7 +219,7 @@
                         var reader = new FileReader();
 
                         let fileName = input.files[i].name;
-                        
+
 
                         reader.onload = function (event) {
 

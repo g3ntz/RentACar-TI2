@@ -24,6 +24,9 @@ namespace RentACarTI2.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var vehicles = new VehicleBLL().GetAll();
+
+            if (TempData["response"] != null)
+                ViewBag.Response = TempData["response"];
             
             return View(vehicles);
         }
@@ -31,6 +34,8 @@ namespace RentACarTI2.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (TempData["response"] != null)
+                ViewBag.Response = TempData["response"].ToString();
             return View();
         }
 
@@ -66,18 +71,21 @@ namespace RentACarTI2.Areas.Admin.Controllers
             var response = new VehicleBLL().Add(vehicle);
             if (response == false)
             {
+                ViewBag.Response = "error creating vehicle";
                 return View();
             }
+            else
+                ViewBag.Response = "successfully created vehicle";
 
             // ADD VEHICLE IMAGES
             string uniqueFileName;
-            bool _response = false;
+            bool imgResponse = false;
             int addedVehicleID = new VehicleBLL().GetAll().Select(x => x.VehicleID).Max();
             if (vehicleModel.photos != null && vehicleModel.photos.Count > 0)
             {
                 foreach (IFormFile photo in vehicleModel.photos)
                 {
-                    
+
                     var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "assets\\vehicleImages");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -90,10 +98,20 @@ namespace RentACarTI2.Areas.Admin.Controllers
                         VehicleID = addedVehicleID,
                         IsThumbnail = photo.FileName == vehicleModel.imageThumbnailName ? true : false
                     };
-                    _response = new VehicleImagesBLL().Add(vehicleImages);
+                    imgResponse = new VehicleImagesBLL().Add(vehicleImages);
+                    if (imgResponse == false)
+                    {
+                        ViewBag.Response = "error creating images";
+                    }
                 }
             }
 
+            if (ViewBag.Response == "successfully created vehicle")
+            {
+                TempData["response"] = "successfully created vehicle";
+                return RedirectToAction("Index");
+            }
+            
             return View();
         }
 
@@ -102,6 +120,9 @@ namespace RentACarTI2.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             var existingVehicle = new VehicleBLL().Get(id);
+
+            if (existingVehicle == null)
+                return NotFound();
 
             ViewModels.VehicleViewModel vehicleViewModel = new ViewModels.VehicleViewModel()
             {
@@ -126,16 +147,19 @@ namespace RentACarTI2.Areas.Admin.Controllers
                 VehicleActualCondition = existingVehicle.VehicleActualCondition,
                 FuelType = existingVehicle.FuelType,
                 FuelAmount = existingVehicle.FuelAmount,
+                IsAvailable = existingVehicle.IsAvailable,
+                InGoodCondition = existingVehicle.InGoodCondition,
                 vehicleImages = existingVehicle.vehicleImages
             };
+
             foreach (var image in vehicleViewModel.vehicleImages)
             {
                 if (image.IsThumbnail)
                     vehicleViewModel.imageThumbnailName = image.Path;
             }
 
-            if (existingVehicle == null)
-                return NotFound();
+            if (TempData["response"] != null)
+                ViewBag.Response = TempData["response"];
 
             return View(vehicleViewModel);
         }
@@ -159,6 +183,7 @@ namespace RentACarTI2.Areas.Admin.Controllers
                 {
                     RegistrationDate = vehicleModel.VehicleRegistration.RegistrationDate
                 },
+                VehicleID = vehicleModel.VehicleID,
                 Transmission = vehicleModel.Transmission,
                 ProductionYear = vehicleModel.ProductionYear,
                 DailyPrice = vehicleModel.DailyPrice,
@@ -172,15 +197,16 @@ namespace RentACarTI2.Areas.Admin.Controllers
 
             };
 
+            // EDIT VEHICLE
             var response = new VehicleBLL().Modify(vehicle);
-            if (response == true)
+            if (response == false)
             {
-                ViewBag.response = "edited";
+                TempData["response"] = "error editing vehicle";
             }
 
-            // ADD VEHICLE IMAGES
+            // ADD VEHICLE NEW IMAGES
             string uniqueFileName;
-            bool _response = false;
+            bool imgResponse = false;
             int VehicleID = vehicleModel.VehicleID;
             string photoNameGuid = null;
             if (vehicleModel.photos != null && vehicleModel.photos.Count > 0)
@@ -204,10 +230,13 @@ namespace RentACarTI2.Areas.Admin.Controllers
                     if (vehicleImage.IsThumbnail)
                         photoNameGuid = vehicleImage.Path;
 
-                    _response = new VehicleImagesBLL().Add(vehicleImage);
+                    imgResponse = new VehicleImagesBLL().Add(vehicleImage);
+                    if (imgResponse == false)
+                        TempData["response"] = "error adding images";
                 }
             }
 
+            // EDIT THUMBNAIL
             var vehicleImages = new VehicleImagesBLL().GetAll().Where(x => x.VehicleID == VehicleID).ToList();
             foreach (var image in vehicleImages)
             {
@@ -215,11 +244,15 @@ namespace RentACarTI2.Areas.Admin.Controllers
                     image.IsThumbnail = photoNameGuid == image.Path ? true : false;
                 else
                     image.IsThumbnail = vehicleModel.imageThumbnailName == image.Path ? true : false;
-                var editImagesResponse = new VehicleImagesBLL().Modify(image);
+                var thumbnailResponse = new VehicleImagesBLL().Modify(image);
+                if (thumbnailResponse == false)
+                    TempData["response"] = "error changing thumbnail";
             }
 
+            if (TempData["response"] == null)
+                TempData["response"] = "successfully edited vehicle";
 
-            return RedirectToAction("Edit", "Vehicle");
+            return RedirectToAction("Edit");
         }
 
         [HttpPost]
@@ -243,10 +276,9 @@ namespace RentACarTI2.Areas.Admin.Controllers
             // DELETE VEHICLE FROM DATABASE
             var response = new VehicleBLL().Remove(id);
             if (response == true)
-            {
-                TempData["response"] = "deleted";
-                return RedirectToAction("Index", "Vehicle");
-            }
+                TempData["response"] = "deleted successfully";
+            else
+                TempData["response"] = "error deleting";
 
             return RedirectToAction("Index", "Vehicle");
         }

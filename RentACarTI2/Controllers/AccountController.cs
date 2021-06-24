@@ -95,8 +95,12 @@ namespace RentACarTI2.Controllers
                         HttpContext.Session.SetString("Username", returnedUser.Username);
                         HttpContext.Session.SetString("UserID", userID.ToString());
                         HttpContext.Session.SetString("ClientID", clientID.ToString());
-                        HttpContext.Session.SetString("Role", "Client");
+                        HttpContext.Session.SetString("Role", returnedUser.Role.Name);
                         HttpContext.Session.SetString("RoleID", returnedUser.Role.RoleID.ToString());
+
+                        // CHECK IF IS ADMIN
+                        if (returnedUser.Role.Name == "Admin")
+                            return RedirectToAction("Index","Home", new { area = "Admin" });
 
                         return RedirectToAction("Index", "Home");
                     }

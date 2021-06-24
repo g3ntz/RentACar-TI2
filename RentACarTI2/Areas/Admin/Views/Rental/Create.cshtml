@@ -1,0 +1,122 @@
+﻿@model RentACarTI2.Models.Rental_Return
+@using RentACarTI2.Models
+@{
+    Booking booking = (Booking)ViewBag.Booking;
+}
+@section Style
+{
+    <style>
+        hr {
+            border: 0;
+            clear: both;
+            display: block;
+            width: 100%;
+            background-color: #9c27b0;
+            height: 1px;
+            margin: 0;
+        }
+
+        h5 {
+            color: #d9e0e0;
+            font-size: 1.1em;
+        }
+
+        h4 {
+            color: white;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form class="form card" method="POST" action="/Admin/Rental/Create">
+            <input id="BookingID" name="BookingID" type="hidden" value="@booking.BookingID" />
+            <input id="VehicleActualConditionRental_Return" name="VehicleActualConditionRental_Return" type="hidden" value="@booking.Vehicle.VehicleActualCondition" />
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Create Rental</h4>
+                <p class="card-category">Create a new rental</p>
+            </div>
+            <div class="card-body row">
+                <div class="col-6">
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Reservation ID:</h5>
+                        <h5>@booking.BookingID</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Client:</h5>
+                        <h5>@booking.clientInfos</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-5">
+                        <h5>Vehicle:</h5>
+                        <h5>@booking.vehicleInfos</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Fuel Amount:</h5>
+                        <h5>@booking.Vehicle.FuelAmount L</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>Mileage:</h5>
+                        <h5>@booking.Vehicle.Mileage</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-5">
+                        <h4>Price:</h4>
+                        <h4 class="text-success">$@booking.TotalPrice</h4>
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>From:</h5>
+                        <h5>@booking.RentalDate.ToString("dd-MM-yyyy")</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <h5>To:</h5>
+                        <h5>@booking.ReturnDate.ToString("dd-MM-yyyy")</h5>
+                        <hr />
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-5">
+                        <textarea class="form-control" placeholder="Vehicle Actual Condition">@booking.Vehicle.VehicleActualCondition</textarea>
+                    </div>
+                    <div class="col-12 input-group form-group justify-content-between mt-3">
+                        <a href="#" rel="tooltip" title="" data-original-title="Print Invoice">
+                            <i class="material-icons primary-color" style="font-size: 40px;">print</i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12 col-sm-6">
+                        <a href="/Admin/Reservation/Index" class="btn mt-3">Back to Reservations</a>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary mt-3 float-right">Create Rental</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "rental already created") {
+            md.showNotification('top', 'center', 'You cannot create 2 rentals for an single reservation.', 1, 2);
+        }
+        else if (response == "booking canceled") {
+            md.showNotification('top', 'center', "Sorry, this reservation is canceled", 1, 4);
+        }
+
+    </script>
+}

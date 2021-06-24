@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<RentACarTI2.Models.Rental_Return>
+@{
     ViewBag.ReturnActive = "active";
 }
 
@@ -15,12 +16,12 @@
             margin: 0;
         }
 
-        h5 {
+        #fullDetailsModal h5 {
             color: #d9e0e0;
             font-size: 1.1em;
         }
 
-        h4 {
+        #fullDetailsModal h4 {
             color: #d9e0e0;
             font-size: 1.5em;
         }
@@ -32,7 +33,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search Return...">
+                    <input id="searchReturn" onkeyup="myFunction()" type="text" value="" class="form-control" placeholder="Search Return...">
                 </div>
             </div>
         </div>
@@ -45,76 +46,145 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table id="returnsTable" class="table table-hover">
                                 <thead class=" text-primary">
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Client
-                                </th>
-                                <th>
-                                    Vehicle
-                                </th>
-                                <th>
-                                    Fuel Amount
-                                </th>
-                                <th>
-                                    Mileage
-                                </th>
-                                <th>
-                                    Has Damage
-                                </th>
-                                <th>
-                                    Is Late
-                                </th>
-                                <th></th>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Client
+                                        </th>
+                                        <th>
+                                            Vehicle
+                                        </th>
+                                        <th>
+                                            Fuel Amount
+                                        </th>
+                                        <th>
+                                            Mileage
+                                        </th>
+                                        <th>
+                                            Has Damage
+                                        </th>
+                                        <th>
+                                            Is Late
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            18 May
-                                        </td>
-                                        <td>
-                                            Armend Emini
-                                        </td>
-                                        <td>
-                                            Mercedes G-CLASS
-                                        </td>
-                                        <td>
-                                            15.0L
-                                        </td>
-                                        <td>
-                                            94823
-                                        </td>
-                                        <td>
-                                            No
-                                        </td>
-                                        <td>
-                                            No
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                    data-original-title="Full Details" data-toggle="modal" data-target="#fullDetailsModal">
-                                                <i class="material-icons">list_alt</i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                                    data-original-title="Close Transaction" data-toggle="modal"
-                                                    data-target="#closeTransactionModal">
-                                                <i class="material-icons">done</i>
-                                            </button>
-                                            <a href="repair-crud.html" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
-                                               data-original-title="Create Repair">
-                                                <i class="material-icons">build</i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var _return in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (_return.IsClosed == true)
+                                                {
+                                                    <img src="/Admin/Content/assets/img/greenCircle.png" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Admin/Content/assets/img/redCircle.png" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @_return.Rental_ReturnID
+                                            </td>
+                                            <td>
+                                                @_return.Date.ToString("dd-MM-yyyy")
+                                            </td>
+
+                                            @if (_return.clientInfos == " ")
+                                            {
+                                                <td style="color:red;">Deleted Client</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@_return.clientInfos</td>   
+                                            }
+
+                                            <td>
+                                                @_return.vehicleInfos
+                                            </td>
+                                            <td>
+                                                @_return.FuelAmount L
+                                            </td>
+                                            <td>
+                                                @_return.Mileage
+                                            </td>
+
+                                            @* CHECK IF RETURN HAS DAMAGE *@
+                                            @{ bool hasDamage = false; }
+
+                                            @foreach (var fee in _return.Fees)
+                                            {
+                                                if(fee.IsLate == false) 
+                                                {
+                                                    hasDamage = true;
+                                                }
+                                            }
+                                            
+                                            @if (hasDamage) 
+                                            {
+                                                <td style="color:red;">Yes</td>
+                                            }
+                                            else 
+                                            {
+                                                <td style="color:lightgreen;">No</td>
+                                            }
+                                            
+                                            @* CHECK IF IS RETURNED LATE *@
+                                            @{ bool isLate = false; }
+
+                                            @foreach (var fee in _return.Fees)
+                                            {
+                                                if(fee.IsLate == true) 
+                                                {
+                                                    isLate = true;
+                                                }
+                                            }
+
+                                            @if (isLate) 
+                                            {
+                                                <td style="color:red;">Yes</td>
+                                            }
+                                            else 
+                                            {
+                                                <td style="color:lightgreen;">No</td>
+                                            }
+
+                                            <td class="td-actions text-right">
+                                                @*<a href="/Admin/Return/GetFullDetails/@_return.Rental_ReturnID" rel="tooltip" title="" class="btn btn-white btn-link btn-sm">
+                                                    <i class="material-icons">list_alt</i>
+                                                </a>*@
+
+                                                <button id="@_return.Rental_ReturnID" onclick="showFullDetails(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        data-original-title="Full Details" data-toggle="modal" data-target="#fullDetailsModal">
+                                                    <i class="material-icons">list_alt</i>
+                                                </button>
+
+                                                @*<button id="@_return.Rental_ReturnID" onclick="showFullDetails(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"-->
+                                                        data-original-title="Full Details" data-toggle="modal" data-target="#fullDetailsModal"
+                                                    <i class="material-icons">list_alt</i>
+                                                </button>*@
+
+                                                <button id="@_return.Rental_ReturnID" onclick="closeTransaction(this)" type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                        data-original-title="Close Transaction" data-toggle="modal"
+                                                        data-target="#closeTransactionModal">
+                                                    <i class="material-icons">done</i>
+                                                </button>
+
+                                                <a href="/Admin/Repair/Create/@_return.Rental_ReturnID?fromReturn=true" rel="tooltip" title="" class="btn btn-white btn-link btn-sm"
+                                                   data-original-title="Create Repair">
+                                                    <i class="material-icons">build</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -131,4 +201,146 @@
 @section Scripts
 {
     <script src="/Admin/Content/js/material-dashboard.js"></script>
+    <script>
+        function showFullDetails(item) {
+            var returnID = item.getAttribute("id");
+
+            $.ajax({
+                url: "/Admin/Return/GetFullDetails/" + returnID,
+                type: 'GET',
+                success: function (data) {
+                    const dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+
+                    // BOOKING TAB
+                    $('#bookingID').text(dataJson.booking.BookingID);
+                    $('#bookingDate').text(new Date(dataJson.booking.BookingDate).toLocaleDateString("en-US", dateOptions));
+                    $('#clientID').text("Client #" + dataJson.booking.ClientID);
+                    $('#clientInfos').text(dataJson.booking.clientInfos);
+                    $('#vehicleID').text("Vehicle #" + dataJson.booking.VehicleID);
+                    $('#vehicleInfos').text(dataJson.booking.vehicleInfos);
+                    $('#rentalDate').text(new Date(dataJson.booking.RentalDate).toLocaleDateString("en-US", dateOptions));
+                    $('#returnDate').text(new Date(dataJson.booking.ReturnDate).toLocaleDateString("en-US", dateOptions));
+                    $('#bookingPrice').text("$" + dataJson.booking.TotalPrice.toFixed(2));
+
+                    // RENTAL TAB
+                    $('#bookingID2').text(dataJson.rental.BookingID);
+                    $('#rentalDate2').text(new Date(dataJson.rental.Date).toLocaleDateString("en-US", dateOptions));
+                    $('#clientID2').text("Client #" + dataJson.rental.ClientID);
+                    $('#clientInfos2').text(dataJson.rental.clientInfos);
+                    $('#fuelAmount').text(dataJson.rental.FuelAmount.toFixed(1) + "L");
+                    $('#mileage').text(dataJson.rental.Mileage);
+                    $('#vehicleID2').text("Vehicle #" + dataJson.rental.VehicleID);
+                    $('#vehicleInfos2').text(dataJson.rental.vehicleInfos);
+                    $('#rentalDate3').text(new Date(dataJson.rental.Date).toLocaleDateString("en-US", dateOptions));
+                    $('#returnDate2').text(new Date(dataJson.booking.ReturnDate).toLocaleDateString("en-US", dateOptions));
+                    $('#condition').val(dataJson.rental.VehicleActualConditionRental_Return);
+                    $('#bookingPrice2').text("$" + dataJson.booking.TotalPrice.toFixed(2));
+
+                    // RETURN TAB
+                    $('#bookingID3').text(dataJson.return.BookingID);
+                    $('#returnDate3').text(new Date(dataJson.return.Date).toLocaleDateString("en-US", dateOptions));
+                    $('#clientID3').text("Client #" + dataJson.return.ClientID);
+                    $('#clientInfos3').text(dataJson.return.clientInfos);
+                    $('#condition2').val(dataJson.return.VehicleActualConditionRental_Return);
+                    $('#fuelAmount2').text(dataJson.return.FuelAmount.toFixed(1) + "L");
+                    $('#mileage2').text(dataJson.return.Mileage);
+                    $('#vehicleID3').text("Vehicle #" + dataJson.return.VehicleID);
+                    $('#vehicleInfos3').text(dataJson.return.vehicleInfos);
+                    $('#bookingPrice3').text("$" + dataJson.booking.TotalPrice.toFixed(2));
+
+                    var total = 0.00;
+                    if (dataJson.damage != null) {
+                        $('#damageDetails').val(dataJson.damage.Reason);
+                        let damageCosts = parseFloat(dataJson.damage.Costs.toFixed(2));
+                        $('#damageCosts').text("$" + damageCosts.toFixed(2));
+                        total += damageCosts;
+                    }
+                    if (dataJson.late != null) {
+                        let lateCosts = parseFloat(dataJson.late.Costs.toFixed(2));
+                        $('#lateCosts').text("$" + lateCosts.toFixed(2));
+                        total += lateCosts;
+                    }
+
+                    total = parseFloat(dataJson.booking.TotalPrice) + total;
+
+                    $('#daysLate').empty();
+                    $('#daysLateIcon').empty();
+                    let daysLate = dataJson.daysLate;
+                    if (daysLate != 0) {
+                        $('#daysLateIcon').text("watch_later");
+                        $('#daysLate').text("Returned " + daysLate + " Days later");
+                    }
+
+                    $('#total').text("$" + total.toFixed(2));
+                }
+            });
+        }
+
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.Response';
+        if (response == "successfully created return") {
+            md.showNotification('top', 'center', 'Successfully created return', 2, 0);
+        }
+        else if (response == "successfully closed tran") {
+            md.showNotification('top', 'center', 'Successfully closed transaction', 2, 0);
+        }
+        else if (response == "error creating return") {
+            md.showNotification('top', 'center', 'An error happened while creating return, please try again', 1, 2);
+        } 
+        else if (response == "error closing tran") {
+            md.showNotification('top', 'center', 'An error happened while closing transaction, please try again', 1, 2);
+        }
+        else if (response == "repair is not completed") {
+            md.showNotification('top', 'center', 'The repair for this return is not completed, check if repair is not closed or not created yet', 1, 2);
+        }
+        else if (response == "return is closed") {
+            md.showNotification('top', 'center', 'You cannot create repair for closed returns', 1, 2);
+        } 
+        else if (response == "return doesnt have damage") {
+            md.showNotification('top', 'center', "This return doesn't have any damage registered so you cannot add repair", 1, 2);
+        } 
+        else if (response == "repair exists") {
+            md.showNotification('top', 'center', "There is an repair for this return, please edit instead", 1, 2);
+        }
+        else if (response == "return is already closed") {
+            md.showNotification('top', 'center', "Return is already closed", 1, 2);
+        }
+
+        function closeTransaction(item) {
+            let id = item.getAttribute("id");
+            $('#closeTransaction').attr("action", "/Admin/Return/CloseTransaction/" + id);
+            console.log(id);
+        }
+
+        // FILTERING
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchReturn");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("returnsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Hide the row initially.
+                tr[i].style.display = "none";
+
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    cell = tr[i].getElementsByTagName("td")[j];
+                    if (cell) {
+                        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+    </script>
+
+    @* FULL DETAILS SCRIPT *@
+    
 }

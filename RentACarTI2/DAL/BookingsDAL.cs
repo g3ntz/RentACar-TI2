@@ -148,9 +148,28 @@ namespace RentACarTI2.DAL
             throw new NotImplementedException();
         }
 
+        public bool Cancel(int id)
+        {
+            try
+            {
+                using (var connection = SqlHelper.GetConnection())
+                {
+                    using (var command = SqlHelper.Command(connection, "dbo.usp_Bookings_Cancel", CommandType.StoredProcedure))
+                    {
+                        command.Parameters.AddWithValue("BookingID", id);
+                        int result = command.ExecuteNonQuery();
+                        return result > 0;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public Booking ToObject(SqlDataReader reader)
         {
-            var schema = reader.GetSchemaTable();
             Booking booking = new Booking();
             booking.Client = new Client();
             booking.Vehicle = new Vehicle();
@@ -172,6 +191,11 @@ namespace RentACarTI2.DAL
             booking.ReturnDate = Convert.ToDateTime(reader["ReturnDate"].ToString());
             booking.BookingDate = Convert.ToDateTime(reader["BookingDate"].ToString());
             booking.InsertDate = Convert.ToDateTime(reader["InsertDate"].ToString());
+
+            booking.Vehicle.FuelAmount = decimal.Parse(reader["FuelAmount"].ToString());
+            booking.Vehicle.Mileage = reader["Mileage"].ToString();
+            booking.Vehicle.VehicleActualCondition = reader["VehicleActualCondition"].ToString();
+            booking.LUD = DateTime.Parse(reader["LUD"].ToString());
 
             booking.init();
 

@@ -113,6 +113,7 @@ namespace RentACarTI2.DAL
             Rental_Return rental = new Rental_Return();
             rental.Booking = new Booking();
             rental.Fee = new Fee();
+            rental.Booking.Vehicle = new Vehicle();
 
             rental.Rental_ReturnID = int.Parse(reader["Rental_ReturnID"].ToString());
             rental.BookingID = int.Parse(reader["BookingID"].ToString());
@@ -129,6 +130,9 @@ namespace RentACarTI2.DAL
             rental.Booking.ClientID = int.Parse(reader["ClientID"].ToString());
             rental.Booking.VehicleID = int.Parse(reader["VehicleID"].ToString());
             rental.Booking.TotalPrice = decimal.Parse(reader["TotalPrice"].ToString());
+            rental.Booking.BookingDate = DateTime.Parse(reader["BookingDate"].ToString());
+            rental.Booking.ReturnDate = DateTime.Parse(reader["ReturnDate"].ToString());
+            rental.Booking.Vehicle.DailyPrice = decimal.Parse(reader["DailyPrice"].ToString());
 
             rental.init();
 

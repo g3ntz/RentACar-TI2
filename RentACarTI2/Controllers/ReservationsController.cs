@@ -37,7 +37,7 @@ namespace RentACarTI2.Controllers
 
                 // CHECK IF CLIENT HAS ANY ACTIVE RESERVATION, IN THAT CASE CLIENT CANNOT RESERVE ANOTHER VEHICLE
                 var clientID = HttpContext.Session.GetString("ClientID");
-                var clientActiveReservations = bookingsBLL.GetAll().Where(x => x.ClientID == int.Parse(clientID) && x.BookingStatusID != 3).ToList();
+                var clientActiveReservations = bookingsBLL.GetAll().Where(x => x.ClientID == int.Parse(clientID) && x.BookingStatusID == 1).ToList();
                 if (clientActiveReservations.Any())
                 {
                     TempData["action"] = "active reservation";

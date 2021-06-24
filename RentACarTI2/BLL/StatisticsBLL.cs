@@ -22,18 +22,23 @@ namespace RentACarTI2.BLL
 
         public static string GetRevenue()
         {
-            var revenue = new ReturnBLL().GetAll().Where(x => x.IsClosed && x.LUD > new DateTime(2020, 9, 20, 15, 10, 10).AddHours(-24) &&
-            x.LUD < new DateTime(2020, 9, 20, 15, 10, 10).AddHours(+24)).Select(x => x.Booking.TotalPrice).Sum();
-            return revenue.ToString();
+            var revenue = new ReturnBLL().GetAll().Where(x => x.IsClosed && x.LUD > DateTime.Today.AddHours(-24) &&
+            x.LUD < DateTime.Today.AddHours(+24)).Select(x => x.Booking.TotalPrice).Sum();
+            var feesRevenue = new FeeBLL().GetAll().Where(x => x.IsPaid && x.LUD > DateTime.Today.AddHours(-24) &&
+            x.LUD < DateTime.Today.AddHours(+24)).Select(x => x.Costs).Sum();
+
+            var finalRevenue = revenue + feesRevenue;
+
+            return finalRevenue.ToString();
         }
 
         public static string GetExpenses()
         {
-            var maintenanceExpenses = new MaintenancesBLL().GetAll().Where(x => x.IsReturned && x.LUD > new DateTime(2020, 2, 5, 15, 10, 10).AddHours(-24) &&
-            x.LUD < new DateTime(2020, 2, 5, 15, 10, 10).AddHours(+24)).Select(x => x.Costs).Sum();
+            var maintenanceExpenses = new MaintenancesBLL().GetAll().Where(x => x.IsReturned && x.LUD > DateTime.Today.AddHours(-24) &&
+            x.LUD < DateTime.Today.AddHours(+24)).Select(x => x.Costs).Sum();
 
-            var repairExpenses = new RepairsBLL().GetAll().Where(x => x.IsRepaired && x.LUD > new DateTime(2020, 2, 19, 15, 10, 10).AddHours(-24) &&
-            x.LUD < new DateTime(2020,2, 19, 15, 10, 10).AddHours(+24)).Select(x => x.Costs).Sum();
+            var repairExpenses = new RepairsBLL().GetAll().Where(x => x.IsRepaired && x.LUD > DateTime.Today.AddHours(-24) &&
+            x.LUD < DateTime.Today.AddHours(+24)).Select(x => x.Costs).Sum();
 
             var totalExpenses = maintenanceExpenses + repairExpenses;
             return totalExpenses.ToString();
@@ -41,16 +46,16 @@ namespace RentACarTI2.BLL
 
         public static string GetNrOfReservations()
         {
-            var nrOfReservations = new BookingsBLL().GetAll().Where(x => x.BookingStatusID == 1 && x.BookingDate > new DateTime(2020, 9, 23, 15, 10, 10).AddHours(-24) &&
-            x.BookingDate < new DateTime(2020, 9, 23, 15, 10, 10).AddHours(+24)).Count();
+            var nrOfReservations = new BookingsBLL().GetAll().Where(x => x.BookingStatusID == 1 && x.BookingDate > DateTime.Today.AddHours(-24) &&
+            x.BookingDate < DateTime.Today.AddHours(+24)).Count();
 
             return nrOfReservations.ToString();
         }
 
         public static string GetNrOfCanceledReservations()
         {
-            var nrOfCanceledReservations = new BookingsBLL().GetAll().Where(x => x.BookingStatusID == 3 && x.LUD > new DateTime(2020, 9, 23, 15, 10, 10).AddHours(-24) &&
-            x.LUD < new DateTime(2020, 9, 23, 15, 10, 10).AddHours(+24)).Count();
+            var nrOfCanceledReservations = new BookingsBLL().GetAll().Where(x => x.BookingStatusID == 3 && x.LUD > DateTime.Today.AddHours(-24) &&
+            x.LUD < DateTime.Today.AddHours(+24)).Count();
 
             return nrOfCanceledReservations.ToString();
         }

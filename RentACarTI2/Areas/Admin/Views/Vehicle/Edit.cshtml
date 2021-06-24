@@ -117,7 +117,14 @@
                         }
                     </select>
                 </div>
-                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
+                    <label class="ml-3" for="registration-date">Registration Date</label>
+                    <input id="registration-date" type="date" name="VehicleRegistration.RegistrationDate" value="@string.Format("{0:yyyy-MM-dd}",Model.VehicleRegistration.RegistrationDate)"
+                           class="form-control" placeholder="Registration Date...">
+                </div>
+
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
                     <select name="Transmission" class="form-control">
                         <option>Transmission</option>
                         @if (Model.Transmission == "Automatic")
@@ -132,7 +139,7 @@
                         }
                     </select>
                 </div>
-                <div class="col-12 col-sm-6 input-group form-group no-border mt-3">
+                <div class="col-12 col-sm-4 input-group form-group no-border mt-3">
                     <select name="FuelType" class="form-control">
                         <option>Fuel Type</option>
                         @if (Model.FuelType == "Diesel")
@@ -174,34 +181,47 @@
                     <textarea class="form-control" name="VehicleActualCondition" placeholder="Vehicle Actual Condition">@Model.VehicleActualCondition</textarea>
                 </div>
 
-                <div class="col-12 col-sm-6 input-group form-group no-border mt-4">
-                    <label class="ml-3" for="registration-date">Registration Date</label>
-                    <input id="registration-date" type="date" name="VehicleRegistration.RegistrationDate" value="@string.Format("{0:yyyy-MM-dd}",Model.VehicleRegistration.RegistrationDate)" 
-                           class="form-control" placeholder="Registration Date...">
+                <div class="col-6 mt-2">
+                    @if (Model.IsAvailable) 
+                    {
+                        <p class="ml-4 d-inline" style="color:lightgreen">Available</p>
+                    }
+                    else 
+                    {
+                        <p class="ml-4 d-inline" style="color:red">Unavailable</p>
+                    }
+                    
+                    @if (Model.InGoodCondition) 
+                    {
+                        <p class="ml-4 d-inline" style="color:lightgreen">In Good Condition</p>
+                    }
+                    else 
+                    {
+                        <p class="ml-4 d-inline" style="color:red">In Bad Condition</p>
+                    }
                 </div>
-
-                <div class="col-6 form-group no-border">
+                <div class="col-6 form-group no-border mt-2">
                     <div class="custom-file mt-2">
                         <input multiple type="file" name="photos" class="custom-file-input" id="gallery-photo-add">
                         @if (Model.vehicleImages.Count == 0)
                         {
-                            <label class="custom-file-label" for="gallery-photo-add"
-                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">Choose file</label>
+                            <label class="custom-file-label" for="gallery-photo-add" style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;
+                                color:#913f9e;">Choose file</label>
                         }
                         else if (Model.vehicleImages.Count == 1)
                         {
-                            <label class="custom-file-label" for="gallery-photo-add"
-                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">@Model.vehicleImages[0].Path</label>
-                        }
-                        else 
-                        {
-                            <label class="custom-file-label" for="gallery-photo-add"
-                                   style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;color:#913f9e;">@Model.vehicleImages.Count Files Selected</label>
-                        }
+                            <label class="custom-file-label" for="gallery-photo-add" style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;
+                                color:#913f9e;">@Model.vehicleImages[0].Path</label>
+                            }
+                            else
+                            {
+                                <label class="custom-file-label" for="gallery-photo-add" style="background-color:#1a2035; border:1px solid #1a2035; cursor:pointer;
+                                color:#913f9e;">@Model.vehicleImages.Count Files Selected</label>
+                            }
                     </div>
                 </div>
 
-                <h4 id="vehicleImagesText" class="col-3 ml-4 mt-4">Vehicle Images<span style="visibility:hidden;"> - Select thumbnail image</span></h4>
+                <h4 id="vehicleImagesText" class="col-5 ml-4 mt-4">Vehicle Images<span style="visibility:hidden;"> - Select thumbnail image</span></h4>
                 <div class="gallery-container" style="width:98%; margin:0 auto;">
                     <div id="gallery" class="gallery">
                         @foreach (var image in Model.vehicleImages)
@@ -237,6 +257,22 @@
 {
     <script src="/Admin/Content/js/material-dashboard.js"></script>
     <script>
+        // SHOW MESSAGE BASED ON RESPONSE
+        var response = '@ViewBag.response';
+        console.log(response);
+        if (response == "error editing vehicle") {
+            md.showNotification('top', 'center', "An error happened while editing vehicle, please try again", 1, 2);
+        }
+        else if (response == "error adding images") {
+            md.showNotification('top', 'center', "Couldn't add new images, please try again", 1, 2);
+        }
+        else if (response == "error changing thumbnail") {
+            md.showNotification('top', 'center', "Couldn't change the vehicle thumbnail, please try again", 1, 2);
+        }
+        else if (response == "successfully edited vehicle") {
+            md.showNotification('top', 'center', "Vehicle Edited Successfully", 2, 0);
+        }
+        console.log(response);
         // SELECT IMAGE THUMBMNAIL
         $('#gallery').on("click", "img", function () {
             $('#gallery img').removeClass("clicked-img");

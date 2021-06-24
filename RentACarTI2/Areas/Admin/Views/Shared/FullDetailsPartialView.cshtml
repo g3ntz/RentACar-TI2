@@ -39,96 +39,96 @@
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Reservation ID</h5>
-                                    <h5>5</h5>
+                                    <h5 id="bookingID"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Reservation Date</h5>
-                                    <h5>15-06-2021</h5>
+                                    <h5 id="bookingDate"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Client #12</h5>
-                                    <h5>Armend Emini</h5>
+                                    <h5 id="clientID">Client #12</h5>
+                                    <h5 id="clientInfos"></h5>
                                     <hr />
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Vehicle #8</h5>
-                                    <h5>Golf 6 GTI</h5>
+                                    <h5 id="vehicleID">Vehicle #8</h5>
+                                    <h5 id="vehicleInfos"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>From</h5>
-                                    <h5>15-06-2021</h5>
+                                    <h5 id="rentalDate"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>To</h5>
-                                    <h5>17-06-2021</h5>
+                                    <h5 id="returnDate"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <h4>Price</h4>
-                                    <h4 class="text-success font-weight-bold">$34.50</h4>
+                                    <h4 id="bookingPrice" class="text-success font-weight-bold"></h4>
                                     <hr />
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> <!--RENTAL-->
                     <div class="tab-pane" id="rental">
                         <div class="row py-4">
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Reservation ID</h5>
-                                    <h5>5</h5>
+                                    <h5 id="bookingID2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Rental Date</h5>
-                                    <h5>15-06-2021</h5>
+                                    <h5 id="rentalDate2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Client #12</h5>
-                                    <h5>Armend Emini</h5>
+                                    <h5 id="clientID2"></h5>
+                                    <h5 id="clientInfos2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <h5>Fuel Amount</h5>
-                                    <h5>15.0L</h5>
+                                    <h5 id="fuelAmount"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Mileage</h5>
-                                    <h5>93735</h5>
+                                    <h5 id="mileage"></h5>
                                     <hr />
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Vehicle #8</h5>
-                                    <h5>Golf 6 GTI</h5>
+                                    <h5 id="vehicleID2"></h5>
+                                    <h5 id="vehicleInfos2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>From</h5>
-                                    <h5>15-06-2021</h5>
+                                    <h5 id="rentalDate3"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>To</h5>
-                                    <h5>17-06-2021</h5>
+                                    <h5 id="returnDate2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <label for="condition" class="ml-3">Vehicle Actual Condition</label>
-                                    <textarea id="condition" class="form-control mt-1" style="color:#d9e0e0;">The Actual Condition</textarea>
+                                    <textarea id="condition" class="form-control mt-1" style="color:#d9e0e0;"></textarea>
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <h4>Price</h4>
-                                    <h4 class="text-success font-weight-bold">$34.50</h4>
+                                    <h4 id="bookingPrice2" class="text-success font-weight-bold"></h4>
                                     <hr />
                                 </div>
                             </div>
@@ -139,66 +139,68 @@
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Reservation ID</h5>
-                                    <h5>5</h5>
+                                    <h5 id="bookingID3"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Return Date</h5>
-                                    <h5>15-06-2021</h5>
+                                    <h5 id="returnDate3"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Client #12</h5>
-                                    <h5>Armend Emini</h5>
+                                    <h5 id="clientID3"></h5>
+                                    <h5 id="clientInfos3"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <label for="condition" class="ml-3">Vehicle Actual Condition</label>
-                                    <textarea id="condition" class="form-control mt-1" style="color:#d9e0e0;">The Actual Condition</textarea>
+                                    <textarea id="condition2" class="form-control mt-1" style="color:#d9e0e0;"></textarea>
                                 </div>
+                                <!-- FEE -->
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <label for="damageDetails" class="ml-3">Damage Details</label>
-                                    <textarea id="damageDetails" class="form-control mt-1" style="color:#d9e0e0;">Detaisl about damage</textarea>
+                                    <textarea id="damageDetails" class="form-control mt-1" style="color:#d9e0e0;"></textarea>
                                 </div>
                                 <div class="col-12 input-group form-group mt-3">
-                                    <i class="material-icons text-warning">watch_later</i>
-                                    <p class="ml-2 text-warning">Returned 3 Days later</p>
+                                    <i id="daysLateIcon" class="material-icons text-warning">watch_later</i>
+                                    <p id="daysLate" class="ml-2 text-warning"></p>
                                 </div>
+                                <!---->
                             </div>
                             <div class="col-6">
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Fuel Amount</h5>
-                                    <h5>15.0L</h5>
+                                    <h5 id="fuelAmount2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Mileage</h5>
-                                    <h5>93735</h5>
+                                    <h5 id="mileage2"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
-                                    <h5>Vehicle #8</h5>
-                                    <h5>Golf 6 GTI</h5>
+                                    <h5 id="vehicleID3"></h5>
+                                    <h5 id="vehicleInfos3"></h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <h5>Normal Price</h5>
-                                    <h5 class="text-success font-weight-bold">$34.50</h5>
+                                    <h5 id="bookingPrice3" class="text-success font-weight-bold">$0.00</h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Late Costs</h5>
-                                    <h5 class="text-danger font-weight-bold">$0.00</h5>
+                                    <h5 id="lateCosts" class="text-danger font-weight-bold">$0.00</h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-3">
                                     <h5>Damage Costs</h5>
-                                    <h5 class="text-danger font-weight-bold">$0.00</h5>
+                                    <h5 id="damageCosts" class="text-danger font-weight-bold">$0.00</h5>
                                     <hr />
                                 </div>
                                 <div class="col-12 input-group form-group justify-content-between mt-5">
                                     <h4>Total</h4>
-                                    <h4 class="text-secondary font-weight-bold">$34.50</h4>
+                                    <h4 id="total" class="text-secondary font-weight-bold">$0.00</h4>
                                     <hr />
                                 </div>
                             </div>
@@ -209,3 +211,4 @@
         </div>
     </div>
 </div>
+

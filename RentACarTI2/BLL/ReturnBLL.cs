@@ -4,6 +4,7 @@ using System.Text;
 using RentACarTI2.Interfaces;
 using RentACarTI2.Models;
 using RentACarTI2.DAL;
+using System.Linq;
 
 namespace RentACarTI2.BLL
 {
@@ -28,7 +29,8 @@ namespace RentACarTI2.BLL
 
         public List<Rental_Return> GetAll()
         {
-            return dal.GetAll();
+            var returnsWithFees = InitFees(dal.GetAll());
+            return returnsWithFees;
         }
 
         public bool Modify(Rental_Return model)
@@ -44,6 +46,20 @@ namespace RentACarTI2.BLL
         public bool Remove(Rental_Return model)
         {
             throw new NotImplementedException();
+        }
+
+        public bool CloseTransaction(int id)
+        {
+            return dal.CloseTransaction(id);
+        }
+
+        public List<Rental_Return> InitFees(List<Rental_Return> returns)
+        {
+            foreach (var Return in returns)
+            {
+                Return.Fees = new FeeBLL().GetAll().Where(x => x.returnID == Return.Rental_ReturnID).ToList();
+            }
+            return returns;
         }
     }
 }

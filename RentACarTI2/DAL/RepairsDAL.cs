@@ -60,7 +60,7 @@ namespace RentACarTI2.DAL
                 }
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -92,7 +92,7 @@ namespace RentACarTI2.DAL
                 }
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -179,9 +179,12 @@ namespace RentACarTI2.DAL
 
         public Repair ToObject(SqlDataReader reader)
         {
+            
             Repair repair = new Repair();
             repair.Vehicle = new Vehicle();
             repair.Vehicle.VehicleBrand = new VehicleBrand();
+            repair.Rental_Return = new Rental_Return();
+
             repair.RepairID = int.Parse(reader["RepairID"].ToString());
             repair.VehicleID = reader["VehicleID"] != DBNull.Value ? int.Parse(reader["VehicleID"].ToString()) : 0;
             repair.Rental_ReturnID = reader["Rental_ReturnID"] != DBNull.Value ? int.Parse(reader["Rental_ReturnID"].ToString()) : 0;
@@ -198,6 +201,12 @@ namespace RentACarTI2.DAL
 
             repair.Vehicle.VehicleBrand.Make = reader["Make"] != DBNull.Value ? reader["Make"].ToString() : null;
             repair.Vehicle.VehicleBrand.Model = reader["Model"] != DBNull.Value ? reader["Model"].ToString() : null;
+
+            var name = reader["Name"].ToString();
+            var surname = reader["Surname"].ToString();
+
+            if (repair.Rental_ReturnID != 0)
+                repair.Rental_Return.clientInfos = $"{name} {surname}";
 
             repair.init();
 

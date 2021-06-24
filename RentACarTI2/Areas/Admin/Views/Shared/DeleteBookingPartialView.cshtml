@@ -1,10 +1,10 @@
 ﻿<!-- Delete Record Modal -->
-<div class="modal fade" id="deleteRecordModal" tabindex="-1" role="dialog" aria-labelledby="deleteRecordModal"
+<div class="modal fade" id="deleteBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteBookingModal"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form id="deleteTransaction" class="modal-content form-row card" method="POST">
+        <form id="deleteBooking" class="modal-content form-row card" method="POST">
             <div class="modal-header card-header card-header-primary">
-                <h5>Remove Record</h5>
+                <h5>Remove Booking</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,7 +13,8 @@
                 <div class="col-12 py-3">
                     <i class="material-icons text-danger">error</i>
                     <p class="" style="font-size: 1.1em;">
-                        Removed records cannot be restored, are you sure you wanna remove this?
+                        Removing reservations is not recommended, the rental/return that is created from this reservation will be removed too.
+                        Are you sure you wanna remove this reservation?
                     </p>
                 </div>
 
